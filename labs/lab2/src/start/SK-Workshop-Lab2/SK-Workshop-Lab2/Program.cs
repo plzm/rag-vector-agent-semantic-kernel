@@ -5,9 +5,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.Plugins.Web;
-using Microsoft.SemanticKernel.Plugins.Web.Bing;
-using Plugins;
+// TODO: using Microsoft.SemanticKernel.Plugins.Web;
+// TODO: using Microsoft.SemanticKernel.Plugins.Web.Bing;
+// TODO: using Plugins;
 
 var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 
@@ -25,9 +25,9 @@ var chatCompletionService = app.Services.GetRequiredService<IChatCompletionServi
 // Step 2: Use a custom plugin with a prompt
 
 var kernel = app.Services.GetRequiredService<Kernel>();
-kernel.ImportPluginFromType<DateTimePlugin>("dateTimePlugin");
+// TODO: import the DateTimePlugin
 
-var prompt1 = "What time is it one the west coast of the united states right now? My current timezone {{dateTimePlugin.timeZone}} and current date and time is {{dateTimePlugin.dateWithTime}}";
+var prompt1 = ""; // TODO: set prompt using plugin values
 
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 {
@@ -37,15 +37,15 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 
 var step2AResult = await chatCompletionService.GetChatMessageContentsAsync(prompt1, openAIPromptExecutionSettings);
 
-Console.WriteLine("STEP 2A OUTPUT --------------------------------------------------------------------------------------");
+Console.WriteLine("STEP 2 OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nPROMPT: \n{prompt1}");
 foreach (var content in step2AResult)
 {
     Console.WriteLine($"\nRESPONSE:\n{content}");
 }
 
-var promptTemplateFactory = new KernelPromptTemplateFactory();
-string userMessage = await promptTemplateFactory.Create(new PromptTemplateConfig(prompt1)).RenderAsync(kernel);
+// TODO: Create and render prompt template
+string userMessage = "";
 
 Console.WriteLine("STEP 2B OUTPUT --------------------------------------------------------------------------------------");
 
@@ -63,15 +63,11 @@ foreach (var content in step2BResult)
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Step 3:
 
-var rewriter = kernel.ImportPluginFromType<QueryRewritePlugin>();
+KernelPlugin rewriter = null; // TODO: Import QueryRewritePlugin
 
 var prompt2 = "What are some things to do in Boston this weekend?";
 
-var step3Result = await kernel.InvokeAsync(rewriter["Rewrite"], 
-    new()
-    {
-        { "question", prompt2 }
-    });
+var step3Result = ""; // TODO: Use the rewriter plugin to rewrite the prompt
 
 Console.WriteLine("STEP 3 OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nPROMPT: \n{prompt2}");
@@ -83,10 +79,9 @@ Console.WriteLine($"Rewritten query: {step3Result}");
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Step 4: 
 
-kernel.ImportPluginFromObject(
-    new WebSearchEnginePlugin(new BingConnector(pluginOptions.BingApiKey)));
+// TODO: Import WebSearchEnginePlugin and BingConnector
 
-var prompt3 = step3Result.ToString().Trim('"');
+var prompt3 = step3Result.ToString().Trim('"'); // NOTE: We need to trim any " from the string
 
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings2 = new()
 {
@@ -95,7 +90,7 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings2 = new()
     MaxTokens = 250
 };
 
-var step4Result = await chatCompletionService.GetChatMessageContentsAsync(prompt3, openAIPromptExecutionSettings2, kernel);
+var step4Result = await chatCompletionService.GetChatMessageContentsAsync(prompt3, openAIPromptExecutionSettings2);
 
 Console.WriteLine("STEP 4 OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nPROMPT: \n{prompt3}");
@@ -103,6 +98,5 @@ foreach (var content in step4Result)
 {
     Console.WriteLine($"\nRESPONSE:\n{content}");
 }
-
 
 #endregion Step 4

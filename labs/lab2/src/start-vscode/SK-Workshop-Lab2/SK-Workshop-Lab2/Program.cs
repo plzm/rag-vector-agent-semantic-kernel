@@ -86,7 +86,7 @@ Console.WriteLine($"Rewritten query: {step3Result}");
 kernel.ImportPluginFromObject(
     new WebSearchEnginePlugin(new BingConnector(pluginOptions.BingApiKey)));
 
-var prompt3 = step3Result.ToString().Trim('"');
+var prompt3 = step3Result.ToString().Trim('"'); // NOTE: We need to trim any " from the string
 
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings2 = new()
 {
@@ -103,6 +103,5 @@ foreach (var content in step4Result)
 {
     Console.WriteLine($"\nRESPONSE:\n{content}");
 }
-
 
 #endregion Step 4

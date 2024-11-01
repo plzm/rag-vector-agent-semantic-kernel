@@ -14,7 +14,7 @@ internal static class ConfigurationExtensions
         builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
         builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true);
-        // builder.Services.AddLogging(b => b.AddConsole().SetMinimumLevel(LogLevel.Trace)); // Uncomment to see detail logged to console
+        //builder.Services.AddLogging(b => b.AddConsole().SetMinimumLevel(LogLevel.Trace));
 
         return builder;
     }
@@ -53,7 +53,7 @@ internal static class ConfigurationExtensions
         return kernelBuilder;
     }
 
-    public static IKernelBuilder AddTextEmbeddingGeneration(this IKernelBuilder kernelBuilder, string? connectionString)
+    internal static IKernelBuilder AddTextEmbeddingGeneration(this IKernelBuilder kernelBuilder, string? connectionString)
     {
         var connectionStringBuilder = new DbConnectionStringBuilder();
         connectionStringBuilder.ConnectionString = connectionString;

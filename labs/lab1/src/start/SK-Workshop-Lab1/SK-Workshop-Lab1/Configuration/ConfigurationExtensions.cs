@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using System.Data.Common;
 
@@ -12,6 +14,7 @@ internal static class ConfigurationExtensions
         builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
         builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true);
+        // builder.Services.AddLogging(b => b.AddConsole().SetMinimumLevel(LogLevel.Trace)); // Uncomment to see detail logged to console
 
         return builder;
     }
@@ -50,7 +53,7 @@ internal static class ConfigurationExtensions
         return kernelBuilder;
     }
 
-    internal static IKernelBuilder AddTextEmbeddingGeneration(this IKernelBuilder kernelBuilder, string? connectionString)
+    public static IKernelBuilder AddTextEmbeddingGeneration(this IKernelBuilder kernelBuilder, string? connectionString)
     {
         var connectionStringBuilder = new DbConnectionStringBuilder();
         connectionStringBuilder.ConnectionString = connectionString;
