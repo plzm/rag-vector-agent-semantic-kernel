@@ -221,9 +221,7 @@ kernel.ImportPluginFromObject(
 
 This code will add the WebSearchEnginePlugin and configure it to use Bing for searching. A Bing key is included in the appsettings.Local.json for the day of the workshop.
 
-4. 
-
-4. In the terminal, run your application again and look for **STEP 3 OUTPUT** in the console output.
+4. In the terminal, run your application again and look for **STEP 4 OUTPUT** in the console output.
 
 ```C#
 dotnet run
