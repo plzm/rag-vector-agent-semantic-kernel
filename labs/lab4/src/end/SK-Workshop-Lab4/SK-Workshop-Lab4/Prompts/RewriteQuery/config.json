@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "description": "Rewrites the user query for a web search.",
+  "execution_settings": {
+    "default": {
+      "max_tokens": 100,
+      "temperature": 0.4
+    }
+  },
+  "input_variables": [
+    {
+      "name": "question",
+      "description": "User's original question",
+      "required": true
+    }
+  ]
+}
