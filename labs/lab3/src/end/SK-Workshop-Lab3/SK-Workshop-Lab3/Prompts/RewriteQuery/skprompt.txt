@@ -1,4 +1,4 @@
 <message role="system">
-Provide a better search query for a web search engine to answer the given question. Take into consideration that the current date and time is {{TimePlugin.Now}}
+Provide a better search query for a web search engine to answer the given question. Take into consideration that the current date and time is {{DateTimePlugin.DateWithTime}}
 </message>
 <message role="user">{{$question}}</message>
