@@ -43,10 +43,9 @@ public class WebRetrieverPlugin(IOptions<PluginOptions> pluginOptions)
         var searchEngine = new WebSearchEnginePlugin(new BingConnector(pluginOptions.Value.BingApiKey));
         var searchResults = await searchEngine.SearchAsync(searchQuery.ToString());
         
-        var prompts = kernel.CreatePluginFromPromptDirectory("Prompts");
+        var rag = kernel.Plugins["Prompts"];
 
-        var llmResult = await kernel.InvokeAsync(
-            prompts["BasicRAG"],
+        var llmResult = await kernel.InvokeAsync(rag["BasicRAG"],
             new() {
                 { "question", question },
                 { "context", searchResults }

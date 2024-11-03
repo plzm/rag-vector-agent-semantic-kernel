@@ -19,7 +19,6 @@
 		<PackageReference Include="Microsoft.ML.Tokenizers" Version="0.22.0-preview.24526.1" />
 		<PackageReference Include="Microsoft.ML.Tokenizers.Data.O200kBase" Version="0.22.0-preview.24526.1" />
 		<PackageReference Include="Microsoft.SemanticKernel" Version="1.25.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.SqlServer" Version="1.25.0-alpha" />
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.25.0-alpha" />
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.25.0-alpha" />
 		<PackageReference Include="PdfPig" Version="0.1.9" />
@@ -39,10 +38,10 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Prompts\RewriteQuery\config.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Prompts\RewriteQuery\skprompt.txt">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 </Project>

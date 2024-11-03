@@ -10,7 +10,7 @@ namespace Memory;
 
 public class MemoryStore(ISemanticTextMemory semanticTextMemory)
 {
-    private const string TABLE_NAME = "MyTable";
+    private const string TABLE_NAME = "jh-memory";
 
     public async Task<IEnumerable<string>> SearchAsync(string query)
     {
