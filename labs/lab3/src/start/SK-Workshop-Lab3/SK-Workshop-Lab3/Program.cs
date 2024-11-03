@@ -6,6 +6,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Plugins;
+using System.Text;
 
 var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 
@@ -17,6 +18,7 @@ var app = builder.Build();
 var chatCompletionService = app.Services.GetRequiredService<IChatCompletionService>();
 var kernel = app.Services.GetRequiredService<Kernel>();
 
+kernel.ImportPluginFromPromptDirectory("Prompts");
 kernel.ImportPluginFromType<DateTimePlugin>();
 kernel.ImportPluginFromType<QueryRewritePlugin>();
 // TODO: Import web retriever plugin

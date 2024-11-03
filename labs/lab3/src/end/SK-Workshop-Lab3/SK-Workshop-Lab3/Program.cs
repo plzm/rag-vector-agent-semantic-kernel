@@ -6,6 +6,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Plugins;
+using System.Text;
 
 var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 
@@ -17,6 +18,7 @@ var app = builder.Build();
 var chatCompletionService = app.Services.GetRequiredService<IChatCompletionService>();
 var kernel = app.Services.GetRequiredService<Kernel>();
 
+kernel.ImportPluginFromPromptDirectory("Prompts");
 kernel.ImportPluginFromType<DateTimePlugin>();
 kernel.ImportPluginFromType<QueryRewritePlugin>();
 kernel.ImportPluginFromType<WebRetrieverPlugin>();
@@ -28,10 +30,11 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
     MaxTokens = 500
 };
 
+var responseTokens = new StringBuilder();
 ChatHistory chatHistory = [];
 while (true)
 {
-    Console.Write("Question: ");
+    Console.Write("\nQuestion: ");
 
     var question = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(question))
@@ -40,9 +43,13 @@ while (true)
     }
 
     chatHistory.AddUserMessage(question);
-
-    var response = await chatCompletionService.GetChatMessageContentAsync(chatHistory, openAIPromptExecutionSettings, kernel);
-
-    Console.WriteLine(response);
-    chatHistory.Add(response);
+    responseTokens.Clear();
+    await foreach (var token in chatCompletionService.GetStreamingChatMessageContentsAsync(chatHistory, openAIPromptExecutionSettings, kernel))
+    {
+        Console.Write(token);
+        responseTokens.Append(token);
+    }
+    
+    chatHistory.AddAssistantMessage(responseTokens.ToString());
+    Console.WriteLine();
 }
