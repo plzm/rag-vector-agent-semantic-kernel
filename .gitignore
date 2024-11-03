@@ -498,3 +498,4 @@ tmp/*
 # Custom plugins in default directories
 */Skills/NativePlugins
 */Skills/SemanticPlugins
+/labs/lab3/src/start-vscode/SK-Workshop-Lab3
