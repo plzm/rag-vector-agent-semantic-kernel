@@ -7,7 +7,7 @@
 3. Implement a simple chatbot loop
 4. Demonstrate the usefulness of a RAG implementation
 
-## Visual Studio Code
+## Visual Studio
 
 ### Create a plugin that uses the WebSearchEnginePlugin
 

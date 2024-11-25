@@ -9,10 +9,6 @@
 
 ## Visual Studio
 
-// TODO:
-
-## Visual Studio Code
-
 ### Create a native KernelFunction plugin
 
 1. Open the labs\lab2\src\start\SK-Workshop-Lab2 folder in your VS Code

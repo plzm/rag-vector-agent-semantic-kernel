@@ -7,7 +7,7 @@
 3. Implement logic to perform a similarity search on the vector store
 4. Create a plugin to perform RAG using the memory store
 
-### Visual Studio Code
+### Visual Studio
 
 In this lab you will use a [Semantic Kernel Vector Store Connector](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/?pivots=programming-language-csharp) to provide semantic searching capability.
 

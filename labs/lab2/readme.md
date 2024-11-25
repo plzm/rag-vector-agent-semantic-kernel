@@ -7,10 +7,6 @@
 3. Create a plugin that uses an LLM to rewrite a user query
 4. Utilize a Semantic Kernel plugin to perform a web search
 
-## Visual Studio
-
-// TODO:
-
 ## Visual Studio Code
 
 ### Create a native KernelFunction plugin
