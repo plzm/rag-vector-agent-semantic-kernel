@@ -8,7 +8,7 @@ These instructions will walk you through the workshop labs.
 
 ## Workshop Goals
 
-In this workshop, we provide [WorkshopGoal]. First, we’ll cover [Aim1]. Then, we’ll explore [Aim2].
+In this workshop, we provide [WorkshopGoal]. First, weï¿½ll cover [Aim1]. Then, weï¿½ll explore [Aim2].
 
 
 ## Learning Objectives
@@ -35,10 +35,10 @@ We of course hope that you attend one of our in person workshops and are using t
 
 ### Labs
 
-* [Lab 1 title here](./lab1/readme.md)
-* [Lab 2 title here](./lab2/readme.md)
-* [Lab 3 title here](./lab3/readme.md)
-* [Lab 4 title here](./lab4/readme.md)
+* [Getting Started with Semantic Kernel](./labs/lab1/readme.md)
+* [Creating Semantic Kernel Plugins](./labs/lab2/readme.md)
+* [Using WebRetrieverPlugin to create a RAG application](./labs/lab3/readme.md)
+* [Creating a RAG application to Search a PDF](./labs/lab4/readme.md)
 * [Lab 5 title here](./lab5/readme.md)
 * [Lab 6 title here](./lab6/readme.md)
 

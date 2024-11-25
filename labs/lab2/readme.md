@@ -1,3 +1,5 @@
+# Lab 2: Creating Semantic Kernel Plugins
+
 ## Learning Objectives
 
 1. Implement a plugin with native C# code

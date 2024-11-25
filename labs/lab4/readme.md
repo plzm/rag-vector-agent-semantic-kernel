@@ -1,3 +1,5 @@
+# Lab 4: Creating a RAG application to Search a PDF
+
 ## Learning Objectives
 
 1. Configure a vector store to use with the application

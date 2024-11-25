@@ -1,3 +1,5 @@
+# Lab 3: Using WebRetrieverPlugin to create a RAG application
+
 ## Learning Objectives
 
 1. Build a plugin to combine the rewriting of a user's query and a web search

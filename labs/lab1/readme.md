@@ -1,3 +1,5 @@
+# Lab 1: Getting started with Semantic Kernel
+
 ## Learning Objectives
 
 1. Demonstrate how to add Semantic Kernel to an existing application
