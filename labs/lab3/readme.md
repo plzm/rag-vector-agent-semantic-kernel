@@ -60,7 +60,7 @@ public class WebRetrieverPlugin(IOptions<PluginOptions> pluginOptions)
 }
 ```
 
-This plugin creates a new plugin with a KernelFunction **Retrieve** that uses the **QueryRewritePlugin** we created in lab 2. Before continuing, let's make a small modification to it to add the current date and time information to the user's question.
+This plugin creates a new plugin with a KernelFunction **Retrieve** that uses the **QueryRewritePlugin** we used in lab 2. Before continuing, let's make a small modification to it to add the current date and time information to the user's question.
 
 4. Open the \Prompts\RewriteQuery\skprompt.txt file and replace line 2 with this text:
 
@@ -70,9 +70,9 @@ Provide a better search query for a web search engine to answer the given questi
 
 This will  use our **DateTimePlugin** to ensure the search query passed to the **WebSearchEnginePlugin** has information about today's date and time.
 
-Back to the WebRetrieverPlugin Retrieve method. Once we've had the user's question rephrased to a better search query we manually us the WebSearchEnginePlugin and call its `SearchAsync` method to get a string array of search results.
+Back to the WebRetrieverPlugin Retrieve method. Once we've had the user's question rephrased to a better search query we manually use the WebSearchEnginePlugin and call its `SearchAsync` method to get a string array of search results.
 
-Next we want to use those results to perform RAG, so we need to create the **BasicRAG** prompt next.
+Next we want to use those results to perform RAG, so we need to create the **BasicRAG** semantic function next.
 
 ### Implement a Basic RAG prompt to use the web search results
 
@@ -130,7 +130,7 @@ This is a very basic RAG prompt that provides general system instructions, the c
 
 ### Add a chatbot loop to interact with the LLM
 
-In the previous labs we were just using Console Write lines to view our output, in this lab we'll create a loop so the interaction is more like a chatbot.
+In the previous labs we were just using Console Write lines to view our output, in this section we'll create a loop so the interaction is more like a chatbot.
 
 1. In the **Program.cs** file, replace line 23 with the following line in order to import our new plugin:
 
@@ -203,7 +203,7 @@ Finally, we can test it!
 dotnet run
 ```
 
-3. When the `Question:` prompt shows, enter a question that required knowledge of today's date, like: **What is going on in Indianapolis today?**
+3. When the `Question:` prompt shows, enter a question that requires knowledge of today's date, like: **What is going on in Indianapolis today?**
 
 The output should look something like this:
 ```text

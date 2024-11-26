@@ -150,7 +150,7 @@ In this example we are going to create a semantic function that will ask the LLM
 
 This file contains the settings to use when calling the LLM (ie. `max_tokens` and `temperature`) as well as a description of the purpose and the input variable we will be passing to the template.
 
-4. Open the skprompt.txt file and add the following text to it and save:
+5. Open the skprompt.txt file and add the following text to it and save:
 
 ```text
 <message role="user">Act as an academic research expert. Draft an abstract for a research paper 
@@ -163,7 +163,7 @@ in the field and general readers, encouraging them to delve deeper into the pape
 
 This file contains the prompt we want to send to the LLM. As you can see it is large enough you wouldn't want it hard coded in your C# application, plus now that it is its own file you can track the changes to the prompt using your normal source control system. There is one input variable: `{{$topic}}` which we'll be passing when we use this template.
 
-5. In your Program.cs file, replace the `//TODO:` comments on line 44 and 45 with the following two lines:
+6. In your Program.cs file, replace the `//TODO:` comments on line 44 and 45 with the following two lines:
 
 ```C#
 var kernel = app.Services.GetRequiredService<Kernel>();
@@ -174,7 +174,7 @@ These two lines get the `Kernel` from the DI system and loads the files under th
 
 On line 47, we set a topic variable to be used with using the template next - feel free to change it to a topic that interests you.
 
-6. Next, replace lines 49 and 50 with these lines of code:
+7. Next, replace lines 49 and 50 with these lines of code:
 
 ```C#
 FunctionResult step2Result = await kernel.InvokeAsync(
@@ -187,7 +187,7 @@ FunctionResult step2Result = await kernel.InvokeAsync(
 
 This block of code loads the **ResearchAbstract** plugin (saved prompt), using the topic variable and calls the LLM.
 
-6. Now start your application **F5** or **Debug -> Start Debugging** and look for **STEP 2** in the console output.
+8. Now start your application **F5** or **Debug -> Start Debugging** and look for **STEP 2** in the console output.
 
 The output should look something like this:
 ```text

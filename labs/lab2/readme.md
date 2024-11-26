@@ -206,7 +206,7 @@ In this section, you will see how powerful adding web searching is to an LLM cha
 1. Add the package reference to the project by running the following command in the terminal:
 
 ```PowerShell
-dotnet add package Microsoft.SemanticKernel.Plugins.Web --version 1.25.0-alpha
+dotnet add package Microsoft.SemanticKernel.Plugins.Web --version 1.30.0-alpha
 ```
 
 2. In the Program.cs file, uncomment lines 8 and 9 to import the namespaces we'll need to use.
