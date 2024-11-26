@@ -11,21 +11,33 @@
 
 In this lab you will use a [Semantic Kernel Vector Store Connector](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/?pivots=programming-language-csharp) to provide semantic searching capability.
 
-1. Open the labs\lab4\src\start\SK-Workshop-Lab4 folder in VS Code
-
-2. In the file browser, expand the SK-Workshop-Lab4 subfolder and right click on it and select Open in Integrated Terminal
-
-![Integrated Terminal](assets/lab4_img1.jpg)
+1. Open the **labs\lab4\src\start\SK-Workshop-Lab4 folder\SK-Workshop-Lab4 folder.sln** in Visual Studio
 
 In this lab we are going to use the [Microsoft.SemanticKernel.Connectors.SqlServer](https://github.com/microsoft/semantic-kernel/tree/main/dotnet/src/Connectors/Connectors.Memory.SqlServer) connector to store vector embeddings in an Azure SQL Database. In order to do this, we need to install the package first.
 
-3. Add the package reference to the project by running the following command in the terminal:
+2. In the Solution Explorer, right click on the **SK-Workshop-Lab41 project -> Manage NuGet Packages...**
 
-```C#
-dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.25.0-alpha
-```
+![Manage NuGet Packages](assets/vs-lab4_img1.jpg)
 
-4. In the **Programs.cs** file, replace line 20 with the following code:
+3. Make sure you are on the Browse tab, type `Microsoft.SemanticKernel.Connectors.SqlServer` in the search box and check the include prerelease checkbox.
+
+4. Select the top item (version may be newer than this image) and click Install:
+
+![Add Reference](assets/vs-lab4_img2.jpg)
+
+5. Click Apply on the Preview Changes dialog
+
+![Preview Changes Dialog](assets/vs-lab4_img3.jpg)
+
+6. Click I Accept on the License Acceptance dialog
+
+![License Acceptance Dialog](assets/vs-lab4_img4.jpg)
+
+You can now close the NuGet tab in Visual Studio
+
+![Close NuGet tab](assets/vs-lab4_img5.jpg)
+
+4. In the **Programs.cs** file, replace line 19 with the following code:
 
 ```C#
 var semanticTextMemory = new MemoryBuilder()
@@ -34,7 +46,7 @@ var semanticTextMemory = new MemoryBuilder()
     .Build();
 ```
 
-The **MemoryBuilder** will build a **ISemanticTextMemory** which is basically a wrapper the provides the ability to interact with an underlying vector store and a text embedding service. The **WithSqlServerMemoryStore** extension method is provided by the package you just installed. The **WithTextEmbeddingGeneration** extension method is in the Configuration/ConfigurationExtensions.cs in the project. It follows the same pattern we've been using with the **AddChatCompletionService** extension method in order to easily switch between using OpenAI or Azure OpenAI.
+The **MemoryBuilder** will build a **ISemanticTextMemory** which is basically a wrapper the provides the ability to interact with an underlying vector store and a text embedding service. The **WithSqlServerMemoryStore** extension method is provided by the package you just installed. The **WithTextEmbeddingGeneration** extension method is in the `Configuration/ConfigurationExtensions.cs` file in the project. It follows the same pattern we've been using with the **AddChatCompletionService** extension method in order to easily switch between using OpenAI or Azure OpenAI.
 
 Next we need to populate the vector store.
 
@@ -42,7 +54,7 @@ Next we need to populate the vector store.
 
 In order to keep things clean in this example, we've put the majority of the memory store logic in the **MemoryStore** class. The **MemoryExtensions.cs** file includes a couple of extension methods used to simplify the memory store code.
 
-1. Open the Memory\MemoryStore.cs file. Replace line 13 with a TABLE_NAME value that will be unique for the day - such as your initials and memory. For example:
+1. Open the **Memory\MemoryStore.cs file**. Replace line 13 with a TABLE_NAME value that will be unique for the day - such as your initials and memory. For example:
 
 ```C#
 private const string TABLE_NAME = "jh-memory";
@@ -103,7 +115,7 @@ The line 27: `var tokenizer = TiktokenTokenizer.CreateForModel("gpt-4o");` uses 
 
 The loop starting on line 29: `foreach (var file in Directory.GetFiles(assetsDir, "*.pdf"))` starts looping though any pdf files found in the assets directory.
 
-Lines 36 and 37 use the extension methods in the MemoryExtensions.cs file to determine if the file has already been saved in the vector store to prevent duplicates when the sample is run multiple times.
+Lines 36 and 37 use the extension method in the MemoryExtensions.cs file to determine if the file has already been saved in the vector store to prevent duplicates when the sample is run multiple times.
 
 Line 43: `using var pdf = PdfDocument.Open(file);` uses the UglyToad.PdfPig library to open the PDF file.
 
@@ -111,7 +123,7 @@ Line 44: `foreach (var page in pdf.GetPages())` starts the loop parsing each pag
 
 Line 45: `var pageText = GetPageText(page);` cleans the text up a bit
 
-Line 46: `var paragraphs = TextChunker.SplitPlainTextParagraphs([pageText], 500, 100, null, text => tokenizer.CountTokens(text));` takes the pageText and split it into a max of 500 tokens with a 100 token overlap.
+Line 46: `var paragraphs = TextChunker.SplitPlainTextParagraphs([pageText], 500, 100, null, text => tokenizer.CountTokens(text));` takes the pageText and splits it into a max of 500 tokens with a 100 token overlap.
 
 Line 45 starts the loop through all the paragraphs returned from the **TextChunker**.
 
@@ -119,7 +131,7 @@ Line 56: `await semanticTextMemory.SaveInformationAsync(TABLE_NAME, textToEmbed,
 
 Let's now see it in action.
 
-3. In the **Program.cs** file, replace line 46 with the following lines:
+3. In the **Program.cs** file, replace line 45 with the following lines:
 
 ```C#
 var assetsDir = PathUtils.FindAncestorDirectory("assets");
@@ -128,11 +140,7 @@ await memoryStore.PopulateAsync(assetsDir);
 
 This will find the assets folder up a few levels in the source tree and start the memory store population.
 
-4. Now run your application and look over the console output. This will take a minute or two.
-
-```C#
-dotnet run
-```
+4. Now start your application by hitting F5 or Debug -> Start Debugging and take a look at the console output. This will take a minute or two.
 
 The output should look something like this:
 ```text
@@ -148,7 +156,7 @@ Generated 152.
 Question:
 ```
 
-5. Hit enter a couple of times in the terminal in order to have the chatbot loop return
+You can now stop the application.
 
 The PDF file is now in the database.
 
@@ -156,7 +164,7 @@ The PDF file is now in the database.
 
 ### Add logic to **MemoryStore** to preform a semantic search
 
-1. In the Memory\MemoryStore.cs file. Replace line 19 with the following code:
+1. In the **Memory\MemoryStore.cs file**. Replace line 19 with the following code:
 
 ```C#
 var searchItems = semanticTextMemory.SearchAsync(TABLE_NAME, query, 3);
@@ -170,7 +178,7 @@ Line 19 `var searchItems = semanticTextMemory.SearchAsync(TABLE_NAME, query, 3);
 
 The loop on line 20 iterates all the results and builds a list of the item text to return to the calling logic.
 
-### Create a plugin that perform RAG with the vector store
+### Create a plugin that performs RAG with the vector store
 
 1. In the **Plugins** folder, create a file named **PdfRetrieverPlugin.cs**
 
@@ -228,11 +236,7 @@ If you compare this to the WebRetrieverPlugin we created in the last lab (below)
 kernel.ImportPluginFromType<PdfRetrieverPlugin>();
 ```
 
-4. Run your application and start to interact with Microsoft's latest S1 filing PDF file.
-
-```C#
-dotnet run
-```
+4. Now start your application by hitting F5 or Debug -> Start Debugging and start to interact with Microsoft's latest S1 filing PDF file.
 
 5. Some example questions to ask:
 

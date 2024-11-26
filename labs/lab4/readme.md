@@ -22,10 +22,10 @@ In this lab we are going to use the [Microsoft.SemanticKernel.Connectors.SqlServ
 3. Add the package reference to the project by running the following command in the terminal:
 
 ```C#
-dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.25.0-alpha
+dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.30.0-alpha
 ```
 
-4. In the **Programs.cs** file, replace line 20 with the following code:
+4. In the **Programs.cs** file, replace line 19 with the following code:
 
 ```C#
 var semanticTextMemory = new MemoryBuilder()
@@ -34,7 +34,7 @@ var semanticTextMemory = new MemoryBuilder()
     .Build();
 ```
 
-The **MemoryBuilder** will build a **ISemanticTextMemory** which is basically a wrapper the provides the ability to interact with an underlying vector store and a text embedding service. The **WithSqlServerMemoryStore** extension method is provided by the package you just installed. The **WithTextEmbeddingGeneration** extension method is in the Configuration/ConfigurationExtensions.cs in the project. It follows the same pattern we've been using with the **AddChatCompletionService** extension method in order to easily switch between using OpenAI or Azure OpenAI.
+The **MemoryBuilder** will build a **ISemanticTextMemory** which is basically a wrapper the provides the ability to interact with an underlying vector store and a text embedding service. The **WithSqlServerMemoryStore** extension method is provided by the package you just installed. The **WithTextEmbeddingGeneration** extension method is in the `Configuration/ConfigurationExtensions.cs` file in the project. It follows the same pattern we've been using with the **AddChatCompletionService** extension method in order to easily switch between using OpenAI or Azure OpenAI.
 
 Next we need to populate the vector store.
 
@@ -103,7 +103,7 @@ The line 27: `var tokenizer = TiktokenTokenizer.CreateForModel("gpt-4o");` uses 
 
 The loop starting on line 29: `foreach (var file in Directory.GetFiles(assetsDir, "*.pdf"))` starts looping though any pdf files found in the assets directory.
 
-Lines 36 and 37 use the extension methods in the MemoryExtensions.cs file to determine if the file has already been saved in the vector store to prevent duplicates when the sample is run multiple times.
+Lines 36 and 37 use the extension method in the MemoryExtensions.cs file to determine if the file has already been saved in the vector store to prevent duplicates when the sample is run multiple times.
 
 Line 43: `using var pdf = PdfDocument.Open(file);` uses the UglyToad.PdfPig library to open the PDF file.
 
@@ -111,7 +111,7 @@ Line 44: `foreach (var page in pdf.GetPages())` starts the loop parsing each pag
 
 Line 45: `var pageText = GetPageText(page);` cleans the text up a bit
 
-Line 46: `var paragraphs = TextChunker.SplitPlainTextParagraphs([pageText], 500, 100, null, text => tokenizer.CountTokens(text));` takes the pageText and split it into a max of 500 tokens with a 100 token overlap.
+Line 46: `var paragraphs = TextChunker.SplitPlainTextParagraphs([pageText], 500, 100, null, text => tokenizer.CountTokens(text));` takes the pageText and splits it into a max of 500 tokens with a 100 token overlap.
 
 Line 45 starts the loop through all the paragraphs returned from the **TextChunker**.
 
@@ -119,7 +119,7 @@ Line 56: `await semanticTextMemory.SaveInformationAsync(TABLE_NAME, textToEmbed,
 
 Let's now see it in action.
 
-3. In the **Program.cs** file, replace line 46 with the following lines:
+3. In the **Program.cs** file, replace line 45 with the following lines:
 
 ```C#
 var assetsDir = PathUtils.FindAncestorDirectory("assets");
@@ -170,7 +170,7 @@ Line 19 `var searchItems = semanticTextMemory.SearchAsync(TABLE_NAME, query, 3);
 
 The loop on line 20 iterates all the results and builds a list of the item text to return to the calling logic.
 
-### Create a plugin that perform RAG with the vector store
+### Create a plugin that performs RAG with the vector store
 
 1. In the **Plugins** folder, create a file named **PdfRetrieverPlugin.cs**
 
