@@ -1,4 +1,4 @@
-# Lab 2: Creating Semantic Kernel Plugins
+# Lab 2: Creating Semantic Kernel Native Plugins
 
 ## Learning Objectives
 
@@ -11,13 +11,15 @@
 
 ### Create a native KernelFunction plugin
 
-1. Open the labs\lab2\src\start\SK-Workshop-Lab2 folder in your VS Code
+1. Open the **labs\lab2\src\start\SK-Workshop-Lab2\SK-Workshop-Lab2.sln** in your Visual Studio
 
-2. In the file browser, add a new folder named **Plugins** under the **SK-Workshop-Lab2** folder
+2. In the **Solution Explorer**, add a new folder named **Plugins** in the **SK-Workshop-Lab2** project folder
 
-![Plugins folder](assets/lab2_img1.jpg)
+![Plugins folder](assets/vs-lab2_img1.jpg)
 
-3. Create a new file named DateTimePlugin.cs. This is going to be our plugin for performing some native C# code.
+3. Create a **new file** named **DateTimePlugin.cs** 
+
+This is going to be our plugin for performing some native C# code.
 
 4. Copy the following code into the DateTimePlugin.cs file and save:
 
@@ -42,19 +44,21 @@ public class DateTimePlugin
 }
 ```
 
-Since LLMs have no idea what today's date and time are or what timezone we are in, we created two **KernelFunction**s that we'll be able to use to provide that information to the LLM.
+Since LLMs have no idea what today's date and time are or what timezone we are in, we created two **KernelFunction**s that we'll use to provide that information to the LLM.
 
-The plugin provides useful descriptions of the functions in case the LLM needs to decide what functions it should call.
+> NOTE: The plugin provides useful descriptions of the functions in case the LLM needs to decide what functions it should call.
 
 ### Use the DateTimePlugin in a prompt
 
-1. In the Program.cs file, replace line 28 with the following code in order to load the plugin we just created:
+1. In the **Program.cs file**, replace line 28 with the following code in order to load the plugin we just created:
 
 ```C#
 var plugins = kernel.ImportPluginFromType<DateTimePlugin>("dateTimePlugin");
 ```
 
 2. Next you'll need to uncomment the `using Plugins;` statement on line 10.
+
+> NOTE: If you are using GitHub copilot, it may have automatically added it for you.
 
 Now let's create a prompt that will require the LLM to know what timezone we are in and what time it currently is.
 
@@ -64,15 +68,7 @@ Now let's create a prompt that will require the LLM to know what timezone we are
 var prompt1 = "What time is it one the west coast of the united states right now? My current timezone {{dateTimePlugin.timeZone}} and current date and time is {{dateTimePlugin.dateWithTime}}";
 ```
 
-4. In the file browser, expand the SK-Workshop-Lab2 subfolder and right click on it and select Open in Integrated Terminal
-
-![Integrated Terminal](assets/lab2_img2.jpg)
-
-5. In the terminal, run your application and look for **STEP 2A OUTPUT** in the console output.
-
-```C#
-dotnet run
-```
+4. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output. Look for **STEP 2A OUTPUT** in the console.
 
 The output should look something like this:
 ```text
@@ -85,11 +81,11 @@ RESPONSE:
 I'm sorry, but I can't access real-time data such as the current time. However, you can easily determine the current time on the West Coast of the United States by knowing their time zone. The West Coast is in the Pacific Time Zone (PT). During Standard Time, it is UTC-8, and during Daylight Saving Time, it is UTC-7. You can compare this to your current time zone to find the current time on the West Coast.
 ```
 
-This shows the PROMPT did not execute the function when we called the LLM - so the result from the LLM indicates it does not know.
+This shows the prompt did not call the plugin function when we called the LLM - so the result from the LLM indicates it does not know.
 
 Now let's render the prompt so the plugin functions get called.
 
-6: Replace lines 47 and 48 with the following code:
+6: In Program.cs, replace lines 47 and 48 with the following code:
 
 ```C#
 var promptTemplateFactory = new KernelPromptTemplateFactory();
@@ -98,35 +94,34 @@ string userMessage = await promptTemplateFactory.Create(new PromptTemplateConfig
 
 This will use the **KernelPromptTemplateFactory** to render the prompt and call the functions in order to populate the values.
 
-7. In the terminal, run your application again and look for **STEP 2B OUTPUT** in the console output.
-
-```C#
-dotnet run
-```
+7. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output. Look for **STEP 2B OUTPUT** in the console.
 
 The output should look something like this:
 ```text
 STEP 2B OUTPUT --------------------------------------------------------------------------------------
-USER MESSAGE: What time is it one the west coast of the united states right now? My current timezone (UTC-05:00) Eastern Time (US &amp; Canada) and current date and time is 2024-11-01 15:55:29
+USER MESSAGE: What time is it one the west coast of the united states right now? My current timezone (UTC-05:00) Eastern Time (US &amp; Canada) and current date and time is 2024-11-26 08:30:07
+trce: Microsoft.SemanticKernel.Connectors.AzureOpenAI.AzureOpenAIChatCompletionService[0]
+      ChatHistory: [{"Role":{"Label":"user"},"Items":[{"$type":"TextContent","Text":"What time is it one the west coast of the united states right now? My current timezone (UTC-05:00) Eastern Time (US \u0026amp; Canada) and current date and time is 2024-11-26 08:30:07"}]}], Settings: {"service_id":null,"model_id":null,"function_choice_behavior":null}
 info: Microsoft.SemanticKernel.Connectors.AzureOpenAI.AzureOpenAIChatCompletionService[0]
-      Prompt tokens: 60. Completion tokens: 127. Total tokens: 187.
+      Prompt tokens: 60. Completion tokens: 138. Total tokens: 198.
 
 RESPONSE:
-The West Coast of the United States is in the Pacific Time Zone (PT), which is UTC-08:00. Since your current time is 15:55:29 (3:55:29 PM) in the Eastern Time Zone (ET), you need to subtract 3 hours to convert to Pacific Time 
-(PT).
+Given that your current time is 08:30:07 on November 26, 2024, in the Eastern Time Zone (UTC-5), we need to account for the time difference to determine the time on the West Coast, which is in the Pacific Time Zone (UTC-8).
 
-15:55:29 - 3 hours = 12:55:29 (12:55:29 PM)
+The Pacific Time Zone is 3 hours behind the Eastern Time Zone. Therefore, to find the time on the West Coast:
 
-So, the current time on the West Coast (Pacific Time) is 12:55:29 (12:55:29 PM) on November 1, 2024.
+08:30:07 (Eastern Time) - 3 hours = 05:30:07 (Pacific Time)
+
+So, the time on the West Coast of the United States would be 05:30:07 on November 26, 2024.
 ```
 
-If you look at the USER MESSAGE, you'll notice the functions were executed when we rendered the prompt, so the LLM now has enough information to answer our question.
+If you look at the USER MESSAGE, you'll notice the functions were executed when we rendered the prompt this time, so the LLM now has enough information to answer our question.
 
-### Create a Plugin that uses an LLM to Rewrite a user query
+### Create a Plugin that uses an LLM to rewrite a user query
 
 Sometimes it is useful to rephrase a user's query or to verify their intent. Let's now create a plugin that can do that.
 
-1. In the Plugins folder, create a new file named **QueryRewritePlugin.cs** and copy the following code into it:
+1. In the Plugins folder, create a new file named **QueryRewritePlugin.cs** and copy the following code into it and save:
 
 ```C#
 using Microsoft.SemanticKernel;
@@ -163,7 +158,7 @@ Provide a better search query for a web search engine to answer the given questi
 <message role="user">{{$question}}</message>
 ```
 
-2. In the Program.cs file, replace line 66 with the following code (in order to load the plugin):
+2. In the **Program.cs file**, replace line 66 with the following code (in order to load the plugin):
 
 ```C#
 var rewriter = kernel.ImportPluginFromType<QueryRewritePlugin>();
@@ -179,38 +174,48 @@ var step3Result = await kernel.InvokeAsync(rewriter["Rewrite"],
     });
 ```
 
-You've already seen code to call an LLM with prompt templates, calling the native plugin is the same syntax.
+You've already seen code to call an LLM using a semantic function, calling the native plugin is the same syntax.
 
-4. In the terminal, run your application again and look for **STEP 3 OUTPUT** in the console output.
-
-```C#
-dotnet run
-```
+4. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output. Look for **STEP 3 OUTPUT** in the console.
 
 The output should look something like this:
 ```text
 STEP 3 OUTPUT --------------------------------------------------------------------------------------
 
 PROMPT:
-What are some popular Boston landmarks I should see?
-Rewritten query: Popular landmarks to visit in Boston
-info: Microsoft.SemanticKernel.Connectors.AzureOpenAI.AzureOpenAIChatCompletionService[0]
-      Prompt tokens: 13. Completion tokens: 250. Total tokens: 263.
+What are some things to do in Boston this weekend?
+Rewritten query: "Events and activities in Boston November 30 - December 1, 2024"
 ```
 
 ### Use the WebSearchEnginePlugin from the Microsoft.SemanticKernel.Plugins.Web library
 
 In this section, you will see how powerful adding web searching is to an LLM chat and how easy Semantic Kernel makes it.
 
-1. Add the package reference to the project by running the following command in the terminal:
+1. In the Solution Explorer, right click on the **SK-Workshop-Lab2 project -> Manage NuGet Packages...**
 
-```PowerShell
-dotnet add package Microsoft.SemanticKernel.Plugins.Web --version 1.25.0-alpha
-```
+![Manage NuGet Packages](assets/vs-lab2_img2.jpg)
 
-2. Uncomment lines 8 and 9 to import the namespaces we'll need to use.
+2. Make sure you are on the **Browse** tab, type `Microsoft.SemanticKernel.Plugins.Web` in the search box and check the **include prerelease** checkbox.
 
-3. Replace line 86 with the following code:
+3. Select the top item (version may be newer than this image) and click **Install**:
+
+![Add Reference](assets/vs-lab2_img3.jpg)
+
+4. Click **Apply** on the Preview Changes dialog
+
+![Preview Changed Dialog](assets/vs-lab2_img4.jpg)
+
+5. Click **I Accept** on the License Acceptance dialog
+
+![License Acceptance Dialog](assets/vs-lab2_img5.jpg)
+
+You can now close the NuGet tab in Visual Studio
+
+![Close NuGet Tab](assets/vs-lab2_img6.jpg)
+
+6. In the **Progam.cs file**, uncomment lines 8 and 9 to import the namespaces we'll need to use.
+
+7. Replace line 86 with the following code:
 
 ```C#
 kernel.ImportPluginFromObject(
@@ -219,31 +224,29 @@ kernel.ImportPluginFromObject(
 
 This code will add the WebSearchEnginePlugin and configure it to use Bing for searching. A Bing key is included in the appsettings.Local.json for the day of the workshop.
 
-4. In the terminal, run your application again and look for **STEP 4 OUTPUT** in the console output.
-
-```C#
-dotnet run
-```
+8. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output. Look for **STEP 4 OUTPUT** in the console.
 
 The output should look something like this:
 ```text
 STEP 4 OUTPUT --------------------------------------------------------------------------------------
 
 PROMPT:
-Events and activities in Boston this weekend
+Events and activities in Boston November 30 - December 1, 2024
 
 RESPONSE:
-Here are some events and activities happening in Boston this weekend:
+Here are some events and activities happening in Boston from November 30 to December 1, 2024:
 
-1. **Dia de Muertos Festival at ICA Watershed** - Celebrate the Day of the Dead with cultural festivities.
-2. **Boston Halloween Parties and Scary Movies** - Various locations around Boston.
-3. **Concerts and Theatre Shows** - Check out the latest performances in Boston's vibrant arts scene.
-4. **Museum Exhibits and Family-Friendly Activities** - Various museums around the city.
-5. **Fall Festivals and Markets** - Experience the fall season with local festivals and markets.
-6. **Weekend Beer Garden** - Enjoy a drink at Charlestown’s Hood Park.
-7. **Asian Cuisine Cooking Competition** - Hosted by Cozymeal™.
+1. **Franklin Park Zoo Winter Activities & Exhibits**: Enjoy a variety of seasonal activities and exhibits at the Franklin Park Zoo.
 
-For a comprehensive list, you can visit local event calendars like [The Boston Calendar](https://www.thebostoncalendar.com/) or [ArtsBoston](https://calendar.artsboston.org/).
+2. **Arts & Crafts - Draw! Fall Program**: Participate in a 10-week drop-in arts and crafts course.
+
+3. **Annual Holiday Ship Lighting in Martin's Park**: Join the festive event where Santa arrives by boat as part of the holiday celebrations.
+
+4. **SoWa Winter Festival**: Explore over 150 vendors offering artisanal chocolates, hand-pressed olive oil, and more. The festival runs from November 29 through December 22, 2024.
+
+5. **The Nutcracker by Boston Ballet**: Experience a classic holiday performance by the Boston Ballet.
+
+These events provide a mix of cultural, artistic, and festive activities to enjoy in Boston during that time.
 ```
 
 The last request used both the DateTimePlugin we created earlier and the WebSearchEnginePlugin to provide a nice user experience.

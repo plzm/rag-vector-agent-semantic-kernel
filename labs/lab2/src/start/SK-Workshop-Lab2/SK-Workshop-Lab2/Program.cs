@@ -37,7 +37,7 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 
 var step2AResult = await chatCompletionService.GetChatMessageContentsAsync(prompt1, openAIPromptExecutionSettings);
 
-Console.WriteLine("STEP 2 OUTPUT --------------------------------------------------------------------------------------");
+Console.WriteLine("STEP 2A OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nPROMPT: \n{prompt1}");
 foreach (var content in step2AResult)
 {
@@ -90,7 +90,7 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings2 = new()
     MaxTokens = 250
 };
 
-var step4Result = await chatCompletionService.GetChatMessageContentsAsync(prompt3, openAIPromptExecutionSettings2);
+var step4Result = await chatCompletionService.GetChatMessageContentsAsync(prompt3, openAIPromptExecutionSettings2, kernel);
 
 Console.WriteLine("STEP 4 OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nPROMPT: \n{prompt3}");

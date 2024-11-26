@@ -51,7 +51,7 @@ Console.WriteLine("STEP 2B OUTPUT ----------------------------------------------
 
 Console.WriteLine($"USER MESSAGE: {userMessage}");
 
-var step2BResult = await chatCompletionService.GetChatMessageContentsAsync(userMessage, openAIPromptExecutionSettings);
+var step2BResult = await chatCompletionService.GetChatMessageContentsAsync(userMessage, openAIPromptExecutionSettings, kernel);
 foreach (var content in step2BResult)
 {
     Console.WriteLine($"\nRESPONSE:\n{content}");
