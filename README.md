@@ -1,4 +1,6 @@
-# rag-vector-agent-semantic-kernel
+# Building RAG-Enabled Apps and AI Agents with Semantic Kernel and Azure AI
+
+Welcome to our first Azure AI Foundry workshop (signups are closed, but [this is the description on sign-up page](https://www.meetup.com/north-boston-azure-cloud-user-group/events/304611894/).
 
 Using Semantic Kernel to create an AI Agent that supports RAG enabled by Azure SQL DB vector support that is now in public preview!
 
@@ -8,20 +10,23 @@ These instructions will walk you through the workshop labs.
 
 ## Workshop Goals
 
-In this workshop, we provide [WorkshopGoal]. First, we�ll cover [Aim1]. Then, we�ll explore [Aim2].
+In this workshop, we provide hands-on experience to help you understand how to AI-enable your applications or create new AI-powered services. The toolbox will be Semantic Kernel (examples and labs in C#) and AI Large Language Models (LLMs) running as services in the Azure AI Foundry. We'll start with the basics of Semantic Kernel, move on to implementing RAG patterns using Azure SQL DB's vector search capabilities, and then have a look at building AI Agents. 
 
+The workshop day is a mix of explanatory lectures intermingled with hands-on labs.
 
 ## Learning Objectives
 
 After this workshop, you will be able to:
 
-[LearningObjective1].
-[LearningObjective2].
-[LearningObjective3].
-This workshop does not cover the following:
+1. Create a working AI application using Semantic Kernel and backed by Azure AI Foundry services
+2. Access 🔍 telemetry data (e.g., token usage stats) available through Semantic Kernel's OpenTelemetry support
+3. Make tools available to your Semantic Kernel application by creating semantic and native functions
+4. Apply semantic searching and other modern AI techniques to integrate custom or proprietary data sources backed by Azure SQL DB vector search (🚀 now in public preview)
+5. Put AI to work for your organization in a more sophisticated model as an 🤖 AI Agent 
 
-[NotCovered1]. These are covered in D-LabWorkshopName.
-[NotCovered2]. These are covered in D-LabWorkshopName.
+## Assumptions
+
+Attendees are assumed to have explored chatbot LLMs and have a sense of what is a prompt, what is prompt engineering, and what are some of the possibilities for LLMs.
 
 ## What is in this repo?
 
@@ -46,11 +51,29 @@ We of course hope that you attend one of our in person workshops and are using t
 
 ### C#/.NET
 
-* Visual Studio
-* Visual Studio Code
-* SQL Server Management Studio (NOTE: depends on approval from team for using Vector feature)
+Please install this software ahead of the workshop:
+
+1. [VS Code](https://code.visualstudio.com/download) (Windows, Mac, Linux) or [Visual Studio](https://visualstudio.microsoft.com/) (Windows)
+
+2. [.NET 8](https://dotnet.microsoft.com/en-us/download)
+
+3. [SQL Server Management Studio]() or [Azure Data Studio]() (NOTE: depends on approval from team for using Vector feature)
+
+4. LLM API credentials from Azure AI Foundry (formerly known as Azure AI or Azure Open AI)
+
+Note: For simplicity, we plan to provide credentials for use during workshop, after which they will stop working.
+
+5. Database Connection string to a vector search-enabled Azure SQL DB
+
+Note: For simplicity, we plan to provide credentials for use during workshop, after which they will stop working.
+
+📣 You are also welcome to create your own resources and use them in the workshop. Since you are paying for them, you can decide when to decommission associated resources.
+
+6. You can expect we will recommend you install additional tools and VS Code or Visual Studio extensions, NuGet packages, or code samples as part of the workshop experience.
 
 ### Python
+
+_unlikely to do python_
 
 * Visual Studio Code
 
