@@ -4,7 +4,8 @@ Welcome to our first Azure AI Foundry workshop (signups are closed, but [this is
 
 Using Semantic Kernel to create an AI Agent that supports RAG enabled by Azure SQL DB vector support that is now in public preview!
 
-<insert some title page screenshot for the workshop>
+![alt text](prompt-being.png)
+_Visualize the AI prompt as a powerful being, a conductor orchestrating the symphony of LLMs.  Create an image where this figure exudes authority and control, while other elements like safety, RAG, SDKs, and programming languages are mere instruments in its grand orchestra. This image should convey the message that the prompt reigns supreme in the realm of LLMs, especially from a developer's standpoint._
 
 These instructions will walk you through the workshop labs.
 

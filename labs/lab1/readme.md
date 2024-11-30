@@ -9,7 +9,18 @@
 
 ## Prerequisites
 
-* Populate the connection string in the appsettings.Local.json file with the values provided in the workshop. If you are doing this after, you will need to use your own settings for either OpenAI or AzureOpenAI. See [how to connect](//TODO) for more information.
+* Populate the connection string in the appsettings.Local.json file with 
+the values provided in the workshop. If you are doing this after, you will 
+need to use your own settings for either OpenAI or AzureOpenAI. See [instructions 
+for provisioning an Azure OpenAI via the Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) 
+for more information.
+
+### Downloading the Workshop Credentials
+
+```console
+curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
+Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "settings.Local.json"
+```
 
 ## Visual Studio Code
 
@@ -23,9 +34,11 @@
 
 3. Add the package reference to the project by running the following command in the terminal:
 
-```C#
+```console
 dotnet add package Microsoft.SemanticKernel --version 1.25.0
 ```
+
+Running the above command without the `--version 1.25.0` option gets the latest NuGet package version, but for this workshop we are avoiding surprises.
 
 ### Configure Semantic Kernel and use Azure OpenAI to chat with the LLM
 
@@ -56,12 +69,20 @@ Next we need to create the settings to use for the LLM calls. On line 21, we add
 ```C#
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 {
-    Temperature = 0.7f,
+    Temperature = 0.7,
     MaxTokens = 250
 };
 ```
 
-We have set the Temperature to 0.7 in order to get a creative response back from the LLM, but feel free play with the value to see how it effects the output.
+
+The Temperature value controls how random/creative the model's responses will be approximating:
+
+0.0-0.3: More deterministic, focused on likely/factual responses
+0.4-0.7: Balanced creativity and consistency (0.7 chosen here for moderate creativity)
+0.8-1.0: More varied and creative responses
+Above 1.0: Increasingly random, may become incoherent (not recommended for most uses).
+
+Feel free to experiment with different values to see how they affect the output. Note: MaxTokens=250 limits response length.
 
 Last step before we get to see how this works:
 
@@ -73,11 +94,12 @@ var step1Result = await chatCompletionService.GetChatMessageContentsAsync(prompt
 
 6. Now run your application and look over the console output.
 
-```C#
+```console
 dotnet run
 ```
 
 The output should look something like this:
+
 ```text
 Prompt tokens: 14. Completion tokens: 222. Total tokens: 236.
 STEP 1 OUTPUT --------------------------------------------------------------------------------------
@@ -207,11 +229,12 @@ In the second section above, you asked for a research abstract to be created. We
 
 2. Run your application and look for **STEP 3A** in the console output.
 
-```C#
+```console
 dotnet run
 ```
 
 The output should look something like this:
+
 ```text
 STEP 3A OUTPUT --------------------------------------------------------------------------------------
 
@@ -245,15 +268,16 @@ history.AddUserMessage(prompt3B);
 var step3BResult = await chatCompletionService.GetChatMessageContentsAsync(history, openAIPromptExecutionSettings);
 ```
 
-This calls the LLM passing the chat history.
+This calls the LLM, passing in the entire chat history.
 
 4. Run your application and look for **STEP 3B** in the console output.
 
-```C#
+```console
 dotnet run
 ```
 
 The output should look something like this:
+
 ```text
 STEP 3B OUTPUT --------------------------------------------------------------------------------------
 
