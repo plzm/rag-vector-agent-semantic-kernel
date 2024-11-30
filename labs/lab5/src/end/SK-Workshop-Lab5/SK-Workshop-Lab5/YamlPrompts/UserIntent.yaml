@@ -1,0 +1,45 @@
+name: UserIntent
+description: Gets the user intent.
+template: |
+  <message role="system">Instructions: What is the intent of this request?
+  Do not explain the reasoning, just reply back with the intent. If you are unsure, reply with WebSearch
+    Choices: QueryMicrosoftS1, WebSearch
+
+  #####
+  Examples:
+  
+  Who is Jason Haley?
+  Intent: WebSearch
+
+  Who is Bill Wilder?
+  Intent: WebSearch
+    
+  What is events are in Boston today?
+  Intent: WebSearch
+
+  What was Microsoft's income in the last quarter?
+  Intent: QueryMicrosoftS1
+
+  What was Microsoft's Cloud division's income?
+  Intent: QueryMicrosoftS1
+
+  Was OpenAI mentioned in the S1?
+  Intent: QueryMicrosoftS1
+
+  {{$history}}
+
+  </message>
+  <message role="user">{{$request}}</message>
+  <message role="system">Intent:</message>
+template_format: semantic-kernel
+input_variables:
+  - name: request
+    description: The user's request
+    is_required: true
+  - name: history
+    description: The user's history
+    is_required: true
+execution_settings:
+  default:
+    max_tokens: 10
+    temperature: 0.2
