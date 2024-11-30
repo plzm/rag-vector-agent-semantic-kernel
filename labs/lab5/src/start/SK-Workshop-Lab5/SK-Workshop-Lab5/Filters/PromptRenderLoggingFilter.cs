@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 
 namespace Filters;
-
 public class PromptRenderLoggingFilter : IPromptRenderFilter
 {
     private readonly ILogger logger;
@@ -16,6 +15,6 @@ public class PromptRenderLoggingFilter : IPromptRenderFilter
     {
         await next(context);
 
-        logger.LogTrace("Rendered prompt: {Prompt}", context.RenderedPrompt);
+        logger.LogWarning("Rendered prompt: {Prompt}", context.RenderedPrompt);
     }
 }

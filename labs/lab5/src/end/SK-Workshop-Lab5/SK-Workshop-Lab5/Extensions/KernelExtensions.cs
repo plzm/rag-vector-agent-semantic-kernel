@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.SemanticKernel;
 
-namespace SK_Workshop_Lab5.Extensions;
+namespace Extensions;
 internal static class KernelExtensions
 {
     public static KernelPlugin ImportPluginFromDirectory(this Kernel kernel, string pluginDirectory, string pluginName = null, IPromptTemplateFactory promptTemplateFactory = null)

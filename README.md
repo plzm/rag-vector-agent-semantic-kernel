@@ -44,7 +44,7 @@ We of course hope that you attend one of our in person workshops and are using t
 * [Creating Semantic Kernel Plugins](./labs/lab2/readme.md) ([Visual Studio version](./labs/lab2/readme-vs.md))
 * [Using WebRetrieverPlugin to create a RAG application](./labs/lab3/readme.md) ([Visual Studio version](./labs/lab3/readme-vs.md))
 * [Creating a RAG application to Search a PDF](./labs/lab4/readme.md) ([Visual Studio version](./labs/lab4/readme-vs.md))
-* [Lab 5 title here](./lab5/readme.md)
+* [Putting it all together](./lab5/readme.md) ([Visual Studio version](./labs/lab5/readme-vs.md))
 * [Lab 6 title here](./lab6/readme.md)
 
 ## Prerequisites

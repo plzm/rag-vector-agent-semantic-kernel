@@ -10,8 +10,8 @@ using Microsoft.SemanticKernel.Memory;
 using Plugins;
 using Memory;
 using System.Text;
-using SK_Workshop_Lab5.Filters;
-using SK_Workshop_Lab5.Extensions;
+using Filters;
+using Extensions;
 
 var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 
@@ -66,7 +66,7 @@ while (true)
         yamlPrompts["UserIntent"],
         new()
         {
-            { "$request", question },
+            { "request", question },
             { "history",  string.Join("\n", chatHistory.Select(x => x.Role + ": " + x.Content)) }
         });
 

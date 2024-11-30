@@ -42,6 +42,13 @@ kernel.ImportPluginFromType<QueryRewritePlugin>();
 kernel.ImportPluginFromType<PdfRetrieverPlugin>(); // TODO: Capture the return value
 // TODO: Import the WebRetrieverPlugin
 
+OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
+{
+    ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
+    Temperature = 0.2f,
+    MaxTokens = 500
+};
+
 var assetsDir = PathUtils.FindAncestorDirectory("assets");
 await memoryStore.PopulateAsync(assetsDir);
 
@@ -62,7 +69,7 @@ while (true)
     // Get user's intent
     // TODO:
 
-    OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new(); // TODO: change to pass functionsList
+    // TODO: move OpenAIPromptExecutionSettings and pass functionsList
 
     chatHistory.AddUserMessage(question);
     responseTokens.Clear();

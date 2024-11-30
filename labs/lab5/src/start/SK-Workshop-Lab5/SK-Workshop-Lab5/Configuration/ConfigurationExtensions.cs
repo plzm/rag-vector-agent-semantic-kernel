@@ -20,7 +20,7 @@ internal static class ConfigurationExtensions
         builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
         builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true);
-        builder.Services.AddLogging(b => b.AddConsole().SetMinimumLevel(LogLevel.Trace));
+        builder.Services.AddLogging(b => b.AddConsole().SetMinimumLevel(LogLevel.Warning));
         builder.Services.AddHttpClient();
         //builder.Services.AddHttpClient().AddLogging();
         builder.Services.ConfigureHttpClientDefaults(b =>

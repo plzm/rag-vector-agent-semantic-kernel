@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
-namespace SK_Workshop_Lab5.Filters;
+namespace Filters;
 
 public class FunctionInvocationLoggingFilter : IFunctionInvocationFilter
 {
@@ -19,18 +19,15 @@ public class FunctionInvocationLoggingFilter : IFunctionInvocationFilter
     {
         long startingTimestamp = Stopwatch.GetTimestamp();
 
-        logger.LogInformation("Function {FunctionName} invoking.", context.Function.Name);
+        logger.LogWarning("Function {FunctionName} invoking.", context.Function.Name);
 
         if (context.Arguments.Count > 0)
         {
-            logger.LogTrace("Function arguments: {Arguments}", JsonSerializer.Serialize(context.Arguments));
+            logger.LogWarning("Function arguments: {Arguments}", JsonSerializer.Serialize(context.Arguments));
         }
-
-        if (logger.IsEnabled(LogLevel.Information) && context.Arguments.ExecutionSettings is not null)
-        {
-            logger.LogInformation("Execution settings: {Settings}", JsonSerializer.Serialize(context.Arguments.ExecutionSettings));
-        }
-
+        
+        logger.LogWarning("Execution settings: {Settings}", JsonSerializer.Serialize(context.Arguments.ExecutionSettings));
+        
         try
         {
             try
@@ -52,20 +49,19 @@ public class FunctionInvocationLoggingFilter : IFunctionInvocationFilter
         }
         finally
         {
-            if (logger.IsEnabled(LogLevel.Information))
-            {
-                TimeSpan duration = new((long)((Stopwatch.GetTimestamp() - startingTimestamp) * (10_000_000.0 / Stopwatch.Frequency)));
+            
+            TimeSpan duration = new((long)((Stopwatch.GetTimestamp() - startingTimestamp) * (10_000_000.0 / Stopwatch.Frequency)));
 
-                // Capturing the duration in seconds as per OpenTelemetry convention for instrument units:
-                // More information here: https://opentelemetry.io/docs/specs/semconv/general/metrics/#instrument-units
-                logger.LogInformation("Function completed. Duration: {Duration}s", duration.TotalSeconds);
-            }
+            // Capturing the duration in seconds as per OpenTelemetry convention for instrument units:
+            // More information here: https://opentelemetry.io/docs/specs/semconv/general/metrics/#instrument-units
+            logger.LogWarning("Function completed. Duration: {Duration}s", duration.TotalSeconds);
+            
         }
     }
 
     private void Log(FunctionInvocationContext context)
     {
-        logger.LogInformation("Function {FunctionName} succeeded.", context.Function.Name);
+        logger.LogWarning("Function {FunctionName} succeeded.", context.Function.Name);
 
         if (context.IsStreaming)
         {
@@ -87,12 +83,12 @@ public class FunctionInvocationLoggingFilter : IFunctionInvocationFilter
 
         if (!string.IsNullOrWhiteSpace(result))
         {
-            logger.LogTrace("Function result: {Result}", result);
+            logger.LogWarning("Function result: {Result}", result);
         }
 
-        if (logger.IsEnabled(LogLevel.Information) && usage is not null)
+        if (usage is not null)
         {
-            logger.LogInformation("Usage: {Usage}", JsonSerializer.Serialize(usage));
+            logger.LogWarning("Usage: {Usage}", JsonSerializer.Serialize(usage));
         }
     }
 
@@ -118,12 +114,12 @@ public class FunctionInvocationLoggingFilter : IFunctionInvocationFilter
 
         if (!string.IsNullOrWhiteSpace(result))
         {
-            logger.LogTrace("Function result: {Result}", result);
+            logger.LogWarning("Function result: {Result}", result);
         }
 
-        if (logger.IsEnabled(LogLevel.Information) && usage is not null)
+        if (usage is not null)
         {
-            logger.LogInformation("Usage: {Usage}", JsonSerializer.Serialize(usage));
+            logger.LogWarning("Usage: {Usage}", JsonSerializer.Serialize(usage));
         }
     }
 }
