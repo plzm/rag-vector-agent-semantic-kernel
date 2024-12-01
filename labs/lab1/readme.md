@@ -79,10 +79,10 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 
 The Temperature value controls how random/creative the model's responses will be approximating:
 
-* 0.0-0.3: More deterministic, focused on likely/factual responses
-* 0.4-0.7: Balanced creativity and consistency (0.7 chosen here for moderate creativity)
-* 0.8-1.0: More varied and creative responses
-* Above 1.0: Increasingly random, may become incoherent (not recommended for most uses).
+* **0.0-0.3**: More deterministic, focused on likely/factual responses
+* **0.4-0.7**: Balanced creativity and consistency (0.7 chosen here for moderate creativity)
+* **0.8-1.0**: More varied and creative responses
+* **Above 1.0**: Increasingly random, may become incoherent (not recommended for most uses).
 
 Feel free to experiment with different values to see how they affect the output. 
 
