@@ -80,12 +80,12 @@ Next we want to use those results to perform RAG, so we need to create the **Bas
 
 ![BasicRAG folder](assets/lab3_img1.jpg)
 
-2. Open the **config.json** file and add the following json to it an save
+2. Open the **config.json** file and add the following json to it and save:
 
 ```json
 {
   "schema": 1,
-  "description": "Basic retrieval agumented generation prompt",
+  "description": "Basic retrieval augumented generation prompt",
   "execution_settings": {
     "default": {
       "max_tokens": 500,
@@ -113,7 +113,7 @@ This file contains the settings to use when calling the LLM (ie. max_tokens and 
 
 ```text
 <message role="system">
-You are a friendly assitant that helps users find answers to their questions. 
+You are a friendly assistant that helps users find answers to their questions. 
 Be brief in your answers.
 
 Answer ONLY with the facts listed in the list of sources below. 
