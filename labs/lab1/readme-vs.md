@@ -4,12 +4,19 @@
 
 1. Demonstrate how to add Semantic Kernel to an existing application
 2. Use Semantic Kernel to chat with the Azure OpenAI LLM
-3. Define a semantic function and use it in an application
-4. Recognize the need for short term memory and how to add it
+3. Define a prompt function and use it in an application
+4. Recognize the need for chat history and how to add it
 
 ## Prerequisites
 
 * Populate the connection string in the appsettings.Local.json file with the values provided in the workshop. If you are doing this after, you will need to use your own settings for either OpenAI or AzureOpenAI. See [how to connect](//TODO) for more information.
+
+### Downloading the Workshop Credentials
+
+```console
+curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
+Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Local.json"
+```
 
 ## Visual Studio
 
@@ -23,15 +30,15 @@
 
 3. Make sure you are on the Browse tab, type `Microsoft.SemanticKernel` in the search box and check the **include prerelease** checkbox.
 
-3. Select the top item (version may be newer than this image) and click **Install**:
+4. Select the top item (version may be newer than this image) and click **Install**:
 
 ![Semantic Kernel Packagee](assets/vs-lab1_img2.jpg)
 
-4. Click **Apply** on the Preview Changes dialog
+5. Click **Apply** on the Preview Changes dialog
 
 ![Preview Changes Dialog](assets/vs-lab1_img3.jpg)
 
-5. Click **I Accept** on the License Acceptance dialog
+6. Click **I Accept** on the License Acceptance dialog
 
 ![License Acceptance Dialog](assets/vs-lab1_img4.jpg)
 
@@ -43,9 +50,9 @@ You can now close the NuGet tab in Visual Studio
 
 As we mentioned in the presentation, we want to provide you with some code you'll be able to reuse in your own projects. In this part, we'll use some extension methods we've already created for you to simplify the configuration of connecting to OpenAI.
 
-1. Open the Program.cs file
+1. Open the **Program.cs** file
 
-2. On line 11, replace the `// TODO` comment with the following code:
+2. On **line 11,** replace the `// TODO` comment with the following code:
 
 ```C#
 builder.Services.AddKernel().AddChatCompletionService(builder.Configuration.GetConnectionString("OpenAI"));
@@ -53,17 +60,17 @@ builder.Services.AddKernel().AddChatCompletionService(builder.Configuration.GetC
 
 This code takes care of adding a Kernel object to the dependency injection system for us.
 
-This also uses the AddChatCompletionService() extension method we've created in the Configuration/ConfigurationExtensions.cs file. It abstracts the differences between using Azure OpenAI and OpenAI by using a connection string to capture the configuration settings.
+This also uses the `AddChatCompletionService()` extension method we've created in the **Configuration/ConfigurationExtensions.cs** file. It abstracts the differences between using Azure OpenAI and OpenAI by using a connection string to capture the configuration settings.
 
-3. On line 15, replace the `// TODO` with the following code used to extract the `IChatCompletionService` from the DI container:
+3. On **line 15**, replace the `// TODO` with the following code used to extract the `IChatCompletionService` from the DI container:
 
 ```C#
 var chatCompletionService = app.Services.GetRequiredService<IChatCompletionService>();
 ```
 
-Next we need to create the settings to use for the LLM calls. On line 21, we added a sample prompt that you can change to whatever you would like - or you can leave it as it is too.
+Next we need to create the settings to use for the LLM calls. On line 21, we added a sample prompt that you can change to whatever you would like - or you can leave it as it is.
 
-4. Replace line 23 and line 24, with the following lines of code:
+4. Replace **lines 23 and 24**, with the following lines of code:
 
 ```C#
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
@@ -73,11 +80,20 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 };
 ```
 
-We have set the Temperature to 0.7 in order to get a creative response back from the LLM, but feel free play with the value to see how it effects the output.
+The Temperature value controls how random/creative the model's responses will be approximating:
+
+* 0.0-0.3: More deterministic, focused on likely/factual responses
+* 0.4-0.7: Balanced creativity and consistency (0.7 chosen here for moderate creativity)
+* 0.8-1.0: More varied and creative responses
+* Above 1.0: Increasingly random, may become incoherent (not recommended for most uses).
+
+Feel free to experiment with different values to see how they affect the output. 
+
+> NOTE: MaxTokens=250 limits response length.
 
 Last step before we get to see how this works:
 
-5. Replace line 29 with this line, to add the code that uses the chatCompletionService to call the LLM with the prompt and settings configured in the previous steps:
+5. Replace **line 29** with the following line, to add the code that uses the chatCompletionService to call the LLM with the prompt and settings configured in the previous steps:
 
 ```C#
 var step1Result = await chatCompletionService.GetChatMessageContentsAsync(prompt1, openAIPromptExecutionSettings);
@@ -106,27 +122,25 @@ The debugger should be stopped on an error on line 67, that is expected - we wil
 
 You can now stop the application.
 
-### Create a Semantic Function and utilize it when calling the LLM
+### Create a Prompt Function and utilize it when calling the LLM
 
-In this section we will save a create a semantic function which is a prompt file and a config file - which make it easier to version your prompts as your system changes.
+In this section we will create a prompt function which is a prompt text file and a config json file - which make it easier to version your prompts as your system changes.
 
-// TODO: find link for information on the skprompt.txt and the config.json files
-
-1. In your **Solution Explorer**, create a new folder at the project level named **Prompts**
+1. In your **Solution Explorer**, create a **new folder** at the project level named **Prompts**
 
 ![Prompts folder](assets/vs-lab1_img6.jpg)
 
-In this example we are going to create a semantic function that will ask the LLM to create a research abstract for a given topic.
+In this example we are going to create a prompt function that will ask the LLM to create a research abstract for a given topic.
 
-2. In the Prompts folder, you just created, create a folder named **ResearchAbstract**, add two new files to that folder named **config.json** and **skprompt.txt**.
+2. **In the Prompts folder**, you just created, create a folder named **ResearchAbstract**, add two new files to that folder named **config.json** and **skprompt.txt**.
 
 ![Research Abstract Folder](assets/vs-lab1_img7.jpg)
 
-3. In your Solution Explorer, select both the config.json and skprompt.txt files and open the Properties window (F4). Set the **Build Action to Content and the Copy** to **Output Directory to Copy if newer**. This will copy the files over at build time.
+3. In your Solution Explorer, select both the **config.json** and **skprompt.txt** files and open the **Properties window (F4)**. Set the **Build Action to Content and the Copy** to **Output Directory to Copy if newer**. This will copy the files over at build time.
 
 ![Properties window](assets/vs-lab1_img8.jpg)
 
-4. Open the config.json file and replace the contents with the following json to it and save:  
+4. Open the **config.json** file and replace the contents with the following `json` to it and save:  
 
 ```JSON
 {
@@ -150,7 +164,7 @@ In this example we are going to create a semantic function that will ask the LLM
 
 This file contains the settings to use when calling the LLM (ie. `max_tokens` and `temperature`) as well as a description of the purpose and the input variable we will be passing to the template.
 
-5. Open the skprompt.txt file and add the following text to it and save:
+5. Open the **skprompt.txt** file and add the following text to it and save:
 
 ```text
 <message role="user">Act as an academic research expert. Draft an abstract for a research paper 
@@ -163,7 +177,7 @@ in the field and general readers, encouraging them to delve deeper into the pape
 
 This file contains the prompt we want to send to the LLM. As you can see it is large enough you wouldn't want it hard coded in your C# application, plus now that it is its own file you can track the changes to the prompt using your normal source control system. There is one input variable: `{{$topic}}` which we'll be passing when we use this template.
 
-6. In your Program.cs file, replace the `//TODO:` comments on line 44 and 45 with the following two lines:
+6. In your **Program.cs** file, replace the `//TODO:` comments on **lines 44 and 45** with the following two lines:
 
 ```C#
 var kernel = app.Services.GetRequiredService<Kernel>();
@@ -174,7 +188,7 @@ These two lines get the `Kernel` from the DI system and loads the files under th
 
 On line 47, we set a topic variable to be used with using the template next - feel free to change it to a topic that interests you.
 
-7. Next, replace lines 49 and 50 with these lines of code:
+7. Next, replace **lines 49 and 50** with these lines of code:
 
 ```C#
 FunctionResult step2Result = await kernel.InvokeAsync(
@@ -213,7 +227,7 @@ You can now stop the application.
 
 Interacting with the LLM using the chat service is stateless, meaning if you ask a followup question to a response it won't know what you are talking about. Next let's see this in action then fix it.
 
-1. Replace lines 67 and 68 with the following code:
+1. Replace **lines 67 and 68** with the following code:
 
 ```C#
 var step3AResult = await chatCompletionService.GetChatMessageContentsAsync(prompt3A, openAIPromptExecutionSettings);
@@ -237,7 +251,7 @@ The response I got was short but had nothing to do with the research abstract it
 
 So let's fix this.
 
-1. Replace the `TODO:` comment on line 75 with the following code:
+1. Replace the `TODO:` comment on **line 75** with the following code:
 
 ```C#
 var history = new ChatHistory();
@@ -247,13 +261,13 @@ history.AddAssistantMessage(step2Result.ToString());
 
 This code creates a `ChatHistory` object and adds the history from the second section - both the user message (our prompt asking for the research abstract) and the assistant message (LLM response) with that abstract.
 
-2. Replace line 81 with the following line, which will add the user message to the history:
+2. Replace **line 81** with the following line, which will add the user message to the history:
 
 ```C#
 history.AddUserMessage(prompt3B);
 ```
 
-3. Replace lines 83 and 84 with the following line:
+3. Replace **lines 83 and 84** with the following line:
 
 ```C#
 var step3BResult = await chatCompletionService.GetChatMessageContentsAsync(history, openAIPromptExecutionSettings);
@@ -271,4 +285,4 @@ RESPONSE:
 Exciting breakthroughs in AI! Our latest research dives into large language models (LLMs), uncovering their incredible abilities in text generation, translation, and sentiment analysis. We also highlight challenges like computational demands and bias. These insights pave the way for more efficient and ethical AI development. Curious? Dive into the details with us! #AI #MachineLearning #NLP #TechResearch
 ```
 
-This time the LLM remembered what you asked before and responded with a short version of the research abstract about large language models.
+This time the LLM remembered what was asked before and responded with a short version of the research abstract about large language models.
