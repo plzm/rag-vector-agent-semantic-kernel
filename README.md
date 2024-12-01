@@ -60,11 +60,11 @@ Please install this software ahead of the workshop:
 
 4. LLM API credentials from Azure AI Foundry (formerly known as Azure AI or Azure OpenAI). The labs use both GPT-4o and text-embedding-ada-002 models. 
 
-Note: For simplicity, we plan to provide credentials for Azure OpenAI services to use during the workshop, after which they will stop working.
+> NOTE: For simplicity, we plan to provide credentials for Azure OpenAI services to use during the workshop, after which they will stop working.
 
 5. Database Connection string to a vector search-enabled Azure SQL DB
 
-Note: For simplicity, we plan to provide credentials for an Azure SQL database to use during workshop, after which they will stop working.
+> NOTE: For simplicity, we plan to provide credentials for an Azure SQL database to use during workshop, after which they will stop working.
 
 📣 You are also welcome to create your own resources and use them in the workshop. Since you are paying for them, you can decide when to decommission associated resources.
 
