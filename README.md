@@ -39,12 +39,12 @@ We of course hope that you attend one of our in person workshops and are using t
 
 ### Labs
 
-* [Getting Started with Semantic Kernel](./labs/lab1/readme.md) ([Visual Studio version](./labs/lab1/readme-vs.md))
-* [Creating Semantic Kernel Plugins](./labs/lab2/readme.md) ([Visual Studio version](./labs/lab2/readme-vs.md))
-* [Using WebRetrieverPlugin to create a RAG application](./labs/lab3/readme.md) ([Visual Studio version](./labs/lab3/readme-vs.md))
-* [Creating a RAG application to Search a PDF](./labs/lab4/readme.md) ([Visual Studio version](./labs/lab4/readme-vs.md))
-* [Putting it all together](./lab5/readme.md) ([Visual Studio version](./labs/lab5/readme-vs.md))
-* [Lab 6 title here](./lab6/readme.md)
+* Lab 1: [Getting Started with Semantic Kernel](./labs/lab1/readme.md) ([Visual Studio version](./labs/lab1/readme-vs.md))
+* Lab 2: [Creating Semantic Kernel Plugins](./labs/lab2/readme.md) ([Visual Studio version](./labs/lab2/readme-vs.md))
+* Lab 3: [Using WebRetrieverPlugin to create a RAG application](./labs/lab3/readme.md) ([Visual Studio version](./labs/lab3/readme-vs.md))
+* Lab 4: [Creating a RAG application to Search a PDF](./labs/lab4/readme.md) ([Visual Studio version](./labs/lab4/readme-vs.md))
+* Lab 5: [Putting it all together](./labs/lab5/readme.md) ([Visual Studio version](./labs/lab5/readme-vs.md))
+* Lab 6: [title here](./lab6/readme.md)
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ We of course hope that you attend one of our in person workshops and are using t
 
 Please install this software ahead of the workshop:
 
-1. [VS Code](https://code.visualstudio.com/download) (Windows, Mac, Linux) or [Visual Studio](https://visualstudio.microsoft.com/) (Windows)
+1. [VS Code](https://code.visualstudio.com/download) (Windows, Mac, Linux) or [Visual Studio](https://visualstudio.microsoft.com/) (Windows). See [More information on VS Code and VS setup](setup.md)
 
 2. [.NET 8](https://dotnet.microsoft.com/en-us/download) (.NET 9 should work but we have not verified as of 12/1/2024)
 
