@@ -55,9 +55,9 @@ Question: When does Microsoft's fiscal yeaer start?
 Microsoft's fiscal year starts on July 1st and ends on June 30th of the following year.
 ```
 
-Since none of the filters were call, that means the LLM answered the question itself and did not call back into our functions.
+Since none of the filters were called, that means the LLM answered the question itself and did not call back into our functions.
 
-Next, let's as a question that will cause the `PdfRetrieverPlugin` to be called like: **What was Microsoft's income last quarter?**
+Next, let's ask a question that will cause the `PdfRetrieverPlugin` to be called like: **What was Microsoft's income last quarter?**
 
 The output will now have a lot of logging in it:
 
@@ -171,11 +171,11 @@ If you look through the details of the logging messages, you will see a flow lik
 8. PromptRenderLoggingFilter - call for rendering the BasicRAG prompt
 9. Result from the LLM
 
-Now you have an idea of the logic flow for just the `PdfRetrieverPlugin`, let's now add in the `WebRetrieverPlugin` and see the LLM decide what function to call.
+Now you have an idea of the logic flow for just the `PdfRetrieverPlugin`, next let's add the `WebRetrieverPlugin` and see the LLM decide which function to call.
 
-### Enaable Both RAG Plugins
+### Enable Both RAG Plugins
 
-1. In the Program.cs file, replace the // TODO: on line 45 with the following code:
+1. In the **Program.cs file**, replace the // TODO: on line 45 with the following code:
 
 ```C#
 kernel.ImportPluginFromType<WebRetrieverPlugin>();
@@ -187,15 +187,15 @@ kernel.ImportPluginFromType<WebRetrieverPlugin>();
 dotnet run
 ```
 
-3. Ask a question that would be in the Microsoft S1 statement, like: **What LinkedIn's revenue last quarter?**
+3. Ask a question that would be in the Microsoft S1 statement, like: **What was LinkedIn's revenue last quarter?**
 
-Then look through the console logs to find which function was called. For example, after t the AutoFunctionInvocationLoggingFilter is see:
+Then look through the console logs to find which function was called. For example, after the AutoFunctionInvocationLoggingFilter is see:
 
 ```console
 PdfRetrieverPlugin-Retrieve({"question":"LinkedIn revenue last quarter"})
 ```
 
-Now ask a question not related to Microsoft at all, like: **When is the next Boston Azure meetup?**
+Now ask a question that isn't related to Microsoft at all, like: **When is the next Boston Azure meetup?**
 
 Now when you look through the console logs, you should see something like:
 
@@ -241,7 +241,7 @@ The RetrieveAsync method should now look like this:
 dotnet run
 ```
 
-3. Again, ask a question that not related to Microsoft like: **When is the next Boston Azure meetup?**
+3. Ask a question that not related to Microsoft like: **When is the next Boston Azure meetup?**
 
 Now if you look through the console logs, you'll notice that little changed removed the need for the following function and prompt render calls:
 
@@ -282,6 +282,9 @@ template: |
   Intent: WebSearch
 
   What was Microsoft's income in the last quarter?
+  Intent: QueryMicrosoftS1
+  
+  What LinkedIn's revenue last quarter?
   Intent: QueryMicrosoftS1
 
   What was Microsoft's Cloud division's income?
@@ -405,7 +408,7 @@ This code uses the UserIntent prompt we created earlier to determine which RAG o
 
 Next we take the result from the UserIntent and build the `functionList` with the RAG function we want the LLM to call.
 
-Now we need to initialize the `OpenAIPromptExecutionSettings` to configure the LLM call to require call call to our RAG function.
+Now we need to initialize the `OpenAIPromptExecutionSettings` to configure the LLM call to require it to call our RAG function.
 
 4. On line 92, replace the // TODO with the following code:
 
@@ -442,4 +445,4 @@ Now when you look through the console logs, you should see something like:
 WebRetrieverPlugin-Retrieve({"question":"next Boston Azure meetup date"})
 ```
 
-If you look through the console logs, you should find the same behavior should be happening as it did earlier. If by chance you get sent to the wrong RAG function, then you can add your question (or a variant of it) to the `UserIntent.yaml` file to ensure the correct intent will be returned next time. This gives you full flexiblity over controlling the flow.
+If you look through the console logs, you should find the same behavior as earlier. If by chance you get sent to the wrong RAG function, then you can add your question (or a variant of it) to the `UserIntent.yaml` file to ensure the correct intent will be returned next time. This gives you full flexibility over controlling the flow.

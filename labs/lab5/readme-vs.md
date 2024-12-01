@@ -7,14 +7,14 @@
 3. Create a plugin to determine the user's intent
 4. Dynamically control the functions available to the LLM depending on the user's intent
 
-### Visual Studio Code
+### Visual Studio
 
 In this lab we extend the chatbot to determine if a user's question should be answered by using the web search (`WebRetrieverPlugin` from lab 3) or the semantic search (`PdfRetrieverPlugin` from lab 4). 
 
 ### Add Filters and Logging to Understand the Logic Flow
 First we are going use [Filters](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/filters?pivots=programming-language-csharp) to understand the logic flow and add some logging.
 
-1. Open the labs\lab5\src\start\SK-Workshop-Lab5 folder in VS Code
+1. Open the **labs\lab5\src\start\SK-Workshop-Lab5\SK-Workshop-Lab5.sln** solution in Visual Studio
 
 2. In the **Program.cs** file, replace line 22 with the following lines:
 
@@ -37,15 +37,7 @@ This filter implements the `IFunctionInvocationFilter` interface and is called w
 #### PromptRenderLoggingFilter
 This filter implements the `IPromptRenderFilter` interface and is triggered when a prompt is being rendered. Use cases for this filter include: modifying the prompt before sending to LLM, calling out to [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection) to analyze the prompt, caching of prompts, removal of PII, etc.
 
-3. In the file browser, expand the SK-Workshop-Lab5 subfolder and right click on it and select Open in Integrated Terminal
-
-![Integrated Terminal](assets/lab5_img1.jpg)
-
-4. Start your application in the terminal by running
-
-```console
-dotnet run
-```
+3. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output.
 
 5. First ask a question that won't call the `PdfRetrieverPlugin` like: **When does Microsoft's fiscal year start?**
 
@@ -55,9 +47,9 @@ Question: When does Microsoft's fiscal yeaer start?
 Microsoft's fiscal year starts on July 1st and ends on June 30th of the following year.
 ```
 
-Since none of the filters were call, that means the LLM answered the question itself and did not call back into our functions.
+Since none of the filters were called, that means the LLM answered the question itself and did not call back into our functions.
 
-Next, let's as a question that will cause the `PdfRetrieverPlugin` to be called like: **What was Microsoft's income last quarter?**
+Next, let's ask a question that will cause the `PdfRetrieverPlugin` to be called like: **What was Microsoft's income last quarter?**
 
 The output will now have a lot of logging in it:
 
@@ -171,31 +163,27 @@ If you look through the details of the logging messages, you will see a flow lik
 8. PromptRenderLoggingFilter - call for rendering the BasicRAG prompt
 9. Result from the LLM
 
-Now you have an idea of the logic flow for just the `PdfRetrieverPlugin`, let's now add in the `WebRetrieverPlugin` and see the LLM decide what function to call.
+Now you have an idea of the logic flow for just the `PdfRetrieverPlugin`, next let's add the `WebRetrieverPlugin` and see the LLM decide which function to call.
 
-### Enaable Both RAG Plugins
+### Enable Both RAG Plugins
 
-1. In the Program.cs file, replace the // TODO: on line 45 with the following code:
+1. In the **Program.cs file**, replace the // TODO: on line 45 with the following code:
 
 ```C#
 kernel.ImportPluginFromType<WebRetrieverPlugin>();
 ```
 
-2. Start your application in the terminal by running:
+2. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output.
 
-```console
-dotnet run
-```
+3. Ask a question that would be in the Microsoft S1 statement, like: **What was LinkedIn's revenue last quarter?**
 
-3. Ask a question that would be in the Microsoft S1 statement, like: **What LinkedIn's revenue last quarter?**
-
-Then look through the console logs to find which function was called. For example, after t the AutoFunctionInvocationLoggingFilter is see:
+Then look through the console logs to find which function was called. For example, after the AutoFunctionInvocationLoggingFilter is see:
 
 ```console
 PdfRetrieverPlugin-Retrieve({"question":"LinkedIn revenue last quarter"})
 ```
 
-Now ask a question not related to Microsoft at all, like: **When is the next Boston Azure meetup?**
+Now ask a question that isn't related to Microsoft at all, like: **When is the next Boston Azure meetup?**
 
 Now when you look through the console logs, you should see something like:
 
@@ -235,13 +223,9 @@ The RetrieveAsync method should now look like this:
     }
 ```
 
-3. Start your application in the terminal by running:
+3. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output.
 
-```console
-dotnet run
-```
-
-3. Again, ask a question that not related to Microsoft like: **When is the next Boston Azure meetup?**
+3. Ask a question that not related to Microsoft like: **When is the next Boston Azure meetup?**
 
 Now if you look through the console logs, you'll notice that little changed removed the need for the following function and prompt render calls:
 
@@ -256,9 +240,9 @@ Now we've seen the LLM do the reasoning to choose which function to call, lets c
 
 In previous labs we created function prompts using config.json and skprompt.txt files, this time we'll create a yaml prompt instead.
 
-1. In your file explorer, create a new folder at the project level named **YamlPrompts** 
+1. In your solution explorer, create a new folder at the project level named **YamlPrompts** 
 
-![YamlPrompts folder](assets/lab5_img2.jpg)
+![YamlPrompts folder](assets/vs-lab5_img1.jpg)
 
 2. In the **YamlPrompts folder**, add a new file named **UserIntent.yaml**
 
@@ -282,6 +266,9 @@ template: |
   Intent: WebSearch
 
   What was Microsoft's income in the last quarter?
+  Intent: QueryMicrosoftS1
+  
+  What LinkedIn's revenue last quarter?
   Intent: QueryMicrosoftS1
 
   What was Microsoft's Cloud division's income?
@@ -309,31 +296,13 @@ execution_settings:
     temperature: 0.2
 ```
 
-This prompt is specific to our scenario, in reality you would usually pass in the choices and examples so any changes could easily be handled and not require a change to both the code and the prompt (ie. adding an additional choice).
+This prompt is specific to our scenario, in reality you would pass in the choices and examples so any changes could easily be handled and not require a change to both the code and the prompt (ie. adding an additional choice).
 
 Next we need to ensure the file is copied when the build is done.
 
-4. Open the **SK-Workshop-Lab5.csproj** file and scroll to the bottom.
+4. Select the **UserIntent.yaml file** in the solution explorer, open the properties window (**F4**) and change the **Copy to Output Directory** to **Copy if newer**
 
-5. Add the following at the end of the last `<ItemGroup>`:
-
-```xml
-        <None Update="YamlPrompts\UserIntent.yaml">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-```
-So the last ItemGroup looks like this:
-```xml
-	<ItemGroup>
-		
-		... other prompt files
-		
-		<None Update="YamlPrompts\UserIntent.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-</Project>
-```
+![Properties Window](assets/vs-lab5_img2.jpg)
 
 6. In the **Program.cs file**, on line 42 replace the // TODO with the following line:
 
@@ -357,7 +326,7 @@ The router logic is going to roughly be this:
 4. Otherwise, add the PdfRetrieverPlugin-Retrieve function to the LLM Call
 5. Configure the `OpenAIPromptExecutionSettings` to require/force the LLM to use the function we provided only.
 
-1. In the **Program.cs file**, comment out lines 48 - 53 where the `OpenAIPromptExecutionSettings` is initialized:
+1. In the **Program.cs file**, comment out lines 47 - 52 where the `OpenAIPromptExecutionSettings` is initialized:
 
 ```C#
 //OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
@@ -370,7 +339,7 @@ The router logic is going to roughly be this:
 
 We will be initializing the `OpenAIPromptExecutionSettings` differently this time once we determine the user's intent, so we have to move it inside the chatbot loop.
 
-2. On line 62, replace the // TODO with this code:
+2. On line 61, replace the // TODO with this code:
 
 ```C#
 List<KernelFunction> functionsList = new();
@@ -378,7 +347,7 @@ List<KernelFunction> functionsList = new();
 
 This variable will hold our list of functions we want the LLM to call.
 
-3. On line 73, replace the // TODO with this code to call the UserIntent prompt:
+3. On line 72, replace the // TODO with this code to call the UserIntent prompt:
 
 ```C#
 var intent = await kernel.InvokeAsync(
@@ -405,9 +374,9 @@ This code uses the UserIntent prompt we created earlier to determine which RAG o
 
 Next we take the result from the UserIntent and build the `functionList` with the RAG function we want the LLM to call.
 
-Now we need to initialize the `OpenAIPromptExecutionSettings` to configure the LLM call to require call call to our RAG function.
+Now we need to initialize the `OpenAIPromptExecutionSettings` to configure the LLM call to require it to call our RAG function.
 
-4. On line 92, replace the // TODO with the following code:
+4. On line 91, replace the // TODO with the following code:
 
 ```C#
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
@@ -420,15 +389,11 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 
 Notice the line `FunctionChoiceBehavior = FunctionChoiceBehavior.Required(functionsList)`, it is where we let the LLM know we want it to call the function we decided.
 
-5. Start your application in the terminal by running:
-
-```console
-dotnet run
-```
+5. Now start your application by hitting **F5** or **Debug -> Start Debugging** and take a look at the console output.
 
 6. Ask a question that would be in the Microsoft S1 statement, like: **What LinkedIn's revenue last quarter?**
 
-Then look through the console logs to find which function was called. For example, after t the AutoFunctionInvocationLoggingFilter is see:
+Then look through the console logs to find which function was called. For example, after the AutoFunctionInvocationLoggingFilter is see:
 
 ```console
 PdfRetrieverPlugin-Retrieve({"question":"LinkedIn revenue last quarter"})
@@ -442,4 +407,4 @@ Now when you look through the console logs, you should see something like:
 WebRetrieverPlugin-Retrieve({"question":"next Boston Azure meetup date"})
 ```
 
-If you look through the console logs, you should find the same behavior should be happening as it did earlier. If by chance you get sent to the wrong RAG function, then you can add your question (or a variant of it) to the `UserIntent.yaml` file to ensure the correct intent will be returned next time. This gives you full flexiblity over controlling the flow.
+If you look through the console logs, you should find the same behavior as earlier. If by chance you get sent to the wrong RAG function, then you can add your question (or a variant of it) to the `UserIntent.yaml` file to ensure the correct intent will be returned next time. This gives you full flexibility over controlling the flow.
