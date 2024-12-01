@@ -66,7 +66,7 @@ Please install this software ahead of the workshop:
 
 > NOTE: For simplicity, we plan to provide credentials for an Azure SQL database to use during workshop, after which they will stop working.
 
-📣 You are also welcome to create your own resources and use them in the workshop. Since you are paying for them, you can decide when to decommission associated resources.
+📣 You are also welcome to create your own resources and use them in the workshop. Since you are paying for them, you can decide when to decommission associated resources. See [Instructions for creating LLM Connection String](configure-llm.md)
 
 6. You can expect we will recommend you install additional tools and VS Code or Visual Studio extensions, NuGet packages, or code samples as part of the workshop experience.
 
