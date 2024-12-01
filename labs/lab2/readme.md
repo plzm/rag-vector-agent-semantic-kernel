@@ -182,7 +182,7 @@ var step3Result = await kernel.InvokeAsync(rewriter["Rewrite"],
     });
 ```
 
-You've already seen code to call an LLM using a semantic function, calling the native plugin is the same syntax.
+You've already seen code to call an LLM using a prompt function, calling the native plugin is the same syntax.
 
 4. In the terminal, run your application again and look for **STEP 3 OUTPUT** in the console output.
 

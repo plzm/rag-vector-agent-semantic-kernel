@@ -72,7 +72,7 @@ This will  use our **DateTimePlugin** to ensure the search query passed to the *
 
 Back to the WebRetrieverPlugin Retrieve method. Once we've had the user's question rephrased to a better search query we manually use the WebSearchEnginePlugin and call its `SearchAsync` method to get a string array of search results.
 
-Next we want to use those results to perform RAG, so we need to create the **BasicRAG** semantic function next.
+Next we want to use those results to perform RAG, so we need to create the **BasicRAG** prompt function next.
 
 ### Implement a Basic RAG prompt to use the web search results
 
