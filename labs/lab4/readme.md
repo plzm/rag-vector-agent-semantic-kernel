@@ -21,8 +21,8 @@ In this lab we are going to use the [Microsoft.SemanticKernel.Connectors.SqlServ
 
 3. Add the package reference to the project by running the following command in the terminal:
 
-```C#
-dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.30.0-alpha
+```console
+dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.31.0-alpha
 ```
 
 4. In the **Programs.cs** file, replace line 19 with the following code:
@@ -130,7 +130,7 @@ This will find the assets folder up a few levels in the source tree and start th
 
 4. Now run your application and look over the console output. This will take a minute or two.
 
-```C#
+```console
 dotnet run
 ```
 
@@ -230,7 +230,7 @@ kernel.ImportPluginFromType<PdfRetrieverPlugin>();
 
 4. Run your application and start to interact with Microsoft's latest S1 filing PDF file.
 
-```C#
+```console
 dotnet run
 ```
 
