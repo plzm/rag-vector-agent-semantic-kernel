@@ -1,6 +1,6 @@
 # Configure LLM Connection String
 
-In order to make it easier to switch between Azure OpenAI deployments and OpenAI, the labs use a connection string. Below are the pieced of information you will need to configure the AI services for the lab.
+In order to make it easier to switch between Azure OpenAI deployments and OpenAI, the labs use a connection string. Below are the pieces of information you will need to configure the AI services for the lab.
 
 ## Azure OpenAI
 
@@ -13,8 +13,8 @@ The application code has the following template in the appsettings.Local.json fi
 | Keyword      | Value       |
 |----------------|----------------|
 | Source | AzureOpenAI |
-| ChatDeploymentName | This is the name of your GPT-4o model deployment |
-| TextEmbeddingsDeploymentName | This is the name of your text-embedding-ada-002 model deployment |
+| ChatDeploymentName | This is the name of your GPT-4o model deployment. For the lab I used a deployment model named **chat** |
+| TextEmbeddingsDeploymentName | This is the name of your text-embedding-ada-002 model deployment. For the lab I used a deployment model named **text** |
 | Key | This is one of the two keys |
 | Endpoint | This is the endpoint of your Azure OpenAI service |
 
