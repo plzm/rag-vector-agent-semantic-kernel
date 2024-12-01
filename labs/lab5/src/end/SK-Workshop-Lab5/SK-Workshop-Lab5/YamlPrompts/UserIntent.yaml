@@ -8,16 +8,16 @@ template: |
   #####
   Examples:
   
-  Who is Jason Haley?
+  When is the next Boston Azure meetup?
   Intent: WebSearch
-
-  Who is Bill Wilder?
-  Intent: WebSearch
-    
+  
   What is events are in Boston today?
   Intent: WebSearch
 
   What was Microsoft's income in the last quarter?
+  Intent: QueryMicrosoftS1
+
+  What LinkedIn's revenue last quarter?
   Intent: QueryMicrosoftS1
 
   What was Microsoft's Cloud division's income?

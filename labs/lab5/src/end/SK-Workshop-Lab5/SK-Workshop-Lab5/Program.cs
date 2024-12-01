@@ -38,11 +38,18 @@ var chatCompletionService = app.Services.GetRequiredService<IChatCompletionServi
 var kernel = app.Services.GetRequiredService<Kernel>();
 
 kernel.ImportPluginFromPromptDirectory("Prompts");
-var yamlPrompts = kernel.ImportPluginFromDirectory("YamlPrompts");
+kernel.ImportPluginFromDirectory("YamlPrompts");
 kernel.ImportPluginFromType<DateTimePlugin>();
 kernel.ImportPluginFromType<QueryRewritePlugin>();
-var s1Retriever = kernel.ImportPluginFromType<PdfRetrieverPlugin>();
-var webRetriever = kernel.ImportPluginFromType<WebRetrieverPlugin>();
+kernel.ImportPluginFromType<PdfRetrieverPlugin>();
+kernel.ImportPluginFromType<WebRetrieverPlugin>();
+
+//OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
+//{
+//    ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
+//    Temperature = 0.2f,
+//    MaxTokens = 500
+//};
 
 var assetsDir = PathUtils.FindAncestorDirectory("assets");
 await memoryStore.PopulateAsync(assetsDir);
@@ -63,7 +70,7 @@ while (true)
 
     // Get user's intent
     var intent = await kernel.InvokeAsync(
-        yamlPrompts["UserIntent"],
+        kernel.Plugins["YamlPrompts"]["UserIntent"],
         new()
         {
             { "request", question },
@@ -74,11 +81,11 @@ while (true)
 
     if (intentText == "WebSearch")
     {
-        functionsList.Add(webRetriever["Retrieve"]);
+        functionsList.Add(kernel.Plugins["WebRetrieverPlugin"]["Retrieve"]);
     }
     else
     {
-        functionsList.Add(s1Retriever["Retrieve"]);
+        functionsList.Add(kernel.Plugins["PdfRetrieverPlugin"]["Retrieve"]);
     }
 
     OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
@@ -87,7 +94,6 @@ while (true)
         Temperature = 0.2f,
         MaxTokens = 500
     };
-
 
     chatHistory.AddUserMessage(question);
     responseTokens.Clear();

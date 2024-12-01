@@ -39,7 +39,7 @@ kernel.ImportPluginFromPromptDirectory("Prompts");
 // TODO: Import the YamlPrompts plugin
 kernel.ImportPluginFromType<DateTimePlugin>();
 kernel.ImportPluginFromType<QueryRewritePlugin>();
-kernel.ImportPluginFromType<PdfRetrieverPlugin>(); // TODO: Capture the return value
+kernel.ImportPluginFromType<PdfRetrieverPlugin>();
 // TODO: Import the WebRetrieverPlugin
 
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()

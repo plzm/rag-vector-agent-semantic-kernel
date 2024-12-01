@@ -6,14 +6,14 @@ using Microsoft.SemanticKernel;
 namespace Extensions;
 internal static class KernelExtensions
 {
-    public static KernelPlugin ImportPluginFromDirectory(this Kernel kernel, string pluginDirectory, string pluginName = null, IPromptTemplateFactory promptTemplateFactory = null)
+    public static KernelPlugin ImportPluginFromDirectory(this Kernel kernel, string pluginDirectory, string? pluginName = null, IPromptTemplateFactory? promptTemplateFactory = null)
     {
         KernelPlugin plugin = CreatePluginFromPromptDirectory(kernel, pluginDirectory, pluginName, promptTemplateFactory);
         kernel.Plugins.Add(plugin);
         return plugin;
     }
 
-    public static KernelPlugin CreatePluginFromPromptDirectory(this Kernel kernel, string pluginDirectory, string pluginName = null, IPromptTemplateFactory promptTemplateFactory = null)
+    public static KernelPlugin CreatePluginFromPromptDirectory(this Kernel kernel, string pluginDirectory, string? pluginName = null, IPromptTemplateFactory? promptTemplateFactory = null)
     {
         var loggerFactory = kernel.Services.GetRequiredService<ILoggerFactory>() ?? NullLoggerFactory.Instance;
 
@@ -28,7 +28,7 @@ internal static class KernelExtensions
         {
             if (Path.GetExtension(fileInDirectory) == ".yaml")
             {
-                var kernelFunction = kernel.CreateFunctionFromPromptYaml(File.ReadAllText(fileInDirectory), promptTemplateFactory);
+                var kernelFunction = kernel.CreateFunctionFromPromptYaml(File.ReadAllText(fileInDirectory), factory);
                 functions.Add(kernelFunction);
             }
         }

@@ -35,7 +35,7 @@ public class FunctionInvocationLoggingFilter : IFunctionInvocationFilter
                 await next(context);
                 Log(context);
             }
-            catch (Exception ex)
+            catch
             {
                 // Retry once
                 await next(context);
