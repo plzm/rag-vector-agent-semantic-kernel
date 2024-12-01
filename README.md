@@ -4,7 +4,7 @@ Welcome to our first Azure AI Foundry workshop (signups are closed, but [this is
 
 Using Semantic Kernel to create an AI Agent that supports RAG enabled by Azure SQL DB vector support that is now in public preview!
 
-![alt text](prompt-being.png)
+![Prompt Being](assets/prompt-being.jpg)
 _Visualize the AI prompt as a powerful being, a conductor orchestrating the symphony of LLMs.  Create an image where this figure exudes authority and control, while other elements like safety, RAG, SDKs, and programming languages are mere instruments in its grand orchestra. This image should convey the message that the prompt reigns supreme in the realm of LLMs, especially from a developer's standpoint._
 
 These instructions will walk you through the workshop labs.
@@ -21,17 +21,17 @@ After this workshop, you will be able to:
 
 1. Create a working AI application using Semantic Kernel and backed by Azure AI Foundry services
 2. Access 🔍 telemetry data (e.g., token usage stats) available through Semantic Kernel's OpenTelemetry support
-3. Make tools available to your Semantic Kernel application by creating semantic and native functions
+3. Make tools available to your Semantic Kernel application by creating function prompts and native functions
 4. Apply semantic searching and other modern AI techniques to integrate custom or proprietary data sources backed by Azure SQL DB vector search (🚀 now in public preview)
 5. Put AI to work for your organization in a more sophisticated model as an 🤖 AI Agent 
 
 ## Assumptions
 
-Attendees are assumed to have explored chatbot LLMs and have a sense of what is a prompt, what is prompt engineering, and what are some of the possibilities for LLMs.
+Attendees are assumed to have explored using or creating chatbots with LLMs and have a sense of what is a prompt, what is prompt engineering, and what are some of the possibilities for using LLMs in applications.
 
 ## What is in this repo?
 
-We of course hope that you attend one of our in person workshops and are using this repo to work through the labs with the other attendees. However, we also want you do be able to do the labs at your own pace and revisit when you are building your own projects in the future. We also recognize you may not be able to attend an in person event - so we've included everything you need from the workshop in this repo.
+We of course hope that you attend one of our in person workshops and are using this repo to work through the labs with the other attendees. However, we also want you to be able to do the labs at your own pace and revisit when you are building your own projects in the future. We also recognize you may not be able to attend an in person event - so we've included everything you need from the workshop in this repo.
 
 ### Presentations
 
@@ -56,29 +56,25 @@ Please install this software ahead of the workshop:
 
 1. [VS Code](https://code.visualstudio.com/download) (Windows, Mac, Linux) or [Visual Studio](https://visualstudio.microsoft.com/) (Windows)
 
-2. [.NET 8](https://dotnet.microsoft.com/en-us/download)
+2. [.NET 8](https://dotnet.microsoft.com/en-us/download) (.NET 9 should work but we have not verified as of 12/1/2024)
 
-3. [SQL Server Management Studio]() or [Azure Data Studio]() (NOTE: depends on approval from team for using Vector feature)
+3. [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) or [Azure Data Studio](https://learn.microsoft.com/en-us/azure-data-studio/download-azure-data-studio)
 
-4. LLM API credentials from Azure AI Foundry (formerly known as Azure AI or Azure Open AI)
+4. LLM API credentials from Azure AI Foundry (formerly known as Azure AI or Azure OpenAI). The labs use both GPT-4o and text-embedding-ada-002 models. 
 
-Note: For simplicity, we plan to provide credentials for use during workshop, after which they will stop working.
+Note: For simplicity, we plan to provide credentials for Azure OpenAI services to use during the workshop, after which they will stop working.
 
 5. Database Connection string to a vector search-enabled Azure SQL DB
 
-Note: For simplicity, we plan to provide credentials for use during workshop, after which they will stop working.
+Note: For simplicity, we plan to provide credentials for an Azure SQL database to use during workshop, after which they will stop working.
 
 📣 You are also welcome to create your own resources and use them in the workshop. Since you are paying for them, you can decide when to decommission associated resources.
 
 6. You can expect we will recommend you install additional tools and VS Code or Visual Studio extensions, NuGet packages, or code samples as part of the workshop experience.
 
-### Python
-
-_unlikely to do python_
-
-* Visual Studio Code
-
 ## Additional Resources
+
+* [Semantic Kernel](https://github.com/microsoft/semantic-kernel)
 
 ## Contributors
 
@@ -86,7 +82,11 @@ _unlikely to do python_
 Add bio and any social contact info
 
 ### Jason Haley
-Add bio and any social contact info
+I’m an independent Full Stack Solution Architect with a deep focus on Azure and .NET technologies.  I’m currently focused on helping customers integrate Gen AI functionality into their .NET applications.
+
+[LinkedIn](https://www.linkedin.com/in/jason-a-haley/)
+[My Blog](https://jasonhaley.com/)
+[Email](mailto://info@jasonhaley.com)
 
 ### Juan Pablo Garcia Gonzalez
 Add bio and any social contact info
