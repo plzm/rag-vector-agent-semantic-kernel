@@ -25,7 +25,7 @@ More detail on these settings can be found at [Retrieve key and endpoint](https:
 The application code has the following template in the appsettings.Local.json file for an OpenAI setup:
 
 ```json
-"OpenAI": "Source=OpenAI;ChatModelId=gpt-4o-2024-08-06;TextEmbeddingsModelId=<embeddingmodelid>;ApiKey=<api key>"
+"OpenAI": "Source=OpenAI;ChatModelId=gpt-4o-2024-08-06;TextEmbeddingsModelId=text-embedding-ada-002;ApiKey=<api key>"
 ```
 
 | Keyword      | Value       |
