@@ -11,21 +11,21 @@
 
 In this lab you will use a [Semantic Kernel Vector Store Connector](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/?pivots=programming-language-csharp) to provide semantic searching capability.
 
-1. Open the labs\lab4\src\start\SK-Workshop-Lab4 folder in VS Code
+1. Open the **labs\lab4\src\start\SK-Workshop-Lab4** folder in VS Code
 
-2. In the file browser, expand the SK-Workshop-Lab4 subfolder and right click on it and select Open in Integrated Terminal
+2. In the **file explorer**, expand the **SK-Workshop-Lab4 subfolder** and **right click** on it and select **Open in Integrated Terminal**
 
 ![Integrated Terminal](assets/lab4_img1.jpg)
 
 In this lab we are going to use the [Microsoft.SemanticKernel.Connectors.SqlServer](https://github.com/microsoft/semantic-kernel/tree/main/dotnet/src/Connectors/Connectors.Memory.SqlServer) connector to store vector embeddings in an Azure SQL Database. In order to do this, we need to install the package first.
 
-3. Add the package reference to the project by running the following command in the terminal:
+3. **Add the package reference** to the project by running the following command in the terminal:
 
 ```console
 dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.31.0-alpha
 ```
 
-4. In the **Programs.cs** file, replace line 19 with the following code:
+4. In the **Programs.cs** file, **replace line 19** with the following code:
 
 ```C#
 var semanticTextMemory = new MemoryBuilder()
@@ -42,7 +42,7 @@ Next we need to populate the vector store.
 
 In order to keep things clean in this example, we've put the majority of the memory store logic in the **MemoryStore** class. The **MemoryExtensions.cs** file includes a couple of extension methods used to simplify the memory store code.
 
-1. Open the Memory\MemoryStore.cs file. Replace line 13 with a TABLE_NAME value that will be unique for the day - such as your initials and memory. For example:
+1. Open the **Memory\MemoryStore.cs** file. **Replace line 13** with a ***TABLE_NAME value that will be unique for the day*** - such as your initials and memory. For example:
 
 ```C#
 private const string TABLE_NAME = "jh-memory";
@@ -50,7 +50,7 @@ private const string TABLE_NAME = "jh-memory";
 
 This is so you will be able to see the data ingested, otherwise it will be using a table that is already filled.
 
-2. Locate the **PopulateAsync** method on line 24 and paste the following code in that method:
+2. Locate the **PopulateAsync** method on **line 24** and **paste the following code** in that method:
 
 ```C#
 var chunkCount = 0;
@@ -103,7 +103,7 @@ The line 27: `var tokenizer = TiktokenTokenizer.CreateForModel("gpt-4o");` uses 
 
 The loop starting on line 29: `foreach (var file in Directory.GetFiles(assetsDir, "*.pdf"))` starts looping though any pdf files found in the assets directory.
 
-Lines 36 and 37 use the extension method in the MemoryExtensions.cs file to determine if the file has already been saved in the vector store to prevent duplicates when the sample is run multiple times.
+Lines 36 and 37 use the extension method in the **MemoryExtensions.cs** file to determine if the file has already been saved in the vector store to prevent duplicates when the sample is run multiple times.
 
 Line 43: `using var pdf = PdfDocument.Open(file);` uses the UglyToad.PdfPig library to open the PDF file.
 
@@ -119,7 +119,7 @@ Line 56: `await semanticTextMemory.SaveInformationAsync(TABLE_NAME, textToEmbed,
 
 Let's now see it in action.
 
-3. In the **Program.cs** file, replace line 45 with the following lines:
+3. In the **Program.cs** file, replace **line 45** with the following lines:
 
 ```C#
 var assetsDir = PathUtils.FindAncestorDirectory("assets");
@@ -128,7 +128,7 @@ await memoryStore.PopulateAsync(assetsDir);
 
 This will find the assets folder up a few levels in the source tree and start the memory store population.
 
-4. Now run your application and look over the console output. This will take a minute or two.
+4. Now **run your application** and look over the console output. This will take a minute or two.
 
 ```console
 dotnet run
@@ -148,15 +148,82 @@ Generated 152.
 Question:
 ```
 
-5. Hit enter a couple of times in the terminal in order to have the chatbot loop return
+5. **Hit enter a couple of times** in the terminal in order to have the chatbot loop exit.
 
 The PDF file is now in the database.
 
-// TODO: Add step to connect to Azure SQL db and look at the table??
+### Look at the Azure SQL Database table
+
+1. Open the **appsettings.Local.json** file and locate the `SqlAzureDB` connection string on **line 6**.
+
+It will have this syntax:
+
+```text
+"SqlAzureDB": "Server=[db server].database.windows.net;Database=[database];User Id=[user];Password=[password];Persist Security Info=True;MultipleActiveResultSets=True;TrustServerCertificate=True;",
+```
+
+ * **[db server]** - You'll need the whole server name to login
+ * **[database]** - This will be the database to connect to
+ * **[user]** - This is the sql server user you'll used to login
+ * **[password]** - the password for the user
+
+#### Using SQL Server Management Studio (SSMS)
+
+1. **Open SSMS** and connect to the **Azure SQL database**
+
+![SSMS Login](assets/lab4_img3.jpg)
+
+2. Enter the **full server name** from the connection string (ie. dbsvr-sk-workshop1.database.windows.net;)
+
+3. Enter the **user** in the Login and **password** in the Password inputs, click **Connect**.
+
+> NOTE: You may also need to select **Optional** for Encryption and check the **Trust server certificate**.
+
+4. **Expand the Object Browser** tree to find the table you provided the name for earlier (ie. jh-memory)
+
+5. **Expand the columns** and you'll see the embedding column is of the new VECTOR type
+
+![Columns](assets/lab4_img4.jpg)
+
+6. **Right click on the table name** and select the **Select Top 1000 Rows**
+
+![Select 1000](assets/lab4_img5.jpg)
+
+This will show you the records in the memory table to give you and idea of how the data is stored.
+
+![Memory table](assets/lab4_img6.jpg)
+
+#### Using Azure Data Studio
+
+1. **Open Azure Data Studio** and click the **New Connection** button
+
+![New Connection](assets/lab4_img7.jpg)
+
+2. In the **Connection Details** panel, select the **Connection String** and paste past the **SqlAzureDB** connection string into the **Connection string** text box.
+
+3. You can optionally give the connection an name.
+
+![Connection Details](assets/lab4_img8.jpg)
+
+4. Click the **Connect** button
+
+5. In the **Connections panel**, expand the tree until you **find the table you provided the name for** earlier (ie. jh-memory)
+
+6. **Expand the columns** and you'll see the embedding column is of the new VECTOR type
+
+![ADS Columns](assets/lab4_img9.jpg)
+
+7. **Right click on the table name** and select the **Select Top 1000**
+
+![ADS Select 1000](assets/lab4_img10.jpg)
+
+This will show you the records in the memory table to give you and idea of how the data is stored.
+
+![ADS Memory table](assets/lab4_img11.jpg)
 
 ### Add logic to **MemoryStore** to preform a semantic search
 
-1. In the Memory\MemoryStore.cs file. Replace line 19 with the following code:
+1. In the **Memory\MemoryStore.cs** file. **Replace line 19** with the following code:
 
 ```C#
 var searchItems = semanticTextMemory.SearchAsync(TABLE_NAME, query, 3);
@@ -172,9 +239,9 @@ The loop on line 20 iterates all the results and builds a list of the item text 
 
 ### Create a plugin that performs RAG with the vector store
 
-1. In the **Plugins** folder, create a file named **PdfRetrieverPlugin.cs**
+1. In the **Plugins** folder, **create a file** named **PdfRetrieverPlugin.cs**
 
-2. Paste the following code into the file and save it:
+2. **Paste the following code** into the file and save it:
 
 ```C#
 using Microsoft.SemanticKernel;
@@ -222,13 +289,13 @@ If you compare this to the WebRetrieverPlugin we created in the last lab (below)
 * The memoryStore SearchAsync is used instead of the WebSearchEngingPlugin's SearchAsync
 * Manually serialize the searchResults to a JSON array string
 
-3. In **Program.cs**, replace line 37 with the following line to import the new plugin:
+3. In **Program.cs**, replace **line 37** with the following line to import the new plugin:
 
 ```C#
 kernel.ImportPluginFromType<PdfRetrieverPlugin>();
 ```
 
-4. Run your application and start to interact with Microsoft's latest S1 filing PDF file.
+4. **Run your application** and start to interact with Microsoft's latest S1 filing PDF file.
 
 ```console
 dotnet run
@@ -236,11 +303,11 @@ dotnet run
 
 5. Some example questions to ask:
 
-* What was Microsoft's income in the last quarter?
-* What was Microsoft's Cloud division's income?
-* What were some industry trends mentioned?
-* Was OpenAI mentioned in the S1?
-* What did it say about OpenAI?
+* **What was Microsoft's income in the last quarter?**
+* **What was Microsoft's Cloud division's income?**
+* **What were some industry trends mentioned?**
+* **Was OpenAI mentioned in the S1?**
+* **What did it say about OpenAI?**
 
 The output should look something like this:
 ```text
