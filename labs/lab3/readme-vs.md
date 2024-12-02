@@ -11,11 +11,11 @@
 
 ### Create a plugin that uses the WebSearchEnginePlugin
 
-1. Open the **labs\lab3\src\start\SK-Workshop-Lab3\SK-Workshop-Lab3.sln** in Visual Studio
+1. Open the **labs\lab3\src\start\SK-Workshop-Lab3\SK-Workshop-Lab3.sln** solution in Visual Studio
 
-2. In the **Plugins** folder create a file named **WebRetrieverPlugin.cs**
+2. In the **Plugins** folder **create a file** named **WebRetrieverPlugin.cs**
 
-3. Paste the following code into the file and save it:
+3. **Paste the following code** into the file and save it:
 
 ```C#
 using Configuration;
@@ -60,9 +60,9 @@ public class WebRetrieverPlugin(IOptions<PluginOptions> pluginOptions)
 }
 ```
 
-This plugin creates a new plugin with a KernelFunction **Retrieve** that uses the **QueryRewritePlugin** we used in lab 2. Before continuing, let's make a small modification to it to add the current date and time information to the user's question.
+This plugin creates a new plugin with a KernelFunction **RetrieveAsync** that uses the **QueryRewritePlugin** we used in lab 2. Before continuing, let's make a small modification to it to add the current date and time information to the user's question.
 
-4. Open the \Prompts\RewriteQuery\skprompt.txt file and replace line 2 with this text:
+4. Open the **Prompts\RewriteQuery\skprompt.txt** file and **replace line 2** with this text:
 
 ```text
 Provide a better search query for a web search engine to answer the given question. Take into consideration that the current date and time is {{DateTimePlugin.DateWithTime}}
@@ -80,11 +80,11 @@ Next we want to use those results to perform RAG, so we need to create the **Bas
 
 ![BasicRAG folder](assets/vs-lab3_img1.jpg)
 
-2. In your Solution Explorer, select both the config.json and skprompt.txt files and open the Properties window (F4). Set the **Build Action to Content** and the Copy to Output Directory to **Copy if newer**. This will copy the files over at build time.
+2. In your **Solution Explorer**, select both the **config.json** and **skprompt.txt** files and open the **Properties window (F4)**. Set the **Build Action to Content** and the **Copy to Output Directory** to **Copy if newer**. This will copy the files over at build time.
 
 ![File properties](assets/vs-lab3_img2.jpg)
 
-3. Open the **config.json** file and add the following json to it an save
+3. Open the **config.json** file and **add the following json** to it an save
 
 ```json
 {
@@ -111,9 +111,9 @@ Next we want to use those results to perform RAG, so we need to create the **Bas
 }
 ```
 
-This file contains the settings to use when calling the LLM (ie. max_tokens and temperature) as well as a description of the purpose and the input variables we will be passing to the template.
+This file contains the settings to use when calling the LLM (ie. `max_tokens` and `temperature`) as well as a description of the purpose and the input variables we will be passing to the template.
 
-4. Open the **skprompt.txt** file and add the following text to it and save:
+4. Open the **skprompt.txt** file and **add the following text** to it and save:
 
 ```text
 <message role="system">
@@ -134,15 +134,15 @@ This is a very basic RAG prompt that provides general system instructions. The v
 
 ### Add a chatbot loop to interact with the LLM
 
-In the previous labs we were just using Console Write lines to view our output, in this section we'll create a loop so the interaction is more like a chatbot.
+In the previous labs we were just using `Console.Write` lines to view our output, in this section we'll create a loop so the interaction is more like a chatbot.
 
-1. In the **Program.cs** file, replace line 23 with the following line in order to import our new plugin:
+1. In the **Program.cs** file, **replace line 23** with the following line in order to import our new plugin:
 
 ```C#
 kernel.ImportPluginFromType<WebRetrieverPlugin>();
 ```
 
-2. Next replace line 32 with the following block of code:
+2. Next **replace line 32** with the following block of code:
 
 ```C#
 var responseTokens = new StringBuilder();
@@ -170,7 +170,7 @@ while (true)
 }
 ```
 
-This block of code uses **ChatHistory** to add a sort of short term memory to the chat experience. This allows you to refer to previous responses in the chat session (as you'll see in the next section).
+This block of code uses `ChatHistory` to add a sort of short term memory to the chat experience. This allows you to refer to previous responses in the chat session (as you'll see in the next section).
 
 The loop keeps going until the user hits enter.
 
