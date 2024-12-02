@@ -9,14 +9,14 @@
 
 ### Visual Studio Code
 
-In this lab we extend the chatbot to determine if a user's question should be answered by using the web search (`WebRetrieverPlugin` from lab 3) or the semantic search (`PdfRetrieverPlugin` from lab 4). 
+In this lab we extend the chatbot to determine if a user's question should be answered by using the `WebRetrieverPlugin` from lab 3 or the `PdfRetrieverPlugin` from lab 4. 
 
 ### Add Filters and Logging to Understand the Logic Flow
 First we are going use [Filters](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/filters?pivots=programming-language-csharp) to understand the logic flow and add some logging.
 
-1. Open the labs\lab5\src\start\SK-Workshop-Lab5 folder in VS Code
+1. Open the **labs\lab5\src\start\SK-Workshop-Lab5** folder in VS Code
 
-2. In the **Program.cs** file, replace line 22 with the following lines:
+2. In the **Program.cs** file, **replace line 22** with the following lines:
 
 ```C#
 builder.Services.AddSingleton<IFunctionInvocationFilter, FunctionInvocationLoggingFilter>();
@@ -28,20 +28,20 @@ These lines wire up the filters to the dependency container for Semantic Kernel 
 
 All three of these filters were taken form the [Semantic Kernel Samples](https://github.com/microsoft/semantic-kernel/blob/main/dotnet/samples/Concepts/Filtering/TelemetryWithFilters.cs) and modified slightly.
 
-#### AutoFunctionInvocationLoggingFilter
+#### AutoFunctionInvocationLoggingFilter.cs
 This filter implements the `IAutoFunctionInvocationFilter` interface and is executed during an automatic function calling process - driven by the LLM. Use cases when you may use this filter include: early termination of auto function calling, and tracking function calling. 
 
-#### FunctionInvocationLoggingFilter
+#### FunctionInvocationLoggingFilter.cs
 This filter implements the `IFunctionInvocationFilter` interface and is called when a Semantic Kernel function is invoked. Uses cases for this filter include: handling exceptions during function execution, modifying a function result, retries on failures.
 
-#### PromptRenderLoggingFilter
+#### PromptRenderLoggingFilter.cs
 This filter implements the `IPromptRenderFilter` interface and is triggered when a prompt is being rendered. Use cases for this filter include: modifying the prompt before sending to LLM, calling out to [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection) to analyze the prompt, caching of prompts, removal of PII, etc.
 
-3. In the file browser, expand the SK-Workshop-Lab5 subfolder and right click on it and select Open in Integrated Terminal
+3. In the **file explorer**, expand the **SK-Workshop-Lab5 subfolder** and **right click** on it and select **Open in Integrated Terminal**
 
 ![Integrated Terminal](assets/lab5_img1.jpg)
 
-4. Start your application in the terminal by running
+4. **Start your application** in the terminal by running
 
 ```console
 dotnet run
@@ -161,27 +161,27 @@ Microsoft's net income for the quarter ended September 30, 2024, was $24,667 mil
 
 If you look through the details of the logging messages, you will see a flow like this:
 
-1. AutoFunctionInvocationLoggingFilter - this is the LLM calling back asking for PdfRetrieverPlugin-Retrieve to be called
-2. FunctionInvocationLoggingFilter - call to PdfRetrieverPlugin-Retrieve function
-3. FunctionInvocationLoggingFilter - call to the Rewrite function
-4. FunctionInvocationLoggingFilter - call to the RewriteQuery function
-5. FunctionInvocationLoggingFilter - call to the DateWithTime function to render the prompt
-6. PromptRenderLoggingFilter - call for rendering the RewriteQuery prompt
-7. FunctionInvocationLoggingFilter - call to the BasicRAG function
-8. PromptRenderLoggingFilter - call for rendering the BasicRAG prompt
+1. AutoFunctionInvocationLoggingFilter - this is the LLM calling back asking for **PdfRetrieverPlugin-Retrieve** to be called
+2. FunctionInvocationLoggingFilter - call to **PdfRetrieverPlugin-Retrieve** function
+3. FunctionInvocationLoggingFilter - call to the **Rewrite** function
+4. FunctionInvocationLoggingFilter - call to the **RewriteQuery** function
+5. FunctionInvocationLoggingFilter - call to the **DateWithTime** function to render the prompt
+6. PromptRenderLoggingFilter - call for rendering the **RewriteQuery** prompt
+7. FunctionInvocationLoggingFilter - call to the **BasicRAG** function
+8. PromptRenderLoggingFilter - call for rendering the **BasicRAG** prompt
 9. Result from the LLM
 
 Now you have an idea of the logic flow for just the `PdfRetrieverPlugin`, next let's add the `WebRetrieverPlugin` and see the LLM decide which function to call.
 
 ### Enable Both RAG Plugins
 
-1. In the **Program.cs file**, replace the // TODO: on line 45 with the following code:
+1. In the **Program.cs file**, replace the `// TODO:` on **line 45** with the following code:
 
 ```C#
 kernel.ImportPluginFromType<WebRetrieverPlugin>();
 ```
 
-2. Start your application in the terminal by running:
+2. **Start your application** in the terminal by running:
 
 ```console
 dotnet run
@@ -189,7 +189,7 @@ dotnet run
 
 3. Ask a question that would be in the Microsoft S1 statement, like: **What was LinkedIn's revenue last quarter?**
 
-Then look through the console logs to find which function was called. For example, after the AutoFunctionInvocationLoggingFilter is see:
+Then look through the console logs to find which function was called. For example, after the **AutoFunctionInvocationLoggingFilter** is see:
 
 ```console
 PdfRetrieverPlugin-Retrieve({"question":"LinkedIn revenue last quarter"})
@@ -205,11 +205,11 @@ WebRetrieverPlugin-Retrieve({"question":"next Boston Azure meetup date"})
 
 > NOTE: in both of the examples above, the LLM passed back a **different string than what I actually typed**.
 
-Since the LLM is not passing the user question back verbatim, we can remove our calls to do the rewriting in our RAG plugins.
+Since the LLM is not passing the user question back verbatim, we can remove our calls to do the rewriting in our RAG plugins, which will decrease the number of functions and prompts being used.
 
 ### Remove the Query Rewriting in the `WebRetrieverPlugin`  
 
-1. Open the Plugins/WebRetrieverPlugin.cs file and remove lines 18 - 24.
+1. Open the **Plugins/WebRetrieverPlugin.cs** file and **remove lines 18 - 24**.
 
 2. Change the **searchQuery.ToString()** on line 19 to be **question**
 
@@ -235,7 +235,7 @@ The RetrieveAsync method should now look like this:
     }
 ```
 
-3. Start your application in the terminal by running:
+3. **Start your application** in the terminal by running:
 
 ```console
 dotnet run
@@ -243,12 +243,12 @@ dotnet run
 
 3. Ask a question that not related to Microsoft like: **When is the next Boston Azure meetup?**
 
-Now if you look through the console logs, you'll notice that little changed removed the need for the following function and prompt render calls:
+Now if you look through the console logs, you'll notice that little change removed the need for the following function and prompt render calls:
 
-* FunctionInvocationLoggingFilter - call to the Rewrite function
-* FunctionInvocationLoggingFilter - call to the RewriteQuery function
-* FunctionInvocationLoggingFilter - call to the DateWithTime function to render the prompt
-* PromptRenderLoggingFilter - call for rendering the RewriteQuery prompt
+* FunctionInvocationLoggingFilter - call to the **Rewrite** function
+* FunctionInvocationLoggingFilter - call to the **RewriteQuery** function
+* FunctionInvocationLoggingFilter - call to the **DateWithTime** function to render the prompt
+* PromptRenderLoggingFilter - call for rendering the **RewriteQuery** prompt
 
 Now we've seen the LLM do the reasoning to choose which function to call, lets create a manual router so we have full control over it.
 
@@ -256,13 +256,13 @@ Now we've seen the LLM do the reasoning to choose which function to call, lets c
 
 In previous labs we created function prompts using config.json and skprompt.txt files, this time we'll create a yaml prompt instead.
 
-1. In your file explorer, create a new folder at the project level named **YamlPrompts** 
+1. In your file explorer, **create a new folder** at the project level named **YamlPrompts** 
 
 ![YamlPrompts folder](assets/lab5_img2.jpg)
 
-2. In the **YamlPrompts folder**, add a new file named **UserIntent.yaml**
+2. In the **YamlPrompts folder**, add a **new file** named **UserIntent.yaml**
 
-3. Open the **UserIntent.yaml** file and add the following contents to it:
+3. Open the **UserIntent.yaml** file and **add the following contents** to it:
 
 ```yaml
 name: UserIntent
@@ -318,7 +318,7 @@ Next we need to ensure the file is copied when the build is done.
 
 4. Open the **SK-Workshop-Lab5.csproj** file and scroll to the bottom.
 
-5. Add the following at the end of the last `<ItemGroup>`:
+5. **Add the following** at the end of the last `<ItemGroup>`:
 
 ```xml
         <None Update="YamlPrompts\UserIntent.yaml">
@@ -338,13 +338,13 @@ So the last ItemGroup looks like this:
 </Project>
 ```
 
-6. In the **Program.cs file**, on line 42 replace the // TODO with the following line:
+6. In the **Program.cs file**, on **line 42** replace the `// TODO` with the following line:
 
 ```C#
 kernel.ImportPluginFromDirectory("YamlPrompts");
 ```
 
-This uses an extension method we created to make it easy to add `yaml` prompts to the application. The code is in the **/Extensions/KernelExtensions.cs** file.
+This uses an extension method we created to make it easy to add `yaml` prompts to the application. The code is in the **Extensions/KernelExtensions.cs** file.
 
 Next we'll control the flow of the functions and only let the LLM know about the functions we decide are useful for the user's intent.
 
@@ -354,13 +354,15 @@ Previously we let the LLM decide which function should be called when a user ask
 
 The router logic is going to roughly be this:
 
-1. Capture the user's question
-2. Call the LLM to get the user's intent (is it a web search or Microsoft S1 question)
-3. If it is a WebSearch, then add the WebRetrieverPlugin-Retrieve function to the LLM call
-4. Otherwise, add the PdfRetrieverPlugin-Retrieve function to the LLM Call
-5. Configure the `OpenAIPromptExecutionSettings` to require/force the LLM to use the function we provided only.
+* Capture the user's question
+* Call the LLM to get the user's intent (is it a web search or Microsoft S1 question)
+* If it is a WebSearch, then add the WebRetrieverPlugin-Retrieve function to the LLM call
+* Otherwise, add the PdfRetrieverPlugin-Retrieve function to the LLM Call
+* Configure the `OpenAIPromptExecutionSettings` to require/force the LLM to use the function we provided only.
 
-1. In the **Program.cs file**, comment out lines 48 - 53 where the `OpenAIPromptExecutionSettings` is initialized:
+Now let's add the router logic to the flow.
+
+1. In the **Program.cs file**, comment out **lines 48 - 53** where the `OpenAIPromptExecutionSettings` is initialized:
 
 ```C#
 //OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
@@ -373,7 +375,7 @@ The router logic is going to roughly be this:
 
 We will be initializing the `OpenAIPromptExecutionSettings` differently this time once we determine the user's intent, so we have to move it inside the chatbot loop.
 
-2. On line 62, replace the // TODO with this code:
+2. On **line 62**, replace the `// TODO` with this code:
 
 ```C#
 List<KernelFunction> functionsList = new();
@@ -381,7 +383,7 @@ List<KernelFunction> functionsList = new();
 
 This variable will hold our list of functions we want the LLM to call.
 
-3. On line 73, replace the // TODO with this code to call the UserIntent prompt:
+3. On **line 73**, replace the `// TODO` with this code to call the UserIntent prompt:
 
 ```C#
 var intent = await kernel.InvokeAsync(
@@ -410,7 +412,7 @@ Next we take the result from the UserIntent and build the `functionList` with th
 
 Now we need to initialize the `OpenAIPromptExecutionSettings` to configure the LLM call to require it to call our RAG function.
 
-4. On line 92, replace the // TODO with the following code:
+4. On **line 92**, replace the `// TODO` with the following code:
 
 ```C#
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
@@ -423,7 +425,7 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 
 Notice the line `FunctionChoiceBehavior = FunctionChoiceBehavior.Required(functionsList)`, it is where we let the LLM know we want it to call the function we decided.
 
-5. Start your application in the terminal by running:
+5. **Start your application** in the terminal by running:
 
 ```console
 dotnet run
