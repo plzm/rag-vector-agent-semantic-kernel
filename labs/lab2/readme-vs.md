@@ -11,9 +11,9 @@
 
 ### Create a native KernelFunction plugin
 
-1. Open the **labs\lab2\src\start\SK-Workshop-Lab2\SK-Workshop-Lab2.sln** in your Visual Studio
+1. Open the **labs\lab2\src\start\SK-Workshop-Lab2\SK-Workshop-Lab2.sln** solution in your Visual Studio
 
-2. In the **Solution Explorer**, add a new folder named **Plugins** in the **SK-Workshop-Lab2** project folder
+2. In the **Solution Explorer**, add a **new folder** named **Plugins** in the **SK-Workshop-Lab2** project folder
 
 ![Plugins folder](assets/vs-lab2_img1.jpg)
 
@@ -21,7 +21,7 @@
 
 This is going to be our plugin for performing some native C# code.
 
-4. Copy the following code into the DateTimePlugin.cs file and save:
+4. **Copy the following code** into the **DateTimePlugin.cs** file and save:
 
 ```C#
 using Microsoft.SemanticKernel;
@@ -44,25 +44,25 @@ public class DateTimePlugin
 }
 ```
 
-Since LLMs have no idea what today's date and time are or what timezone we are in, we created two **KernelFunction**s that we'll use to provide that information to the LLM.
+Since LLMs have no idea what today's date and time are or what timezone we are in, we created two **KernelFunctions** that we'll use to provide that information to the LLM.
 
-> NOTE: The plugin provides useful descriptions of the functions in case the LLM needs to decide what functions it should call.
+> NOTE: The plugin provides useful descriptions of the functions in case the LLM needs to decide what function it should call.
 
 ### Use the DateTimePlugin in a prompt
 
-1. In the **Program.cs file**, replace line 28 with the following code in order to load the plugin we just created:
+1. In the **Program.cs file**, replace **line 28** with the following code in order to load the plugin we just created:
 
 ```C#
 var plugins = kernel.ImportPluginFromType<DateTimePlugin>("dateTimePlugin");
 ```
 
-2. Next you'll need to uncomment the `using Plugins;` statement on line 10.
+2. Next you'll need to **uncomment** the `using Plugins;` statement on **line 10**.
 
-> NOTE: If you are using GitHub copilot, it may have automatically added it for you.
+> NOTE: Your IDE may have automatically added it for you already.
 
 Now let's create a prompt that will require the LLM to know what timezone we are in and what time it currently is.
 
-3. Replace line 30, with this prompt:
+3. **Replace line 30**, with this prompt:
 
 ```C#
 var prompt1 = "What time is it one the west coast of the united states right now? My current timezone {{dateTimePlugin.timeZone}} and current date and time is {{dateTimePlugin.dateWithTime}}";
@@ -85,7 +85,7 @@ This shows the prompt did not call the plugin function when we called the LLM - 
 
 Now let's render the prompt so the plugin functions get called.
 
-6: In Program.cs, replace lines 47 and 48 with the following code:
+6: In **Program.cs**, replace **lines 47 and 48** with the following code:
 
 ```C#
 var promptTemplateFactory = new KernelPromptTemplateFactory();
@@ -121,7 +121,7 @@ If you look at the USER MESSAGE, you'll notice the functions were executed when 
 
 Sometimes it is useful to rephrase a user's query or to verify their intent. Let's now create a plugin that can do that.
 
-1. In the Plugins folder, create a new file named **QueryRewritePlugin.cs** and copy the following code into it and save:
+1. In the **Plugins folder**, create a **new file** named **QueryRewritePlugin.cs** and copy the following code into it and save:
 
 ```C#
 using Microsoft.SemanticKernel;
@@ -158,13 +158,13 @@ Provide a better search query for a web search engine to answer the given questi
 <message role="user">{{$question}}</message>
 ```
 
-2. In the **Program.cs file**, replace line 66 with the following code (in order to load the plugin):
+2. In the **Program.cs file**, replace **line 66** with the following code (in order to load the plugin):
 
 ```C#
 var rewriter = kernel.ImportPluginFromType<QueryRewritePlugin>();
 ```
 
-3. Now, replace line 70 with the following:
+3. Now, **replace line 70** with the following:
 
 ```C#
 var step3Result = await kernel.InvokeAsync(rewriter["Rewrite"], 
@@ -191,13 +191,13 @@ Rewritten query: "Events and activities in Boston November 30 - December 1, 2024
 
 In this section, you will see how powerful adding web searching is to an LLM chat and how easy Semantic Kernel makes it.
 
-1. In the Solution Explorer, right click on the **SK-Workshop-Lab2 project -> Manage NuGet Packages...**
+1. In the **Solution Explorer**, right click on the **SK-Workshop-Lab2 project -> Manage NuGet Packages...**
 
 ![Manage NuGet Packages](assets/vs-lab2_img2.jpg)
 
 2. Make sure you are on the **Browse** tab, type `Microsoft.SemanticKernel.Plugins.Web` in the search box and check the **include prerelease** checkbox.
 
-3. Select the top item (version may be newer than this image) and click **Install**:
+3. **Select the top item** (version may be newer than this image) and click **Install**:
 
 ![Add Reference](assets/vs-lab2_img3.jpg)
 
@@ -213,9 +213,9 @@ You can now close the NuGet tab in Visual Studio
 
 ![Close NuGet Tab](assets/vs-lab2_img6.jpg)
 
-6. In the **Progam.cs file**, uncomment lines 8 and 9 to import the namespaces we'll need to use.
+6. In the **Progam.cs file**, uncomment **lines 8 and 9** to import the namespaces we'll need to use.
 
-7. Replace line 86 with the following code:
+7. **Replace line 86** with the following code:
 
 ```C#
 kernel.ImportPluginFromObject(
