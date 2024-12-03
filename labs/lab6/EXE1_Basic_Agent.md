@@ -10,7 +10,7 @@
     
     Test de app running it.
 
-    ![Hello World](./assets/helloworld.jpg)
+    ![Hello World](./assets/HelloWorld.png)
 2. Installing the SDK 
     Semantic Kernel has several NuGet packages available. 
     
