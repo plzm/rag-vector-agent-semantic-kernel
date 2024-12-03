@@ -10,7 +10,7 @@
     
     Test de app running it.
 
-    ![Hello World](.\assets\helloworld.jpg)
+    ![Hello World](./assets/helloworld.jpg)
 2. Installing the SDK 
     Semantic Kernel has several NuGet packages available. 
     
@@ -109,7 +109,7 @@
     You should see the Kernel messages in the console.
 
 
-    ![First run](.\assets\FirstRun.png)
+    ![First run](./assets/FirstRun.png)
 
 ## Agent Creation.
 
@@ -266,13 +266,13 @@
 
         The agent write a peom about the city and include the day and time passed as argument to the agent. Example outcome
 
-    ![SampleOutome](.\assets\one.png)
+    ![SampleOutome](./assets/one.png)
     
     6.5 The agent only write poems about the cities, that is definedin the Agent instructions. Try to ask:
         
         Subject:   Paul Revere's Ride
        
         The answer should be similar to the following.
-    ![SampleOutome2](.\assets\two.png)
+    ![SampleOutome2](./assets/two.png)
 
     6.6 Finish the interaction with the agent sending and empty input and th program would finish.

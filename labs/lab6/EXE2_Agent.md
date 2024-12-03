@@ -164,4 +164,4 @@
 
     Notice the response contains  date and time , and also the current wheater on the City as it is shows in the following image.
 
-![Outcome](.\assets\three.png) 
+![Outcome](./assets/three.png) 
