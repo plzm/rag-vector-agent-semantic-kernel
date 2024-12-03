@@ -2,13 +2,13 @@
 
 ## Setup
 
-1. Create a Dotnet app console app Hello World
+1. Create a .NET console app Hello World
 
     ```powershell
     dotnet new console -n myAgentConsoleApp
     ```
     
-    Test de app running it.
+    Test the app by running it.
 
     ![Hello World](./assets/HelloWorld.png)
 2. Installing the SDK 
@@ -30,7 +30,7 @@
     dotnet add package Microsoft.SemanticKernel.Agents.Core --prerelease
     ```
 
-    The Agent Framework is experimental and requires warning suppression. This may addressed in as a property in the project file (.csproj):
+    The Agent Framework is experimental and requires warning suppression. This can be addressed by adding `<NoWarn>` items in the project file (.csproj):
 
     ```XML
     <PropertyGroup>
@@ -39,7 +39,8 @@
     ```
 
 3. To securely store and read secrets in your .NET application, you can use the Microsoft.Extensions.Configuration package along with a secrets management tool like Azure Key Vault or the .NET Secret Manager for local development.
-    Using .NET Secret Manager (for local development)
+
+    In this lab, we'll use the .NET Secret Manager (for local development)
     
     3.1 Install the necessary NuGet packages:
 
@@ -94,32 +95,33 @@
             builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Trace));
             return builder.Build();
         }
+
         static async Task Main(string[] args)
         {
             //1. Create a Semantic Kernel KERNEL for the agent
-            Console.WriteLine("Begining Kernel creation!");    
+            Console.WriteLine("Beginning Kernel creation!");    
             Kernel myKernel =  CreateKernel();
             Console.WriteLine("Kernel created!");
         }
-
     }
     ```
+
 5. Run and test your enviroment variables before move forward.
 
     You should see the Kernel messages in the console.
-
 
     ![First run](./assets/FirstRun.png)
 
 ## Agent Creation.
 
-6. Create the first Agent, City Poet Agent. This agent has not tools only a LLM that helps it to answer.
+6. Create the first Agent, City Poet Agent. This agent has no, tools only an LLM that helps it answer.
 
-    The system prompt of the agent define what the agend does.
+    The system prompt of the agent defines what the agent does.
 
     6.1 Create Agent Method.
 
     Add the following method to the Program class.
+
     ```csharp
     /// <summary>
     /// Create a CityPoetAgent with basic functionality
@@ -140,10 +142,10 @@
                 // It also includes the current date and time. $now is a placeholder for the current date and time.
                 Instructions =
                     """
-                    You are an agent designed to write PoemagentKernel based on a suject and another poet tone.
+                    You are an agent designed to write PoemAgentKernel based on a suject and another poet tone.
                     
                     Use the current date and time to provide up-to-date details or time-sensitive responses, 
-                    the current date and time is: {{$now}}. include the date and time in the poem.
+                    the current date and time is: {{$now}}. Include the date and time in the poem.
 
                     You only write poems about Cities, if the subject is not a city, you will not write a poem.
 
@@ -167,9 +169,11 @@
     {
         //1. Create a CityPoetAgent
         ChatCompletionAgent agent = CreateAgentCityPoetBasic(AgentKernel);
+
         //2. Create a ChatHistory
         ChatHistory history = [];
         bool isComplete = false;
+
         //3. Start the conversation loop, to exit the loop, the user must not provide a subject
         do
         {
@@ -184,16 +188,19 @@
                 isComplete = true;
                 break;
             }
+
             //3.2 Add user input to the history
             history.Add(new ChatMessageContent(AuthorRole.User, userInput));
             Console.WriteLine();
             DateTime now = DateTime.Now;
+            
             //3.3 Create arguments to send to the Agent, in this case, we are only sending the current date and time
             KernelArguments arguments =
                new()
                 {
                     { "now", $"{now.ToShortDateString()} {now.ToShortTimeString()}" }
                 };
+            
             //3.4 Invoke the agent
             Console.WriteLine();
             await foreach (var message in agent.InvokeStreamingAsync(history, arguments))
@@ -210,18 +217,19 @@
 
     ```csharp
         //1. Create a Semantic Kernel KERNEL for the agent
-        Console.WriteLine("Begining Kernel creation!");    
+        Console.WriteLine("Beginning Kernel creation!");    
         Kernel myKernel =  CreateKernel();
         Console.WriteLine("Kernel created!");
 
         //2. Clone the Kernel for the agent
         Kernel theAgentKernel = myKernel.Clone();
+
         //3. Select which LAB going to be executed
         Console.WriteLine("Select which lab to execute:");
         Console.WriteLine("1. Call_CityPoetAgentBasic");
         Console.WriteLine("2. Call_CityPoetAgentWithSkills");
         Console.WriteLine("3. WriterReviewGroupAgent");
-        Console.WriteLine("4. TravelAgentGroupChatSecuential");
+        Console.WriteLine("4. TravelAgentGroupChatSequential");
         Console.WriteLine("5. TravelAgentGroupChatStrategy");
 
         var choice = Console.ReadLine();
@@ -239,7 +247,7 @@
                 new NotImplementedException("This lab is not implemented yet.");
                 break;
             case "4":
-                //await ProgramChatGroupAgent.TravelAgentGroupChatSecuential(myKernel.Clone());
+                //await ProgramChatGroupAgent.TravelAgentGroupChatSequential(myKernel.Clone());
                 new NotImplementedException("This lab is not implemented yet.");
                 break;
             case "5":
@@ -252,7 +260,7 @@
         }
     ```
 
-    6.4 Test the agent. The program ask for 2 user inputs: Subject of the poem and poet tone to use. After select option 1, try with this cities.
+    6.4 Test the agent. The program asks for 2 user inputs: Subject of the poem and poet tone to use. After select option 1, try with this cities.
         
         a. Paris, France
 
@@ -264,15 +272,16 @@
 
         e. Delhi, India  
 
-        The agent write a peom about the city and include the day and time passed as argument to the agent. Example outcome
+        The agent writes a peom about the city and includes the day and time passed as an argument to the agent. Example outcome:
 
     ![SampleOutome](./assets/one.png)
     
-    6.5 The agent only write poems about the cities, that is definedin the Agent instructions. Try to ask:
+    6.5 The agent only writes poems about the cities, that are defined in the Agent instructions. Try to ask:
         
         Subject:   Paul Revere's Ride
        
-        The answer should be similar to the following.
+        The answer should be similar to the following:
+
     ![SampleOutome2](./assets/two.png)
 
-    6.6 Finish the interaction with the agent sending and empty input and th program would finish.
+    6.6 Finish the interaction with the agent sending and empty input and the program will exit.

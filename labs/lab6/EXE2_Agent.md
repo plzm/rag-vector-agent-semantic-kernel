@@ -1,8 +1,10 @@
 # LAB 6: Second Agent, a City Poet agent based on ChatCompletionAgent with skills
+
 ## Create Agent Skill (tool)
+
 1. Create a the WeatherPlugin.
 
-    Add a new file call WeatherPlugin.cs in your project, same folder than Program.cs
+    Add a new file named WeatherPlugin.cs in your project, same folder as Program.cs
 
     Add the following code for the plugin
     ```csharp
@@ -32,9 +34,11 @@
     }
     ```
 ## Create the Agent
+
 2. Create the new Agent CreateAgentCityPoetWithSkills
 
     Add a the CreateAgentCityPoetWithSkills method to the Class Program.
+
     ```csharp
     static ChatCompletionAgent CreateAgentCityPoetWithSkills(Kernel AgentKernel)
     {
@@ -107,10 +111,12 @@
                 // The user will provide the subject of the poem and the poet name to apply the tone.
                 Console.Write("User Subject of the poem> ");
                 string inputSubject = Console.ReadLine() ?? string.Empty;
-                Console.Write("User Peot name> ");
+                Console.Write("User Poet name> ");
                 string inputPoet = Console.ReadLine() ?? string.Empty;
+                
                 //3.1.1 Combine the user inputs in a message for the agent
-                string userInput=$"Subtect: {inputSubject} with tone {inputPoet}";
+                string userInput=$"Subject: {inputSubject} with tone {inputPoet}";
+
                 //3.1.2 Check if the user wants to exit the conversation
                 if (string.IsNullOrWhiteSpace(inputSubject))
                 {
@@ -118,16 +124,16 @@
                     isComplete = true;
                     break;
                 }
+
                 //3.2 Add user input to the history
                 history.Add(new ChatMessageContent(AuthorRole.User, userInput));
-
-            
                 
                 DateTime now = DateTime.Now;
+
                 //3.3 Create arguments to send to the Agent
                 // This time we are sending the subject and the poet name to the agent.
                 // The agent will use this information to write the poem.
-                //This is the technical to pass specific data to the agent.
+                // This is the technical to pass specific data to the agent.
                 KernelArguments arguments =new()
                 {
                     { "now", $"{now.ToShortDateString()} {now.ToShortTimeString()}" },
@@ -136,6 +142,7 @@
                 };
                 
                 Console.WriteLine();
+
                 //3.4 Invoke the agent
                 await foreach (ChatMessageContent response in agent.InvokeAsync(history, arguments))
                 {
@@ -162,6 +169,6 @@
     4.1 Enter a subject like Santiago, Chile 
     4.2 Enter a Peot name like Pablo Neruda
 
-    Notice the response contains  date and time , and also the current wheater on the City as it is shows in the following image.
+    Notice the response contains the date and time and also the current weather on the City as it is shows in the following image.
 
 ![Outcome](./assets/three.png) 
