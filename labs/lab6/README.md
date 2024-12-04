@@ -14,6 +14,6 @@ In this exercise, you will learn the basics of Semantic Kernel Agents and how to
 In this exercise, you will create your first Semantic Kernel agent that have a skill to get the current wheater of a city calling a public API. [Agent with skills](./EXE2_Agent.md)
 
 ### Exercise 3: Agent Group Chat
-In this exercise, you will explore advanced techniques and best practices for working with Semantic Kernel.
+In this exercise, you will explore build a team of 4 agent that going to work togther to solve an user trip request. [Group Chat agents](./EXE3_GRoupAgent.md)
 
 Happy coding!

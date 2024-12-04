@@ -1,8 +1,17 @@
 # LAB 6: First Agent, a City Poet  agent based on ChatCompletionAgent
+## Learning Objectives
+
+1. Create a first agent with Semantic Kernel
+2. Provide `Agent instructions` to define how the agent work
+3. How to pass specific data to and Agent using `Kernel Variables`
+3. Test the first agent and review Semantik Kernel logging information
+
 
 ## Setup
 
 1. Create a .NET console app Hello World
+
+    All tasks in this lab will be executed in a console app. The first step is to create a console app and add all the necessary references for the Agents.
 
     ```powershell
     dotnet new console -n myAgentConsoleApp
@@ -51,6 +60,8 @@
     ```
 
     3.2 Initialize user secrets in your project:
+        The `dotnet user-secrets init` command initializes the user secrets for your .NET project. When you run this command, it adds a `UserSecretsId` element to your project file (typically the `.csproj` file). This element contains a unique identifier (GUID) that is used to store and manage secrets specific to your project.
+
     ```powershell
     dotnet user-secrets init
     ```
@@ -64,6 +75,9 @@
  
 ## Basic Semantic Kernel code and Kernel creation
 4. Replace Program.cs code to create your first SK Kernel
+    To create an agent with SK, the first thing we need is an SK Kernel. We will first create the SK and connect it with an Azure OpenAI model. Then, we will set up logging services to gather instrumentation that will help us understand the agent's behaviors.
+
+    The `Services.AddLogging` command in Semantic Kernel is used to add logging services to your application. This is particularly useful for debugging and monitoring the behavior of your AI agents. When you use this command, you can configure various logging providers and set the minimum log level.
     ```csharp
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -108,15 +122,23 @@
 
 5. Run and test your enviroment variables before move forward.
 
+    This initial run is to test that all configurations are correct and that the Kernel is working properly. You should see the Kernel messages displayed in the console.
     You should see the Kernel messages in the console.
 
     ![First run](./assets/FirstRun.png)
 
 ## Agent Creation.
 
+Now that we have the Kernel working, we will create the first agent. To do this, we need to define the agent and code the user interaction to make a request to the agent.
+
 6. Create the first Agent, City Poet Agent. This agent has no, tools only an LLM that helps it answer.
 
-    The system prompt of the agent defines what the agent does.
+    Semantic Kernel agent instructions define the behavior and actions of an AI agent. These instructions are similar to prompts used in other AI models but are more flexible and dynamic. Here's a breakdown of what they do:
+
+    * **Define Behavior**: Instructions specify what the agent should do, such as generating text, performing a task, or interacting with other agents. 
+    * **Use Templates**: Instructions can include templated parameters, allowing the agent to adapt its responses based on real-time input. For example, an instruction might be "Tell a story about [topic] that is [length] sentences long," where [topic] and [length] are variables.
+    * **Dynamic Substitution**: During execution, the agent substitutes the templated parameters with actual values, making the responses context-aware and adaptable.
+    * **Modularity**: Instructions can be reused across different agents or scenarios, making it easier to create versatile and maintainable AI systems.
 
     6.1 Create Agent Method.
 
@@ -159,6 +181,9 @@
     ```
 
     6.2 Create the Chat loop metod.
+
+    In the chat loop, the agent is created and called using `KernelArguments` that include the `Now` variable. This variable provides the agent with the current date and time, which the agent uses when creating the poem. 
+
     ```csharp
     /// <summary>
     /// Call the CityPoetAgent with basic functionality, this method will start a conversation with the agent

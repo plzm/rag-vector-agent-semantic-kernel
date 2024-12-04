@@ -1,10 +1,19 @@
 # LAB 6: Second Agent, a City Poet agent based on ChatCompletionAgent with skills
+## Learning Objectives
+
+1. Create a Semantic Kernel plug-in to be use by the Agent.
+2. Use  `Agent instructions` to define how the agent work and read specific data.
+3. How to pass specific data to and Agent using `Kernel Variables`
+4. Create anf agent that use skills to execute actions like call and API
 
 ## Create Agent Skill (tool)
 
 1. Create a the WeatherPlugin.
 
     Add a new file named WeatherPlugin.cs in your project, same folder as Program.cs
+
+    A Semantic Kernel `plugin` is a component that encapsulates standard language functions for applications and AI models to consume. These plugins allow AI models to perform tasks that they wouldn't be able to do otherwise by leveraging existing APIs and services
+    Add a new file call WeatherPlugin.cs in your project, same folder than Program.cs
 
     Add the following code for the plugin
     ```csharp
@@ -38,6 +47,9 @@
 2. Create the new Agent CreateAgentCityPoetWithSkills
 
     Add a the CreateAgentCityPoetWithSkills method to the Class Program.
+    In this new Agent version, the agent **receives** 3 parameters (**now**, **subject**, and **poetname**) and also has the skill to check the current weather using the SK Plugin `WeatherPlugin` created below.
+
+    `FunctionChoiceBehavior.Auto()` from Semantic Kernel is a configuration option that allows the AI model to decide whether to call functions and, if so, which ones to call. When you set the function choice behavior to `Auto()`, the model is given the flexibility to choose from zero or more functions provided to it. This means the model can decide if it needs to invoke any function at all, and if it does, it can select the most appropriate one based on the context.
 
     ```csharp
     static ChatCompletionAgent CreateAgentCityPoetWithSkills(Kernel AgentKernel)
@@ -91,6 +103,7 @@
 3. Create a new method Call_CityPoetAgentWithSkills 
 
     3.1 This method create a Agent instance and controlde chat loop. It capture 2 variables used by the agent: Subject and Poet.
+    `KernelArguments` in Semantic Kernel provides a way to pass dynamic arguments to the kernel's functions or agents. These arguments allow you to customize and control the behavior of the kernel at runtime, making it more flexible and adaptable to different scenarios.
 
     ```csharp
         /// <summary>
@@ -172,3 +185,4 @@
     Notice the response contains the date and time and also the current weather on the City as it is shows in the following image.
 
 ![Outcome](./assets/three.png) 
+
