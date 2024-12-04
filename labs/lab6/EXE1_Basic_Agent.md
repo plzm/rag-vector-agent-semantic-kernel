@@ -1,15 +1,22 @@
 # LAB 6: First Agent, a City Poet  agent based on ChatCompletionAgent
+## Introduction
+A `Semantic Kernel agent` is an AI-driven entity designed to understand and generate natural language, perform reasoning, and execute actions based on user input and contextual information. These agents leverage semantic understanding to process complex queries and deliver meaningful responses.
+
+In this lab you going to build your first `Semantic Kernel Agent`. This agent going to be avaiable to write Poems about a city based on a user request.
+
+![City POet Agent](./assets/CityPoet.png)
+
 ## Learning Objectives
 
 1. Create a first agent with Semantic Kernel
 2. Provide `Agent instructions` to define how the agent work
 3. How to pass specific data to and Agent using `Kernel Variables`
-3. Test the first agent and review Semantik Kernel logging information
+3. Test the first agent and review Semantic Kernel logging information
 
+## Basic setup
+To start the lab, you need to create a .NET Console App and add the necessary NuGet packages for Semantic Kernel and secret management. After that, set the secrets needed to connect the Semantic Kernel with the AI services.
 
-## Setup
-
-1. Create a .NET console app Hello World
+1. TASK: Create a .NET console app Hello World
 
     All tasks in this lab will be executed in a console app. The first step is to create a console app and add all the necessary references for the Agents.
 
@@ -17,10 +24,11 @@
     dotnet new console -n myAgentConsoleApp
     ```
     
-    Test the app by running it.
+    Before move forward, test the app by running it.
 
     ![Hello World](./assets/HelloWorld.png)
-2. Installing the SDK 
+
+2. TASK: Installing the SDK 
     Semantic Kernel has several NuGet packages available. 
     
     You can install it using the following command in your console app directory:
@@ -39,7 +47,9 @@
     dotnet add package Microsoft.SemanticKernel.Agents.Core --prerelease
     ```
 
-    The Agent Framework is experimental and requires warning suppression. This can be addressed by adding `<NoWarn>` items in the project file (.csproj):
+    In Visual Studio Code (VS Code), the `Agent Framework` being experimental means it may produce certain compiler warnings. To suppress these warnings, you can configure your project file (.csproj) to ignore specific warning codes. This is done using the `<NoWarn>` element within the project file.
+
+    The Agent Framework is experimental and requires warning suppression, to solve it add `<NoWarn>` items in the project file (.csproj):
 
     ```XML
     <PropertyGroup>
@@ -47,9 +57,12 @@
     </PropertyGroup>
     ```
 
-3. To securely store and read secrets in your .NET application, you can use the Microsoft.Extensions.Configuration package along with a secrets management tool like Azure Key Vault or the .NET Secret Manager for local development.
+3. Task: Set Secret Management on dev enviroment
 
-    In this lab, we'll use the .NET Secret Manager (for local development)
+
+    To securely store and read secrets in your .NET application, you can use the `Microsoft.Extensions.Configuration` package along with a secrets management tool like Azure Key Vault or the .NET Secret Manager for local development.
+
+    In this lab, we'll use the .NET Secret Manager (**for local development**)
     
     3.1 Install the necessary NuGet packages:
 
@@ -74,8 +87,9 @@
     ```
  
 ## Basic Semantic Kernel code and Kernel creation
-4. Replace Program.cs code to create your first SK Kernel
-    To create an agent with SK, the first thing we need is an SK Kernel. We will first create the SK and connect it with an Azure OpenAI model. Then, we will set up logging services to gather instrumentation that will help us understand the agent's behaviors.
+4. Task:Replace Program.cs code to create your first SK Kernel
+    
+    To create an agent with SK, the first thing we need is an SK `Kernel`. We will first create the SK and connect it with an Azure OpenAI model. Then, we will set up logging services to gather instrumentation that will help us understand the agent's behaviors.
 
     The `Services.AddLogging` command in Semantic Kernel is used to add logging services to your application. This is particularly useful for debugging and monitoring the behavior of your AI agents. When you use this command, you can configure various logging providers and set the minimum log level.
     ```csharp
@@ -120,7 +134,7 @@
     }
     ```
 
-5. Run and test your enviroment variables before move forward.
+5. Task: Run and test your enviroment variables before move forward.
 
     This initial run is to test that all configurations are correct and that the Kernel is working properly. You should see the Kernel messages displayed in the console.
     You should see the Kernel messages in the console.
@@ -131,16 +145,20 @@
 
 Now that we have the Kernel working, we will create the first agent. To do this, we need to define the agent and code the user interaction to make a request to the agent.
 
-6. Create the first Agent, City Poet Agent. This agent has no, tools only an LLM that helps it answer.
+6. Task: Create the first Agent, **City Poet Agent**. This agent has no, tools only an LLM that helps it answer.
 
-    Semantic Kernel agent instructions define the behavior and actions of an AI agent. These instructions are similar to prompts used in other AI models but are more flexible and dynamic. Here's a breakdown of what they do:
+    6.1 Create Agent Method.
+    
+    Choose a meaningful and descriptive name for your agent that reflects its purpose or functionality. For example, **CityPoetAgent** for an agent that write peoms about cities.
+
+    Semantic Kernel **agent instructions** define the behavior and actions of an AI agent. These instructions are similar to prompts used in other AI models but are more flexible and dynamic. Here's a breakdown of what they do:
 
     * **Define Behavior**: Instructions specify what the agent should do, such as generating text, performing a task, or interacting with other agents. 
     * **Use Templates**: Instructions can include templated parameters, allowing the agent to adapt its responses based on real-time input. For example, an instruction might be "Tell a story about [topic] that is [length] sentences long," where [topic] and [length] are variables.
     * **Dynamic Substitution**: During execution, the agent substitutes the templated parameters with actual values, making the responses context-aware and adaptable.
     * **Modularity**: Instructions can be reused across different agents or scenarios, making it easier to create versatile and maintainable AI systems.
 
-    6.1 Create Agent Method.
+    In Semantic Kernel agents, the notation `{{ variable_name }}` is used to represent placeholders for variables within text templates. These placeholders can be dynamically replaced with actual values when the template is processed. This notation is particularly useful for generating text that needs to adapt based on varying inputs, such as personalized messages, reports, or responses. In this case, the Agento could know the current data and time using `{{$now}}`.
 
     Add the following method to the Program class.
 
@@ -183,6 +201,14 @@ Now that we have the Kernel working, we will create the first agent. To do this,
     6.2 Create the Chat loop metod.
 
     In the chat loop, the agent is created and called using `KernelArguments` that include the `Now` variable. This variable provides the agent with the current date and time, which the agent uses when creating the poem. 
+
+    Semantic Kernel agents can interact in various ways, enhancing their flexibility, adaptability, and effectiveness in different scenarios. Whether it's a simple user query, a multi-agent collaboration, or proactive engagement, these interaction types enable agents to perform a wide range of tasks and provide meaningful, context-aware assistance. 
+    
+    This implementation is **single-turn interactions**, the agent processes a single user request and provides a response without maintaining a prolonged context.
+
+    In the context of Semantic Kernel agents, **chat history** is essential for maintaining a coherent and contextually relevant conversation. It involves recording all previous interactions between the user and the agent, enabling the agent to understand the context, ensure continuity, and personalize responses. This history helps the agent generate accurate and meaningful replies by referring back to prior messages, thus enhancing the overall user experience by keeping conversations smooth and engaging.
+
+    Add the method **Call_CityPoetAgentBasic** to the Program class.
 
     ```csharp
     /// <summary>
@@ -238,7 +264,12 @@ Now that we have the Kernel working, we will create the first agent. To do this,
         
     }
     ```
-    6.3 Update Main method to call the Agent adding this code.
+    
+    6.3 Task: Update Main method to call the Agent 
+
+    This code provides a menu for the user to select which lab they would like to execute. For this first exercise, the option to use will be 1.
+
+    Add this code to Main method.
 
     ```csharp
         //1. Create a Semantic Kernel KERNEL for the agent
@@ -285,7 +316,9 @@ Now that we have the Kernel working, we will create the first agent. To do this,
         }
     ```
 
-    6.4 Test the agent. The program asks for 2 user inputs: Subject of the poem and poet tone to use. After select option 1, try with this cities.
+    6.4 Task: Test the agent. 
+    
+    Run the console app and  type the city that you would like to use for the poem subject. fo example:
         
         a. Paris, France
 
@@ -297,15 +330,17 @@ Now that we have the Kernel working, we will create the first agent. To do this,
 
         e. Delhi, India  
 
-        The agent writes a peom about the city and includes the day and time passed as an argument to the agent. Example outcome:
+    The agent writes a peom about the city and includes the day and time passed as an argument to the agent. Example outcome:
 
     ![SampleOutome](./assets/one.png)
     
-    6.5 The agent only writes poems about the cities, that are defined in the Agent instructions. Try to ask:
+    6.5 Task: Test the agent instructions guardrails
+    
+    The agent only writes poems about the cities, that are defined in the Agent instructions. Try to ask:
         
         Subject:   Paul Revere's Ride
        
-        The answer should be similar to the following:
+    The answer should be reject the request, similar to the following:
 
     ![SampleOutome2](./assets/two.png)
 

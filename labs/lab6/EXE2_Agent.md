@@ -1,21 +1,31 @@
 # LAB 6: Second Agent, a City Poet agent based on ChatCompletionAgent with skills
+## Introduction
+
+This exercise aims to extend the Agent created in the first exercise by providing it with a skill to search for the current weather of the city where the poem is written and add the city's current weather to it. To achieve this, the agent leverages the Semantic Kernel Plugin as a skill.
+
+<img src="./assets/Peom_Weather.png" alt="ity Peot and Weather Agent" width="70%" height="70%">
+
+
 ## Learning Objectives
 
 1. Create a Semantic Kernel plug-in to be use by the Agent.
-2. Use  `Agent instructions` to define how the agent work and read specific data.
-3. How to pass specific data to and Agent using `Kernel Variables`
-4. Create anf agent that use skills to execute actions like call and API
+2. Use `Agent instructions` to define how the agent work and read specific data  using `Kernel Variables`
+3. Create an agent that use skills to execute actions like call and API
 
 ## Create Agent Skill (tool)
 
-1. Create a the WeatherPlugin.
-
-    Add a new file named WeatherPlugin.cs in your project, same folder as Program.cs
+1. Task: Create a the WeatherPlugin.
 
     A Semantic Kernel `plugin` is a component that encapsulates standard language functions for applications and AI models to consume. These plugins allow AI models to perform tasks that they wouldn't be able to do otherwise by leveraging existing APIs and services
+
+    The `KernelFunction` attribute is used to mark methods within a plugin class that can be called by an AI agent. When you annotate a method with `KernelFunction`, you're indicating to Semantic Kernel that this method is part of the plugin's functionality and can be invoked by the AI.
+
+    The `Description` attribute is used to provide **semantic descriptions** for the functions within a plugin. These descriptions help the AI agent understand what each function does, what parameters it expects, and what it returns. This is crucial for the AI to correctly call the functions and use them effectively.
+
     Add a new file call WeatherPlugin.cs in your project, same folder than Program.cs
 
-    Add the following code for the plugin
+    Add a new file named `WeatherPlugin.cs` in your project, same folder as Program.cs and add the following code for the plugin.
+
     ```csharp
     using Microsoft.SemanticKernel;
     using System.ComponentModel;
@@ -44,12 +54,15 @@
     ```
 ## Create the Agent
 
-2. Create the new Agent CreateAgentCityPoetWithSkills
+2. Task: Create the new Method  **CreateAgentCityPoetWithSkills**
 
-    Add a the CreateAgentCityPoetWithSkills method to the Class Program.
     In this new Agent version, the agent **receives** 3 parameters (**now**, **subject**, and **poetname**) and also has the skill to check the current weather using the SK Plugin `WeatherPlugin` created below.
 
     `FunctionChoiceBehavior.Auto()` from Semantic Kernel is a configuration option that allows the AI model to decide whether to call functions and, if so, which ones to call. When you set the function choice behavior to `Auto()`, the model is given the flexibility to choose from zero or more functions provided to it. This means the model can decide if it needs to invoke any function at all, and if it does, it can select the most appropriate one based on the context.
+
+    By using `AgentKernel.Plugins.AddFromObject(weatherPlugin)`, you can easily integrate Weahter infromaation by city into your Semantic Kernel agent, making it more versatile and capable of handling specific tasks.
+
+    Add a the `CreateAgentCityPoetWithSkills` method to the Class `Program`.
 
     ```csharp
     static ChatCompletionAgent CreateAgentCityPoetWithSkills(Kernel AgentKernel)
@@ -100,9 +113,12 @@
 
 
 ## Creat Chat loop
-3. Create a new method Call_CityPoetAgentWithSkills 
+3. Task: Create a new method **Call_CityPoetAgentWithSkills** 
 
-    3.1 This method create a Agent instance and controlde chat loop. It capture 2 variables used by the agent: Subject and Poet.
+    3.1 Create the method `Call_CityPoetAgentWithSkills`
+    
+    This method create a Agent instance and control the chat loop. It capture 2 variables used by the agent: *Subject* and *Poet*.
+
     `KernelArguments` in Semantic Kernel provides a way to pass dynamic arguments to the kernel's functions or agents. These arguments allow you to customize and control the behavior of the kernel at runtime, making it more flexible and adaptable to different scenarios.
 
     ```csharp
@@ -174,15 +190,20 @@
 
      ```csharp
     case "2":
-        await Call_CityPoetAgentWithSkills(myKernel.Clone());
+        await Call_CityPoetAgentWithSkills(theAgentKernel);
         break;
      ```
 ## Test the new agent
-    4. Run the program and select option 2
+4. Task: Run the program and select option 2
+
     4.1 Enter a subject like Santiago, Chile 
+    
     4.2 Enter a Peot name like Pablo Neruda
 
     Notice the response contains the date and time and also the current weather on the City as it is shows in the following image.
 
+
 ![Outcome](./assets/three.png) 
+
+The current wheater is provided by the WeatherPlugins, it is an skill that provide the Agent the capacity to execute actions.
 

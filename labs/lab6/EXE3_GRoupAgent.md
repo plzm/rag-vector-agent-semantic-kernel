@@ -1,10 +1,19 @@
 # LAB 6: Agent Group Chat
-This exercise explain how to create a Agent Group chat to book a trip that include Flights and hotel.
+## Introduction
+
+This exercise explains how to create an Agent Group Chat to book a trip that includes flights and a hotel. The solution involves four AI agents with specific roles that collaborate to fulfill the user's travel request.
+
+<img src="./assets/aiAgentChat.png" alt="ity Peot and Weather Agent" width="70%" height="70%">
+
+## Learning objetives
+* Undetstand how Semantic Kernel `AgentGroupChat` works
+* Use **Agent Group Chat** to coordinate collboration between AI agents
+* Use Agent instructions to define AI agent's roles and  responsabilities
 
 ## Create Agents that participate in the Group Chat
-1. Create a new file call AgentGroupChat.cs
-
-2. Add this starting code
+1. Task: Create a new file call AgentGroupChat.cs
+    
+    Add this starting code
 
     ```csharp
     using Microsoft.SemanticKernel;
@@ -19,7 +28,11 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
     }       
     ```
 
-3. Create a method to create basic agents named CreateBasicAgent
+2. Task: Create a method to create basic agents named **CreateBasicAgent**
+
+    `CreateBasicAgent` is a agent builder (without skills) to simplify the creation of multiples agents.
+
+    Add this mehod to `TravelAgentChatCoordinator` class.
     ```csharp
         /// <summary>
         ///  Create a basic agent with the given name, kernel, and instructions.
@@ -41,8 +54,14 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
         }
     ```
 
-4. Get the user trip request to be used in the chat.
-    This method provide a trip description to be use as a request to the group chat.
+4. Task: Get the user trip request to be used in the chat.
+
+    The `GetUserTripRequest` method is a utility method to select between multiples travels user option.
+
+    This method provide a trip description to be use as a request (challenge)  to the Ai agent group chat.
+    
+    Add this mehod to `TravelAgentChatCoordinator` class.
+
     ```csharp
         /// <summary>
         /// Get the user trip request to be used in the chat.
@@ -90,9 +109,14 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
             };
         }
     ```
-5. Create a new method to review f the termination condition based on Termination key has been expresed by the agent
 
-    The `ApprovalTerminationStrategy` class in a Semantic Kernel agent is designed to implement a specific strategy for terminating a process based on approval criteria. 
+5. Task: Create a new class `ApprovalTerminationStrategy`to review the termination condition based on **Termination key** has been expresed by the agent
+
+    The `ApprovalTerminationStrategy` class in a Semantic Kernel agent is designed to implement a specific strategy for terminating a process based on approval criteria.
+
+    In this case, the chat discussion going to end when the specific `terminationKey` is mentioned by the AI agent.
+
+    This class is a member of ``class TravelAgentChatHelper`` so should be added in the TravelAgentChatHelper class.
     ```csharp
         /// <summary>
         /// Check if the final message contains the termination key to determine if the chat should end.
@@ -104,14 +128,28 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
                 => Task.FromResult(history[history.Count - 1].Content?.Contains(terminationKey, StringComparison.OrdinalIgnoreCase) ?? false);
         }
     ```
-6. Add the method TravelAgentGroupChatSecuential
+6. Task: Add the method TravelAgentGroupChatSecuential
 
     this method create:
-    * **3 Agents**:  TravelAgencyAgent,BookingAgent, HotelSearchAgent, FlightSearchAgent
+    * **3 Agents**: Each agent has different role and responsability
+    
+        TravelAgencyAgent: request, evaluate and select the travel  options provided by the other agentes.
+        
+        BookingAgent: This agent only can book flights and hotels when it is commaned to do it.
+
+        HotelSearchAgent: This agent only could search for hotel options.
+        
+        FlightSearchAgent: this agent only can search for fly options.
+
     * **AgentGroupChat**: created as sequencial chat defined by the order on how the agent was created.
     The code `ApprovalTerminationStrategy(terminationKey)` in a Semantic Kernel agent creates an instance of the ApprovalTerminationStrategy class, which defines a specific termination strategy based on a given key. This approach ensures that the agent's process only terminates when the specified approval condition is met, making the termination logic modular and adaptable.
-    * **UserInput** Ask the user his trip request
-    * **InvokeAsync** Trigger the Chat discussion where the agents iterate to solve the problem. 
+
+    * **UserInput** is the user's trip request (challenge to solve) 
+    
+    * **chat.InvokeAsync()** Trigger the Chat discussion where the agents iterate to solve the problem. 
+
+
+    Add this method in the class TravelAgentChatHelper.
     ```csharp
     /// <summary>
         /// Create and Agent Chat Group  to solve the travel booking  problem propoused by the user in the chat.
@@ -212,7 +250,7 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
         }
 
     ```
-7. Update the Main method to include in the user options this Groupchat
+7. Task: Update the **Main** method to include in the user options this Groupchat in the user menu.
 
 ```csharp
     case "4":
@@ -220,22 +258,28 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
         break;
 ```
 ## Run and test the Group Agent
-8. Run the console application
-9. Select the option TravelAgentGroupChatSecuential
-10. Select your trip destination option, for exmple Santiago.
+8. Task: Run the console application and test
 
-    The Chat seccuense should be like:
+    8.1  Select the option **TravelAgentGroupChatSecuential**
 
-    10.1 TravelAgencyAgent
+    8.2 Select your trip destination option, for exmple **Santiago**.
+
+    8.3 The Chat discussion secuence should be like is decribed bellow. 
+    
+        User trigger the chat with his trip request, TravelAgencyAgent ask for flight and Hotel options, BookingAgent skip to participate becouse it did not recieved a booking request, FlightSearchAgent provide options, HotelSearchAgent provide  hotel options, TravelAgencyAgent review, select and ask to book and finally BookingAgent "Book and finish" the dicussion.
+
+    This is a execution outcome example:
+
+    * TravelAgencyAgent
     ```
-    ## Assistant - TravelAgencyAgent ##
+    ## Assistant - TravelAgencyAgent
     I have noted your preferences for the trip, including your choice for LATAM Airlines and a luxurious hotel with a mountain view and breakfast included. I will review the flight and hotel options provided by other agents and select the best options for your journey. Please hold on for a moment while the options are shared.
     ```
-    10.2 ## Assistant - BookingAgent ##
+    *  Assistant - BookingAgent
     ```
     Could you confirm which hotel you would like to stay at and the specific LATAM flight details you would prefer, so I can finalize the booking for you once it is approved?
     ```
-    10.3 ## Assistant - FlightSearchAgent ##
+    * Assistant - FlightSearchAgent
     ```
     ## Assistant - FlightSearchAgent ##
     Here are some flight options for your trip from Boston to Santiago with LATAM Airlines:
@@ -266,7 +310,7 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
 
     Please let me know which option works best for you!
     ```
-    10.4  ## Assistant - HotelSearchAgent ##
+    * Assistant - HotelSearchAgent
     ```
     ## Assistant - HotelSearchAgent ##
     Here are three luxury hotel options in Santiago, Chile, that include mountain views and breakfast for your stay from January 10th to January 15th:
@@ -288,7 +332,7 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
 
     Please let me know if any of these options suit your requirements or if you would like more information on any of them!
     ```
-    10.5 ## Assistant - TravelAgencyAgent ##
+    * Assistant - TravelAgencyAgent
     ```
     ## Assistant - TravelAgencyAgent ##
     After reviewing the options, here are my recommendations based on your preferences:
@@ -303,7 +347,7 @@ This exercise explain how to create a Agent Group chat to book a trip that inclu
 
     approve and ready to book
     ```
-    10.6 ## Assistant - BookingAgent ##
+    * Assistant - BookingAgent 
     ```
     ## Assistant - BookingAgent ##
     Trip booked.
