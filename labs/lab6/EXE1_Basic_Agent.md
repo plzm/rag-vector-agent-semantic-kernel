@@ -345,3 +345,9 @@ Now that we have the Kernel working, we will create the first agent. To do this,
     ![SampleOutome2](./assets/two.png)
 
     6.6 Finish the interaction with the agent sending and empty input and the program will exit.
+
+
+---
+[Back to Lab 6 index.](./README.md)
+
+This is sample code for education propouse, not intented to be used in production.

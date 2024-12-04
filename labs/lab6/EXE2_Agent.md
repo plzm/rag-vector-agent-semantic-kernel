@@ -207,3 +207,9 @@ This exercise aims to extend the Agent created in the first exercise by providin
 
 The current wheater is provided by the WeatherPlugins, it is an skill that provide the Agent the capacity to execute actions.
 
+
+
+---
+[Back to Lab 6 index.](./README.md)
+
+This is sample code for education propouse, not intented to be used in production.

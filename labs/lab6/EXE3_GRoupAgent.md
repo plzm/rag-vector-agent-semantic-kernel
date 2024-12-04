@@ -128,10 +128,10 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
                 => Task.FromResult(history[history.Count - 1].Content?.Contains(terminationKey, StringComparison.OrdinalIgnoreCase) ?? false);
         }
     ```
-6. Task: Add the method TravelAgentGroupChatSecuential
+6. Task: Add the method `TravelAgentGroupChatSecuential`
 
     this method create:
-    * **3 Agents**: Each agent has different role and responsability
+    * ** 4 Agents**: Each agent has different role and responsability
     
         TravelAgencyAgent: request, evaluate and select the travel  options provided by the other agentes.
         
@@ -149,7 +149,7 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
     * **chat.InvokeAsync()** Trigger the Chat discussion where the agents iterate to solve the problem. 
 
 
-    Add this method in the class TravelAgentChatHelper.
+    Add this method in the class `TravelAgentChatHelper`.
     ```csharp
     /// <summary>
         /// Create and Agent Chat Group  to solve the travel booking  problem propoused by the user in the chat.
@@ -352,3 +352,11 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
     ## Assistant - BookingAgent ##
     Trip booked.
     ```
+
+
+
+
+---
+[Back to Lab 6 index.](./README.md)
+
+This is sample code for education propouse, not intented to be used in production.
