@@ -37,6 +37,6 @@ Happy coding!
 
 ## Lab Prerequisites
 
-* All the exerses are built in [Visual Studio Code](https://code.visualstudio.com/download) but you could use Visual Studio as well
+* All the exercises are built in [Visual Studio Code](https://code.visualstudio.com/download) but you could use Visual Studio as well
 * [AzureOpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) LLM Endpoint and Key
-* Laest [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed
+* Last [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed
