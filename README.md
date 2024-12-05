@@ -87,4 +87,8 @@ I’m an independent Full Stack Solution Architect with a deep focus on Azure an
 [Email](mailto://info@jasonhaley.com)
 
 ### Juan Pablo Garcia Gonzalez
-Add bio and any social contact info
+I am an AI Partner Solution Architect working with Microsoft, focusing on AI solutions with our Global Software Company partners group. I have more than 24 years of experience in the tech industry.
+
+[LinkedIn](https://www.linkedin.com/in/jpgarciagonzalez/)
+
+[Twitter](https://twitter.com/liarjo)
