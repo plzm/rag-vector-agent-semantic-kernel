@@ -35,7 +35,7 @@ We of course hope that you attend one of our in person workshops and are using t
 
 * [Session 1 title here](link to pdf file of presentation)
 * [Retrieval Augmented Generation (RAG)](assets/Workshop-RAGIntro.pdf)
-* Agentic AI Unlocking the Power of Multi-Agent Systems
+* [Agentic AI Unlocking the Power of Multi-Agent Systems](./labs/lab6/assets/Multi-Agent-Systems_SK.pdf)
 
 ### Labs
 
