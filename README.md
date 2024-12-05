@@ -44,7 +44,7 @@ We of course hope that you attend one of our in person workshops and are using t
 * Lab 3: [Using WebRetrieverPlugin to create a RAG application](./labs/lab3/readme.md) ([Visual Studio version](./labs/lab3/readme-vs.md))
 * Lab 4: [Creating a RAG application to Search a PDF](./labs/lab4/readme.md) ([Visual Studio version](./labs/lab4/readme-vs.md))
 * Lab 5: [Putting it all together](./labs/lab5/readme.md) ([Visual Studio version](./labs/lab5/readme-vs.md))
-* Lab 6: [Semantic Kernel Agent Lab](./labs/lab6/readme.md)
+* Lab 6: [Semantic Kernel Agent Lab](./labs/lab6/README.md)
 
 ## Prerequisites
 
