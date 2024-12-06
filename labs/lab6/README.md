@@ -40,3 +40,19 @@ Happy coding!
 * All the exercises are built in [Visual Studio Code](https://code.visualstudio.com/download) but you could use Visual Studio as well
 * [AzureOpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) LLM Endpoint and Key
 * Last [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed
+
+## High-Level Summary
+
+### Focus
+Building agents with Semantic Kernel.
+
+### Objectives
+- Create an agent with reasoning capabilities to solve domain-specific requests
+- Add specific skills to the agent for executing actions to solve problems
+- Create a team of agents to collaboratively solve more complex problems
+
+### Additional Exercises
+- Experiment with different agent skills and their interactions
+
+### Further Ideas
+- Explore the impact of different agent collaboration strategies

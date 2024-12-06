@@ -25,3 +25,18 @@ vscode .
 ```console
 dotnet run
 ```
+
+## High-Level Summary
+
+### Focus
+Accessing APIs and running a simple SK console app.
+
+### Objectives
+- Get local copies of API keys
+- Run a simple SK console app
+
+### Additional Exercises
+- Experiment with different API endpoints
+
+### Further Ideas
+- Explore different API authentication methods

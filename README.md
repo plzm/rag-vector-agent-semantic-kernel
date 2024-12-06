@@ -46,6 +46,50 @@ We of course hope that you attend one of our in person workshops and are using t
 * Lab 5: [Putting it all together](./labs/lab5/readme.md) ([Visual Studio version](./labs/lab5/readme-vs.md))
 * Lab 6: [Semantic Kernel Agent Lab](./labs/lab6/README.md)
 
+## High-Level Summary of Labs
+
+### Lab 0: Can we just access the dang API?
+- Focus: Accessing APIs and running a simple SK console app.
+- Objectives: Get local copies of API keys, run a simple SK console app.
+- Additional Exercises: Experiment with different API endpoints.
+- Further Ideas: Explore different API authentication methods.
+
+### Lab 1: Getting Started with Semantic Kernel
+- Focus: Adding Semantic Kernel to an application, using Azure OpenAI, and creating prompt functions.
+- Objectives: Demonstrate how to add Semantic Kernel to an existing application, use Semantic Kernel to chat with the Azure OpenAI LLM, define a prompt function and use it in an application, recognize the need for chat history and how to add it.
+- Additional Exercises: Experiment with different Temperature values to see their influence.
+- Further Ideas: Explore different prompt engineering techniques.
+
+### Lab 2: Creating Semantic Kernel Plugins
+- Focus: Creating native plugins and using web search plugins.
+- Objectives: Implement a plugin with native C# code, use a plugin to give an LLM additional information, create a plugin that uses an LLM to rewrite a user query, utilize a Semantic Kernel plugin to perform a web search.
+- Additional Exercises: Experiment with different plugin functions.
+- Further Ideas: Explore different ways to integrate plugins with Semantic Kernel.
+
+### Lab 3: Using WebRetrieverPlugin to create a RAG application
+- Focus: Creating a RAG application using web search results.
+- Objectives: Build a plugin to combine the rewriting of a user's query and a web search, write a prompt to perform a basic RAG pattern call to an LLM, implement a simple chatbot loop, demonstrate the usefulness of a RAG implementation.
+- Additional Exercises: Experiment with different web search engines.
+- Further Ideas: Explore different ways to integrate web search results with Semantic Kernel.
+
+### Lab 4: Creating a RAG application to Search a PDF
+- Focus: Creating a RAG application to search a PDF using a vector store.
+- Objectives: Configure a vector store to use with the application, read, chunk and ingest a pdf file, implement logic to perform a similarity search on the vector store, create a plugin to perform RAG using the memory store.
+- Additional Exercises: Experiment with different PDF files.
+- Further Ideas: Explore different ways to integrate PDF search results with Semantic Kernel.
+
+### Lab 5: Putting it all together
+- Focus: Integrating all previous labs and adding logging and user intent determination.
+- Objectives: Use filters to add logging and understand the call flows, have the LLM determine which plugin functions to call, create a plugin to determine the user's intent, dynamically control the functions available to the LLM depending on the user's intent.
+- Additional Exercises: Experiment with different logging techniques.
+- Further Ideas: Explore different ways to integrate logging and user intent determination with Semantic Kernel.
+
+### Lab 6: Semantic Kernel Agent Lab
+- Focus: Building agents with Semantic Kernel.
+- Objectives: Create an agent with reasoning capabilities to solve domain-specific requests, build an agent with skills to get the current weather of a city by calling a public API, create a team of agents to collaboratively solve more complex problems.
+- Additional Exercises: Experiment with different agent skills.
+- Further Ideas: Explore different ways to integrate agents with Semantic Kernel.
+
 ## Prerequisites
 
 ### C#/.NET

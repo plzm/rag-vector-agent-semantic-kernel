@@ -251,3 +251,19 @@ These events provide a mix of cultural, artistic, and festive activities to enjo
 
 The last request used both the DateTimePlugin we created earlier and the WebSearchEnginePlugin to provide a nice user experience.
 
+## High-Level Summary
+
+### Focus
+Creating native plugins and using web search plugins.
+
+### Objectives
+- Implement a plugin with native C# code
+- Use a plugin to give an LLM additional information
+- Create a plugin that uses an LLM to rewrite a user query
+- Utilize a Semantic Kernel plugin to perform a web search
+
+### Additional Exercises
+- Experiment with different API endpoints
+
+### Further Ideas
+- Explore different API authentication methods
