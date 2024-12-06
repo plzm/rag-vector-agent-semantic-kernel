@@ -127,9 +127,10 @@ Add bio and any social contact info
 ### Jason Haley
 I’m an independent Full Stack Solution Architect with a deep focus on Azure and .NET technologies.  I’m currently focused on helping customers integrate Gen AI functionality into their .NET applications.
 
-[LinkedIn](https://www.linkedin.com/in/jason-a-haley/)
-[My Blog](https://jasonhaley.com/)
-[Email](mailto://info@jasonhaley.com)
+[LinkedIn](https://www.linkedin.com/in/jason-a-haley/) | 
+[Twitter](https://x.com/haleyjason) | 
+[My Blog](https://jasonhaley.com/) | 
+[Email](mailto://info@jasonhaley.com) 
 
 ### Juan Pablo Garcia Gonzalez
 I am an AI Partner Solution Architect working with Microsoft, focusing on AI solutions with our Global Software Company partners group. I have more than 24 years of experience in the tech industry.
