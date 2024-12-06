@@ -39,6 +39,7 @@ We of course hope that you attend one of our in person workshops and are using t
 
 ### Labs
 
+* Lab 0: [Running a trivial Semantic Kernel where successful `dotnet run` is proof our APIs are working](./labs/lab0/readme.md) ([Visual Studio version](./labs/lab0/readme-vs.md))
 * Lab 1: [Getting Started with Semantic Kernel](./labs/lab1/readme.md) ([Visual Studio version](./labs/lab1/readme-vs.md))
 * Lab 2: [Creating Semantic Kernel Plugins](./labs/lab2/readme.md) ([Visual Studio version](./labs/lab2/readme-vs.md))
 * Lab 3: [Using WebRetrieverPlugin to create a RAG application](./labs/lab3/readme.md) ([Visual Studio version](./labs/lab3/readme-vs.md))
