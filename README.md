@@ -118,11 +118,16 @@ Please install this software ahead of the workshop:
 ## Additional Resources
 
 * [Semantic Kernel](https://github.com/microsoft/semantic-kernel)
+* [Single Page Semantic Kernel for C# - 2024 .NET version 1.0 concept-to-code mapping](http://aka.ms/sk/map)
 
 ## Contributors
 
 ### Bill Wilder
-Add bio and any social contact info
+AI consultant with significant Azure and Cybersecurity expertise. Engaged member of local tech community as [Boston Azure and Virtual Boston Azure](https://meetup.com/bostonazure) co-organizer and frequent [public speaker](https://sessionize.com/billwilder/), occassional blogger](https://blog.codingoutloud.com).
+
+Microsoft MVP. CISSP. Creating AI content for developers at SemanticKernel.dev (launching in 2025). Author of book [Cloud Architecture Patterns](https://bit.ly/billbook). 
+
+Connect on [LinkedIn](https://linkedin.com/in/billwilder), [Twitter/X](https://x.com/codingoutloud), or [Bluesky](https://bsky.app/profile/codingoutloud.com). 
 
 ### Jason Haley
 I’m an independent Full Stack Solution Architect with a deep focus on Azure and .NET technologies.  I’m currently focused on helping customers integrate Gen AI functionality into their .NET applications.
