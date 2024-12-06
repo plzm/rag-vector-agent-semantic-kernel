@@ -19,7 +19,9 @@ builder.Services.AddKernel().AddChatCompletionService(builder.Configuration.GetC
 builder.Services.Configure<PluginOptions>(builder.Configuration.GetSection(PluginOptions.PluginConfig));
 
 // Add filters with logging.
-// TODO: 
+builder.Services.AddSingleton<IFunctionInvocationFilter, FunctionInvocationLoggingFilter>();
+builder.Services.AddSingleton<IPromptRenderFilter, PromptRenderLoggingFilter>();
+builder.Services.AddSingleton<IAutoFunctionInvocationFilter, AutoFunctionInvocationLoggingFilter>();
 
 var semanticTextMemory = new MemoryBuilder()
     .WithSqlServerMemoryStore(builder.Configuration.GetConnectionString("SqlAzureDB")!)
@@ -36,18 +38,18 @@ var chatCompletionService = app.Services.GetRequiredService<IChatCompletionServi
 var kernel = app.Services.GetRequiredService<Kernel>();
 
 kernel.ImportPluginFromPromptDirectory("Prompts");
-// TODO: Import the YamlPrompts plugin
+kernel.ImportPluginFromDirectory("YamlPrompts");
 kernel.ImportPluginFromType<DateTimePlugin>();
 kernel.ImportPluginFromType<QueryRewritePlugin>();
 kernel.ImportPluginFromType<PdfRetrieverPlugin>();
-// TODO: Import the WebRetrieverPlugin
+kernel.ImportPluginFromType<WebRetrieverPlugin>();
 
-OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
-{
-    ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
-    Temperature = 0.2f,
-    MaxTokens = 500
-};
+//OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
+//{
+//    ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
+//    Temperature = 0.2f,
+//    MaxTokens = 500
+//};
 
 var assetsDir = PathUtils.FindAncestorDirectory("assets");
 await memoryStore.PopulateAsync(assetsDir);
@@ -56,7 +58,7 @@ var responseTokens = new StringBuilder();
 ChatHistory chatHistory = [];
 while (true)
 {
-    // TODO: Create a function list
+    List<KernelFunction> functionsList = new();
 
     Console.Write("\nQuestion: ");
 
@@ -67,9 +69,32 @@ while (true)
     }
 
     // Get user's intent
-    // TODO:
+    var intent = await kernel.InvokeAsync(
+        kernel.Plugins["YamlPrompts"]["UserIntent"],
+        new()
+        {
+            { "request", question },
+            { "history",  string.Join("\n", chatHistory.Select(x => x.Role + ": " + x.Content)) }
+        });
 
-    // TODO: move OpenAIPromptExecutionSettings and pass functionsList
+    string intentText = intent.ToString();
+
+    if (intentText == "WebSearch")
+    {
+        functionsList.Add(kernel.Plugins["WebRetrieverPlugin"]["Retrieve"]);
+    }
+    else
+    {
+        functionsList.Add(kernel.Plugins["PdfRetrieverPlugin"]["Retrieve"]);
+    }
+
+
+    OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
+    {
+        FunctionChoiceBehavior = FunctionChoiceBehavior.Required(functionsList),
+        Temperature = 0.2f,
+        MaxTokens = 500
+    };
 
     chatHistory.AddUserMessage(question);
     responseTokens.Clear();

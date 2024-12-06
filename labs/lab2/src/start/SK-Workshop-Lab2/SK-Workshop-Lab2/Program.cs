@@ -5,9 +5,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.SemanticKernel.Plugins.Web.Bing;
+using Microsoft.SemanticKernel.Plugins.Web;
+using Plugins;
 // TODO: using Microsoft.SemanticKernel.Plugins.Web;
 // TODO: using Microsoft.SemanticKernel.Plugins.Web.Bing;
-// TODO: using Plugins;
 
 var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 
@@ -25,9 +27,9 @@ var chatCompletionService = app.Services.GetRequiredService<IChatCompletionServi
 // Step 2: Use a custom plugin with a prompt
 
 var kernel = app.Services.GetRequiredService<Kernel>();
-// TODO: import the DateTimePlugin
+var plugins = kernel.ImportPluginFromType<DateTimePlugin>("dateTimePlugin");
 
-var prompt1 = ""; // TODO: set prompt using plugin values
+var prompt1 = "What time is it one the west coast of the united states right now? My current timezone {{dateTimePlugin.timeZone}} and current date and time is {{dateTimePlugin.dateWithTime}}";
 
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 {
@@ -43,9 +45,8 @@ foreach (var content in step2AResult)
 {
     Console.WriteLine($"\nRESPONSE:\n{content}");
 }
-
-// TODO: Create and render prompt template
-string userMessage = "";
+var promptTemplateFactory = new KernelPromptTemplateFactory();
+string userMessage = await promptTemplateFactory.Create(new PromptTemplateConfig(prompt1)).RenderAsync(kernel);
 
 Console.WriteLine("STEP 2B OUTPUT --------------------------------------------------------------------------------------");
 
@@ -63,11 +64,15 @@ foreach (var content in step2BResult)
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Step 3:
 
-KernelPlugin rewriter = null; // TODO: Import QueryRewritePlugin
+var rewriter = kernel.ImportPluginFromType<QueryRewritePlugin>();
 
 var prompt2 = "What are some things to do in Boston this weekend?";
 
-var step3Result = ""; // TODO: Use the rewriter plugin to rewrite the prompt
+var step3Result = await kernel.InvokeAsync(rewriter["Rewrite"],
+    new()
+    {
+        { "question", prompt2 }
+    });
 
 Console.WriteLine("STEP 3 OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nPROMPT: \n{prompt2}");
@@ -79,7 +84,7 @@ Console.WriteLine($"Rewritten query: {step3Result}");
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Step 4: 
 
-// TODO: Import WebSearchEnginePlugin and BingConnector
+kernel.ImportPluginFromObject(new WebSearchEnginePlugin(new BingConnector(pluginOptions.BingApiKey)));
 
 var prompt3 = step3Result.ToString().Trim('"'); // NOTE: We need to trim any " from the string
 

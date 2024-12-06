@@ -21,7 +21,7 @@ var kernel = app.Services.GetRequiredService<Kernel>();
 kernel.ImportPluginFromPromptDirectory("Prompts");
 kernel.ImportPluginFromType<DateTimePlugin>();
 kernel.ImportPluginFromType<QueryRewritePlugin>();
-// TODO: Import web retriever plugin
+kernel.ImportPluginFromType<WebRetrieverPlugin>();
 
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 {
@@ -30,4 +30,26 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
     MaxTokens = 500
 };
 
-// TODO: create a loop to capture user input and call the chat completion service
+var responseTokens = new StringBuilder();
+ChatHistory chatHistory = [];
+while (true)
+{
+    Console.Write("\nQuestion: ");
+
+    var question = Console.ReadLine();
+    if (string.IsNullOrWhiteSpace(question))
+    {
+        break;
+    }
+
+    chatHistory.AddUserMessage(question);
+    responseTokens.Clear();
+    await foreach (var update in chatCompletionService.GetStreamingChatMessageContentsAsync(chatHistory, openAIPromptExecutionSettings, kernel))
+    {
+        Console.Write(update);
+        responseTokens.Append(update);
+    }
+
+    chatHistory.AddAssistantMessage(responseTokens.ToString());
+    Console.WriteLine();
+}

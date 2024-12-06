@@ -23,7 +23,7 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
 
     namespace AgentsSample;
 
-    public static class TravelAgentChatCoordinator
+    public static class TravelAgentChatHelper 
     {
     }       
     ```
@@ -32,7 +32,7 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
 
     `CreateBasicAgent` is a agent builder (without skills) to simplify the creation of multiples agents.
 
-    Add this mehod to `TravelAgentChatCoordinator` class.
+    Add this mehod to `TravelAgentChatHelper ` class.
     ```csharp
         /// <summary>
         ///  Create a basic agent with the given name, kernel, and instructions.
@@ -60,7 +60,7 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
 
     This method provide a trip description to be use as a request (challenge)  to the Ai agent group chat.
     
-    Add this mehod to `TravelAgentChatCoordinator` class.
+    Add this mehod to `TravelAgentChatHelper ` class.
 
     ```csharp
         /// <summary>

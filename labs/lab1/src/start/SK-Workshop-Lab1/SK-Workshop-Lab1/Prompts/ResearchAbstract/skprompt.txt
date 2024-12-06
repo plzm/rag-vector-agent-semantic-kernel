@@ -1,0 +1,6 @@
+<message role="user">Act as an academic research expert. Draft an abstract for a research paper 
+for the topic: {{$topic}}. The abstract should succinctly summarize the main objectives, 
+methodologies, key findings, and implications of the research. Ensure clarity, coherence, and 
+conciseness while adhering to the specific guidelines and conventions of the academic field. 
+The abstract should effectively communicate the significance of the research to both experts 
+in the field and general readers, encouraging them to delve deeper into the paper.</message>

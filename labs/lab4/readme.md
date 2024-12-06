@@ -334,3 +334,20 @@ Microsoft's S1 mentioned that AI may be developed by Microsoft or others, includ
 
 Question:
 ```
+
+## High-Level Summary
+
+### Focus
+Creating a RAG application to search a PDF using a vector store.
+
+### Objectives
+- Configure a vector store to use with the application
+- Read, chunk and ingest a PDF file
+- Implement logic to perform a similarity search on the vector store
+- Create a plugin to perform RAG using the memory store
+
+### Additional Exercises
+- Experiment with different chunk sizes and overlaps to see their influence on the output
+
+### Further Ideas
+- Explore different vector store connectors and their performance

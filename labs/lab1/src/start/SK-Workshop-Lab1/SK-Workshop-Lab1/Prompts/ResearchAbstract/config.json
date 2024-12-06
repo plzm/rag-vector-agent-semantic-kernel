@@ -1,0 +1,17 @@
+{
+	"schema": 1,
+	"description": "Creates an abstract for a provided research topic.",
+	"execution_settings": {
+		"default": {
+			"max_tokens": 500,
+			"temperature": 0.7
+		}
+	},
+	"input_variables": [
+		{
+			"name": "topic",
+			"description": "topic for a research abstract",
+			"required": true
+		}
+	]
+}

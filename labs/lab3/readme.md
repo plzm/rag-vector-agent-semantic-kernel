@@ -229,3 +229,19 @@ Question: How much do they cost?
 The cheapest tickets for Taylor Swift's concert in Indianapolis on November 3, 2024, start at $2,145 on Vivid Seats.
 ```
 
+## High-Level Summary
+
+### Focus
+Creating a RAG application using web search results.
+
+### Objectives
+- Build a plugin to combine the rewriting of a user's query and a web search
+- Write a prompt to perform a basic RAG pattern call to an LLM
+- Implement a simple chatbot loop
+- Demonstrate the usefulness of a RAG implementation
+
+### Additional Exercises
+- Experiment with different Temperature values to see their influence on the output
+
+### Further Ideas
+- Explore the impact of token starvation or retries in a filter

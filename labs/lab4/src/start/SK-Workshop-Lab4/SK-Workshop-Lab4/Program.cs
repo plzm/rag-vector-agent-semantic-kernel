@@ -16,7 +16,10 @@ var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 builder.Services.AddKernel().AddChatCompletionService(builder.Configuration.GetConnectionString("OpenAI"));
 builder.Services.Configure<PluginOptions>(builder.Configuration.GetSection(PluginOptions.PluginConfig));
 
-ISemanticTextMemory semanticTextMemory = null; // TODO: Configure the memory store
+var semanticTextMemory = new MemoryBuilder()
+    .WithSqlServerMemoryStore(builder.Configuration.GetConnectionString("SqlAzureDB")!)
+    .WithTextEmbeddingGeneration(builder.Configuration.GetConnectionString("OpenAI")!)
+    .Build();
 
 var memoryStore = new MemoryStore(semanticTextMemory);
 
@@ -30,7 +33,7 @@ var kernel = app.Services.GetRequiredService<Kernel>();
 kernel.ImportPluginFromPromptDirectory("Prompts");
 kernel.ImportPluginFromType<DateTimePlugin>();
 kernel.ImportPluginFromType<QueryRewritePlugin>();
-// TODO: import the PdfRetrieverPlugin
+kernel.ImportPluginFromType<PdfRetrieverPlugin>();
 
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
 {
@@ -39,7 +42,8 @@ OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
     MaxTokens = 500
 };
 
-// TODO: Populate the memory store with the pdfs in the assets directory
+var assetsDir = PathUtils.FindAncestorDirectory("assets");
+await memoryStore.PopulateAsync(assetsDir);
 
 var responseTokens = new StringBuilder();
 ChatHistory chatHistory = [];

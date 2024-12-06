@@ -15,16 +15,17 @@ public class WebRetrieverPlugin(IOptions<PluginOptions> pluginOptions)
     [KernelFunction, Description("Searches the web for answering user questions.")]
     public async Task<string> RetrieveAsync([Description("User's query"), Required] string question, Kernel kernel)
     {
-        var rewriter = kernel.Plugins["QueryRewritePlugin"];
+        //var rewriter = kernel.Plugins["QueryRewritePlugin"];
 
-        var searchQuery = await kernel.InvokeAsync(rewriter["Rewrite"],
-            new()
-            {
-                { "question", question }
-            });
+        //var searchQuery = await kernel.InvokeAsync(rewriter["Rewrite"],
+        //    new()
+        //    {
+        //        { "question", question }
+        //    });
 
         var searchEngine = new WebSearchEnginePlugin(new BingConnector(pluginOptions.Value.BingApiKey));
-        var searchResults = await searchEngine.SearchAsync(searchQuery.ToString());
+        //var searchResults = await searchEngine.SearchAsync(searchQuery.ToString());
+        var searchResults = await searchEngine.SearchAsync(question);
 
         var rag = kernel.Plugins["Prompts"];
 

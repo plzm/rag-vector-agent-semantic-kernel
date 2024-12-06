@@ -8,11 +8,11 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 
-// TODO: Add the SemanticKernel and ChatCompletion services to the DI container
+builder.Services.AddKernel().AddChatCompletionService(builder.Configuration.GetConnectionString("OpenAI"));
 
 var app = builder.Build();
 
-// TODO: Get the ChatCompletionService from the DI container
+var chatCompletionService = app.Services.GetRequiredService<IChatCompletionService>();
 
 #region Step 1
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,10 +20,13 @@ var app = builder.Build();
 
 var prompt1 = $"Who created the first LLM?";
 
-OpenAIPromptExecutionSettings openAIPromptExecutionSettings;
-// TODO: Initialize the OpenAIPromptExecutionSettings with the appropriate values
+OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
+{
+    Temperature = 0.7f,
+    MaxTokens = 250
+};
 
-IReadOnlyList<ChatMessageContent> step1Result = null;// TODO: Use ChatCompletionService to call LLM
+var step1Result = await chatCompletionService.GetChatMessageContentsAsync(prompt1, openAIPromptExecutionSettings);
 
 Console.WriteLine("STEP 1 OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nPROMPT: \n{prompt1}");
@@ -38,13 +41,17 @@ foreach (var content in step1Result)
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Step 2: Ask the LLM for some historic information
 
-// TODO: Get the Kernel from the DI container
-// TODO: Load the prompts from the "Prompts" directory
+var kernel = app.Services.GetRequiredService<Kernel>();
+var prompts = kernel.CreatePluginFromPromptDirectory("Prompts");
 
 var topic = "large language models";
 
-// TODO: Use the Kernel to call the LLM with the "ResearchAbstract" prompt
-FunctionResult step2Result = null;
+FunctionResult step2Result = await kernel.InvokeAsync(
+        prompts["ResearchAbstract"],
+        new() {
+            { "topic", topic },
+        }
+    );
 
 Console.WriteLine("STEP 2 OUTPUT --------------------------------------------------------------------------------------");
 Console.WriteLine($"\nRESPONSE: \n\n{step2Result}");
@@ -57,8 +64,7 @@ Console.WriteLine($"\nRESPONSE: \n\n{step2Result}");
 
 var prompt3A = "Please rewrite the above abstract for a short social media post.";
 
-// TODO: Use the ChatCompletionService to call the LLM with the prompt3A
-IReadOnlyList<ChatMessageContent> step3AResult = null;
+var step3AResult = await chatCompletionService.GetChatMessageContentsAsync(prompt3A, openAIPromptExecutionSettings);
 
 Console.WriteLine("STEP 3A OUTPUT --------------------------------------------------------------------------------------");
 foreach (var content in step3AResult)
@@ -66,14 +72,15 @@ foreach (var content in step3AResult)
     Console.WriteLine($"\nRESPONSE:\n{content}");
 }
 
-// TODO: Create a ChatHistory object and add the messages from steps 2 and 3A
+var history = new ChatHistory();
+history.AddUserMessage(step2Result.RenderedPrompt!);
+history.AddAssistantMessage(step2Result.ToString());
 
 var prompt3B = "Please rewrite the above abstract for a short social media post.";
 
-// TODO: Create a ChatMessage object for prompt3B and add it to the ChatHistory object
+history.AddUserMessage(prompt3B);
 
-// TODO: Use the ChatCompletionService to call the LLM with the prompt3B
-IReadOnlyList<ChatMessageContent> step3BResult = null;
+var step3BResult = await chatCompletionService.GetChatMessageContentsAsync(history, openAIPromptExecutionSettings);
 
 Console.WriteLine("STEP 3B OUTPUT --------------------------------------------------------------------------------------");
 foreach (var content in step3BResult)

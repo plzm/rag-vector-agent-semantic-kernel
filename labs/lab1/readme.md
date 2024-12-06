@@ -288,3 +288,20 @@ Exciting breakthroughs in AI! Our latest research dives into large language mode
 ```
 
 This time the LLM remembered what was asked before and responded with a short version of the research abstract about large language models.
+
+## High-Level Summary
+
+### Focus
+Adding Semantic Kernel to an application, using Azure OpenAI, and creating prompt functions.
+
+### Objectives
+- Add Semantic Kernel to an existing application
+- Use Semantic Kernel to chat with the Azure OpenAI LLM
+- Define a prompt function and use it in an application
+- Recognize the need for chat history and how to add it
+
+### Additional Exercises
+- Experiment with different Temperature values to see their influence on the output
+
+### Further Ideas
+- Explore the impact of token starvation or retries in a filter
