@@ -123,7 +123,7 @@ Please install this software ahead of the workshop:
 ## Contributors
 
 ### Bill Wilder
-AI consultant with significant Azure and Cybersecurity expertise. Engaged member of local tech community as [Boston Azure and Virtual Boston Azure](https://meetup.com/bostonazure) co-organizer and frequent [public speaker](https://sessionize.com/billwilder/), occassional blogger](https://blog.codingoutloud.com).
+AI consultant who also has significant Azure and Cybersecurity expertise. Engaged member of local tech community as [Boston Azure and Virtual Boston Azure](https://meetup.com/bostonazure) co-organizer and frequent [public speaker](https://sessionize.com/billwilder/), occassional blogger](https://blog.codingoutloud.com).
 
 Microsoft MVP. CISSP. Creating AI content for developers at SemanticKernel.dev (launching in 2025). Author of book [Cloud Architecture Patterns](https://bit.ly/billbook). 
 
