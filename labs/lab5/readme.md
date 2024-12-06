@@ -448,3 +448,20 @@ WebRetrieverPlugin-Retrieve({"question":"next Boston Azure meetup date"})
 ```
 
 If you look through the console logs, you should find the same behavior as earlier. If by chance you get sent to the wrong RAG function, then you can add your question (or a variant of it) to the `UserIntent.yaml` file to ensure the correct intent will be returned next time. This gives you full flexibility over controlling the flow.
+
+## High-Level Summary
+
+### Focus
+Integrating all previous labs and adding logging and user intent determination.
+
+### Objectives
+- Use filters to add logging and understand the call flows
+- Have the LLM determine which plugin functions to call
+- Create a plugin to determine the user's intent
+- Dynamically control the functions available to the LLM depending on the user's intent
+
+### Additional Exercises
+- Experiment with different Temperature values to see their influence on the output
+
+### Further Ideas
+- Explore the impact of token starvation or retries in a filter
