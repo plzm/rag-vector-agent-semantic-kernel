@@ -119,6 +119,7 @@ Please install this software ahead of the workshop:
 
 * [Semantic Kernel](https://github.com/microsoft/semantic-kernel)
 * [Single Page Semantic Kernel for C# - 2024 .NET version 1.0 concept-to-code mapping](http://aka.ms/sk/map)
+* There is a generic [Bing Text Search](https://learn.microsoft.com/en-us/semantic-kernel/concepts/text-search/text-search-function-calling?pivots=programming-language-csharp) feature available in Azure. 
 
 ## Contributors
 
