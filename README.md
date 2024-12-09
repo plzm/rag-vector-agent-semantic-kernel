@@ -33,7 +33,7 @@ We of course hope that you attend one of our in person workshops and are using t
 
 ### Presentations
 
-* [Session 1 title here](link to pdf file of presentation)
+* [Workshop Intro and Semantic Kernel Overview](./assets/SemanticKernelDev-Workshop-Intro.pdf)
 * [Retrieval Augmented Generation (RAG)](assets/Workshop-RAGIntro.pdf)
 * [Agentic AI Unlocking the Power of Multi-Agent Systems](./labs/lab6/assets/Multi-Agent-Systems_SK.pdf)
 
@@ -124,9 +124,9 @@ Please install this software ahead of the workshop:
 ## Contributors
 
 ### Bill Wilder
-AI consultant who also has significant Azure and Cybersecurity expertise. Engaged member of local tech community as [Boston Azure and Virtual Boston Azure](https://meetup.com/bostonazure) co-organizer and frequent [public speaker](https://sessionize.com/billwilder/), occassional blogger](https://blog.codingoutloud.com).
+AI consultant who also has significant Azure and Cybersecurity expertise. Engaged member of local tech community as [Boston Azure and Virtual Boston Azure](https://meetup.com/bostonazure) co-organizer, frequent [public speaker](https://sessionize.com/billwilder/), and [occassional blogger](https://blog.codingoutloud.com).
 
-Microsoft MVP. CISSP. Creating AI content for developers at SemanticKernel.dev (launching in 2025). Author of book [Cloud Architecture Patterns](https://bit.ly/billbook). 
+Microsoft MVP. CISSP. Author of book [Cloud Architecture Patterns](https://bit.ly/billbook). 
 
 Connect on [LinkedIn](https://linkedin.com/in/billwilder), [Twitter/X](https://x.com/codingoutloud), or [Bluesky](https://bsky.app/profile/codingoutloud.com). 
 
